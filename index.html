@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Skinny Wide Weather Widget – Agora Ai</title>
+  <title>Agora Weather Widget</title>
   <meta name="viewport" content="width=2000">
   <style>
     html, body {
@@ -35,77 +35,77 @@
       flex-direction: column;
       align-items: flex-start;
       justify-content: flex-start;
-      padding: 26px 28px 22px 32px;
+      padding: 28px 28px 16px 32px;
       box-sizing: border-box;
       border-right: 3px solid #222c40;
+      gap: 8px;
     }
     #current-block .temp {
-      font-size: 4.3rem;
+      font-size: 4.7rem;
       font-weight: 600;
-      margin-bottom: 0.12em;
+      margin-bottom: 0.06em;
       color: #fff;
       line-height: 1;
-      text-shadow: 0 1px 16px #222;
+      text-shadow: 0 1px 14px #222;
     }
     #current-block .weather-row {
       display: flex;
       align-items: center;
-      gap: 13px;
+      gap: 10px;
       font-size: 2.1rem;
       font-weight: 400;
       color: #fff;
-      margin-bottom: 0.17em;
-      min-height: 55px;
+      margin-bottom: 0.18em;
     }
     #current-block .weather-row img {
-      width: 44px; height: 44px; margin-right: 4px;
+      width: 46px; height: 46px; margin-right: 3px;
     }
     #current-block .summary {
-      font-size: 1.21rem;
+      font-size: 1.13rem;
       color: #c0d2ed;
       font-weight: 400;
-      margin-bottom: 0.38em;
-      margin-top: 0.02em;
-      max-width: 98%;
+      margin-bottom: 0.5em;
+      margin-top: 0.1em;
+      max-width: 96%;
       word-break: break-word;
     }
-    #current-block .ai {
-      font-size: 1.16rem;
-      color: #aad7ff;
-      margin-bottom: 0.28em;
-      font-weight: 500;
-      background: #232f47;
-      border-radius: 11px;
-      padding: 9px 14px 7px 11px;
-      line-height: 1.52;
-      min-width: 94%;
-      max-width: 97%;
-    }
     #current-block .details {
-      font-size: 1.01rem;
+      font-size: 1.03rem;
       color: #c0d2ed;
-      margin-bottom: 0.1em;
-      margin-top: 0.07em;
-      line-height: 1.45;
+      margin-bottom: 0.18em;
+      margin-top: 0.08em;
+      line-height: 1.55;
       white-space: pre-line;
+    }
+    #ai-advice {
+      background: #252c48;
+      color: #fee680;
+      border-radius: 8px;
+      font-size: 1.14rem;
+      margin-top: 5px;
+      padding: 8px 13px 8px 13px;
+      font-weight: 500;
+      max-width: 97%;
+      box-shadow: 0 1px 8px #0002;
+      min-height: 36px;
     }
     #forecast-block {
       flex: 1;
       display: flex;
       align-items: center;
       height: 100%;
-      padding: 0 13px;
+      padding: 0 16px;
       overflow-x: auto;
       background: #181e2a;
-      gap: 15px;
+      gap: 14px;
     }
     .forecast-card {
-      min-width: 143px;
-      max-width: 151px;
+      min-width: 140px;
+      max-width: 160px;
       height: 210px;
       background: #232f47;
       border-radius: 16px;
-      padding: 15px 11px 7px 15px;
+      padding: 14px 9px 9px 14px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -124,56 +124,46 @@
     .forecast-card .day {
       font-weight: bold;
       font-size: 1.14rem;
-      margin-bottom: 3px;
+      margin-bottom: 5px;
       color: #fff;
     }
     .forecast-card .icon {
-      font-size: 2.0rem;
-      margin-bottom: 1px;
-      width: 36px;
-      height: 36px;
+      font-size: 2.05rem;
+      margin-bottom: 3px;
+      width: 38px;
+      height: 38px;
       display: block;
     }
     .forecast-card .desc {
-      font-size: 0.97rem;
+      font-size: 1.00rem;
       color: #c0d2ed;
-      margin-bottom: 1px;
-      min-height: 22px;
-      line-height: 1.10;
+      margin-bottom: 2px;
+      min-height: 28px;
+      line-height: 1.15;
       white-space: pre-line;
     }
+    .forecast-card .lowhigh, .forecast-card .gust, .forecast-card .precip {
+      width: 100%;
+      display: block;
+    }
     .forecast-card .lowhigh {
-      font-size: 1.11rem;
+      font-size: 1.19rem;
       font-weight: 600;
       color: #fff;
-      margin-bottom: 0.07em;
+      margin-bottom: 0.1em;
     }
     .forecast-card .gust {
-      font-size: 1.01rem;
+      font-size: 1.02rem;
       color: #aad7ff;
-      margin-bottom: 0.06em;
+      margin-bottom: 0.08em;
       font-weight: 400;
     }
     .forecast-card .precip {
-      font-size: 0.97rem;
+      font-size: 1.01rem;
       color: #96e8ff;
       margin-bottom: 0.08em;
       font-weight: 400;
     }
-    .forecast-card .ai {
-      font-size: 0.98rem;
-      color: #aad7ff;
-      margin-bottom: 0.09em;
-      font-weight: 500;
-      margin-top: 0.14em;
-      background: #243153;
-      border-radius: 7px;
-      padding: 6px 8px 5px 8px;
-      min-width: 100%;
-      max-width: 99%;
-      line-height: 1.37;
-    }
-    /* Popup */
     #popup-bg {
       position: fixed;
       z-index: 99999;
@@ -186,21 +176,21 @@
     #popup-content {
       background: #232f47;
       border-radius: 18px;
-      padding: 42px 58px;
+      padding: 36px 54px;
       color: #fff;
-      font-size: 2.1rem;
+      font-size: 2.02rem;
       font-weight: 500;
       max-width: 480px;
       width: 92vw;
       box-shadow: 0 12px 40px #000c;
-      line-height: 1.42;
+      line-height: 1.40;
       position: relative;
       text-align: center;
     }
     #popup-close {
       position: absolute;
       top: 10px; right: 22px;
-      font-size: 2.4rem;
+      font-size: 2.3rem;
       color: #aad7ff;
       cursor: pointer;
       background: none;
@@ -211,6 +201,11 @@
     }
     #forecast-block::-webkit-scrollbar-thumb {
       background: #445e8a; border-radius: 4px;
+    }
+    @media (max-width: 1300px) {
+      #main-container { width: 99vw !important; }
+      #forecast-block { gap: 7px; }
+      .forecast-card { min-width: 110px; max-width:120px;}
     }
   </style>
 </head>
@@ -223,8 +218,8 @@
         <span id="weather-text">Loading…</span>
       </div>
       <div class="summary" id="summary"></div>
-      <div class="ai" id="ai-cur">Agora Ai loading advice…</div>
       <div class="details" id="details"></div>
+      <div id="ai-advice"></div>
     </div>
     <div id="forecast-block"></div>
   </div>
@@ -233,16 +228,16 @@
     <div id="popup-content">
       <button id="popup-close" onclick="closePopup()">&times;</button>
       <div id="popup-day"></div>
-      <div id="popup-summary" style="margin-top: 18px;"></div>
-      <div id="popup-lowhigh" style="margin-top: 13px; font-size:1.5rem;"></div>
-      <div id="popup-extra" style="margin-top: 14px; font-size:1.2rem;color:#aad7ff;"></div>
-      <div id="popup-ai" style="margin-top: 20px; font-size:1.11rem; color:#aad7ff;"></div>
+      <div id="popup-summary" style="margin-top: 14px;"></div>
+      <div id="popup-lowhigh" style="margin-top: 10px; font-size:1.3rem;"></div>
+      <div id="popup-extra" style="margin-top: 10px; font-size:1.12rem;color:#aad7ff;"></div>
+      <div id="popup-ai" style="margin-top:18px;font-size:1.08rem;color:#fee680;"></div>
     </div>
   </div>
   <script>
-    // API endpoints (swap for your station)
+    // -- CONFIGURE for your station
     const currentUrl = 'https://data.api.xweather.com/conditions/pws_pukerimu?format=json&plimit=1&filter=1min&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq';
-    const forecastUrl = 'https://data.api.xweather.com/forecasts/pws_pukerimu?format=json&plimit=7&fields=periods.timestamp,periods.dateTimeISO,periods.tempC,periods.weather,periods.icon,periods.maxTempC,periods.minTempC,periods.humidity,periods.precipMM,periods.windSpeedKPH,periods.windGustKPH,periods.summary&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq';
+    const forecastUrl = 'https://data.api.xweather.com/forecasts/pws_pukerimu?format=json&plimit=8&fields=periods.timestamp,periods.dateTimeISO,periods.tempC,periods.weather,periods.icon,periods.maxTempC,periods.minTempC,periods.humidity,periods.precipMM,periods.windSpeedKPH,periods.windGustKPH,periods.summary&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq';
 
     function iconUrl(icon) {
       if (!icon) return '';
@@ -254,49 +249,39 @@
     function capitalize(txt) {
       return (txt||'').charAt(0).toUpperCase() + (txt||'').slice(1);
     }
-    // Agora Ai logic for forecast/current
-    function agoraAiAdvice(data, isCurrent) {
-      // Use the context (temp, weather, wind, precip, month) to choose dairy-appropriate tip
-      const temp = Math.round(data.tempC ?? data.maxTempC ?? 0);
-      const minT = Math.round(data.minTempC ?? temp);
-      const maxT = Math.round(data.maxTempC ?? temp);
-      const gust = Math.round(data.windGustKPH ?? data.windSpeedKPH ?? 0);
-      const rain = Math.round(data.precipMM ?? 0);
-      const w = (data.weather || data.weatherPrimary || '').toLowerCase();
-      const month = new Date().getMonth();
-      let season = (month >= 11 || month <= 1) ? "summer"
-                : (month >= 2 && month <= 4) ? "autumn"
-                : (month >= 5 && month <= 7) ? "winter"
-                : "spring";
-      // DairyNZ-style logic, tailored by weather/season
-      if (rain > 25) return "Heavy rain: Move cows off wet paddocks. Use stand-off to avoid pugging. Monitor effluent.";
-      if (w.includes('rain') || w.includes('shower')) {
-        if (gust > 50) return "Wind & rain: Secure gear. Protect soil, use on/off grazing. Watch for cow stress.";
-        if (rain > 5) return "Wet day: Rotate paddocks, protect pasture. Supply minerals (Mg) and shelter.";
-        return "Showery: Avoid damage to wet ground, adjust grazing intervals, check cow comfort.";
-      }
-      if (temp >= 28) return "Hot: Provide shade, cool water. Shift milking to cooler hours. Watch for heat stress.";
-      if (temp <= 4 && isCurrent) return "Cold: Ensure shelter, watch for frost, supply extra feed for warmth.";
-      if (gust > 60) return "Very windy: Protect light structures. Move stock from exposed areas. Watch for wind chill.";
-      if (w.includes('wind') && gust > 30) return "Windy: Check fences, secure loose items. Cows need shelter.";
-      if (season === "summer" && temp > 24 && rain < 2) return "Dry/hot: Start drought planning. Consider irrigation or supplements.";
-      if (season === "winter" && rain > 4) return "Winter wet: Keep cows off saturated soils, use standoff pads.";
-      if (season === "autumn" && w.includes("fog")) return "Foggy: Slow cow movement. Monitor for hoof problems.";
-      if (w.includes('snow')) return "Snow: Move cows to shelter, check water supplies, reduce milking if needed.";
-      if (rain === 0 && season === "spring") return "Spring growth: Monitor for facial eczema risk. Keep feed fresh.";
-      if (season === "spring" && temp > 12 && rain < 2) return "Growth phase: Plan for high pasture demand and rotating grazing.";
-      if (rain > 2 && season === "autumn") return "Autumn rain: Keep pastures growing. Rotate grazing and protect new grass.";
-      if (w.includes("cloud")) return "Cloudy: Maintain mineral supplements. Ideal for pasture growth.";
-      if (w.includes("clear") || w.includes("sun")) return "Clear skies: Monitor for sunburn and heat stress.";
-      return "Typical NZ day: Maintain good feed, shelter, and water. Review DairyNZ for seasonal advice.";
+
+    // Agora Ai advice logic, covers 8+ NZ farm scenarios
+    function agoraAiAdvice(opts, day) {
+      let out = "";
+      const month = new Date(opts.dateISO || Date.now()).getMonth() + 1;
+      // 1: Heat stress
+      if (opts.temp >= 21 && opts.humidity >= 70) out += "☀️ Heat risk: Provide extra water, use shade or shift cows to cooler paddocks. Consider early/late milking. ";
+      // 2: Cold/frost risk
+      if (opts.temp <= 3) out += "🥶 Frost possible: Protect calves, use bedding. Monitor troughs for ice. ";
+      // 3: High wind gusts
+      if (opts.gust >= 38) out += "💨 High wind: Secure covers, check fences & trees for damage. ";
+      // 4: Heavy rain
+      if (opts.precip >= 8) out += "🌧️ Heavy rain: Avoid wet paddocks, use stand-off. Check runoff, plan grazing. ";
+      // 5: Light rain
+      if (opts.precip > 2 && opts.precip < 8) out += "☔ Wet: Gateways & tracks may be muddy. Use sacrifice paddocks if needed. ";
+      // 6: Drought
+      if (opts.precip === 0 && (month >= 12 || month <= 3) && opts.temp > 24) out += "🌱 Dry spell: Check soil moisture, plan irrigation, review feed budget. ";
+      // 7: Snow/extreme cold
+      if (opts.temp < 2 && (month === 6 || month === 7)) out += "❄️ Snow risk: Move stock to sheltered paddocks, clear troughs. ";
+      // 8: Climate adaptation
+      if (opts.temp > 27) out += "🛑 Heatwave: Avoid stress. Reduce walking distance. Check milk cooling.";
+      // 9: General best practice for all
+      if (!out && (day === 0)) out = "🕒 All clear. Monitor livestock comfort, keep an eye on rain radar.";
+      if (!out) out = "Routine farm checks. Adjust grazing if rain is expected. Inspect water & fences.";
+      return "Agora Ai: " + out.trim();
     }
 
-    function openPopup(day, summary, lowhigh, extra, ai) {
+    function openPopup(day, summary, lowhigh, extra, opts) {
       document.getElementById('popup-day').textContent = day;
       document.getElementById('popup-summary').textContent = summary || 'No details available';
       document.getElementById('popup-lowhigh').textContent = lowhigh || '';
       document.getElementById('popup-extra').innerHTML = extra || '';
-      document.getElementById('popup-ai').innerHTML = "<b>Agora Ai:</b> " + (ai || '');
+      document.getElementById('popup-ai').textContent = agoraAiAdvice(opts||{}, day);
       document.getElementById('popup-bg').style.display = 'flex';
     }
     function closePopup() {
@@ -324,14 +309,32 @@
         (p.sky !== undefined ? ` • Sky: ${p.sky}%` : '');
       // Details, formatted for neat fit
       document.getElementById('details').innerHTML =
-        `<b>Feels:</b> ${p.feelslikeC !== null && p.feelslikeC !== undefined ? Math.round(p.feelslikeC)+'°C' : 'NA'} &nbsp;|&nbsp;
-         <b>Humidity:</b> ${p.humidity !== null && p.humidity !== undefined ? p.humidity+'%' : 'NA'} &nbsp;|&nbsp;
+        `<b>Feels like:</b> ${p.feelslikeC !== null && p.feelslikeC !== undefined ? Math.round(p.feelslikeC)+'°C' : 'NA'}<br>
+         <b>Humidity:</b> ${p.humidity !== null && p.humidity !== undefined ? p.humidity+'%' : 'NA'}<br>
          <b>Wind:</b> ${p.windSpeedKPH !== null && p.windSpeedKPH !== undefined ? Math.round(p.windSpeedKPH)+' km/h' : 'NA'}<br>
-         <b>Gusts:</b> ${p.windGustKPH !== null && p.windGustKPH !== undefined ? Math.round(p.windGustKPH)+' km/h' : 'NA'} &nbsp;|&nbsp;
-         <b>Pressure:</b> ${p.pressureMB !== null && p.pressureMB !== undefined ? p.pressureMB+' hPa' : 'NA'} &nbsp;|&nbsp;
-         <b>Rain:</b> ${p.precipMM !== null && p.precipMM !== undefined ? p.precipMM+' mm' : '0 mm'}`;
-      // Agora Ai summary for current box
-      document.getElementById('ai-cur').textContent = "Agora Ai: " + agoraAiAdvice(p, true);
+         <b>Gusts:</b> ${p.windGustKPH !== null && p.windGustKPH !== undefined ? Math.round(p.windGustKPH)+' km/h' : 'NA'}<br>
+         <b>Pressure:</b> ${p.pressureMB !== null && p.pressureMB !== undefined ? p.pressureMB+' hPa' : 'NA'}<br>
+         <b>Precip:</b> ${p.precipMM !== null && p.precipMM !== undefined ? p.precipMM+' mm' : '0 mm'}`;
+      // Agora Ai advice (use current temp/gust/precip/humidity)
+      document.getElementById('ai-advice').textContent = agoraAiAdvice({
+        temp: p.tempC,
+        humidity: p.humidity,
+        gust: p.windGustKPH,
+        precip: p.precipMM,
+        dateISO: p.dateTimeISO
+      }, 0);
+      // Click for current popup: shows recent rainfall summary
+      document.getElementById('current-block').onclick = () => openPopup(
+        "Current Conditions",
+        "View weekly/monthly rainfall in your farm's telemetry app. If you need a rainfall trend, see Scopious or Levno records.",
+        "", "", {
+          temp: p.tempC,
+          humidity: p.humidity,
+          gust: p.windGustKPH,
+          precip: p.precipMM,
+          dateISO: p.dateTimeISO
+        }
+      );
     });
 
     // Load forecast
@@ -340,23 +343,22 @@
       const fc = json.response[0].periods || [];
       const fcDom = document.getElementById('forecast-block');
       fcDom.innerHTML = '';
-      for (let i=1; i<fc.length; ++i) { // skip today
+      for (let i=1; i<fc.length; ++i) { // skip today (covered by current)
         const p = fc[i];
         fcDom.innerHTML += `
           <div class="forecast-card" tabindex="0" onclick="openPopup(
             '${dayOfWeek(p.dateTimeISO)}',
             \`${(p.summary||p.weather||'No summary').replace(/`/g,'')}\`,
-            'H:${Math.round(p.maxTempC)}° L:${Math.round(p.minTempC)}°',
-            'Humidity: ${(p.humidity||'--')}%<br>Wind: ${Math.round(p.windSpeedKPH||0)} km/h<br>Gusts: ${Math.round(p.windGustKPH||0)} km/h<br>Precip: ${(p.precipMM||'0')} mm',
-            "${agoraAiAdvice(p, false).replace(/"/g,'&quot;')}"
+            'High ${Math.round(p.maxTempC)}°C  Low ${Math.round(p.minTempC)}°C',
+            'Gusts: ${Math.round(p.windGustKPH||0)} km/h<br>Rain: ${p.precipMM||'0'} mm',
+            {temp: p.tempC, humidity: p.humidity, gust: p.windGustKPH, precip: p.precipMM, dateISO: p.dateTimeISO}
           )">
             <div class="day">${dayOfWeek(p.dateTimeISO)}</div>
-            <img class="icon" src="${iconUrl(p.icon)}" alt="" width="40" height="40">
+            <img class="icon" src="${iconUrl(p.icon)}" alt="" width="38" height="38">
             <div class="desc">${capitalize(p.weather || '')}</div>
-            <div class="lowhigh">H:${Math.round(p.maxTempC)}° L:${Math.round(p.minTempC)}°</div>
+            <div class="lowhigh">High ${Math.round(p.maxTempC)}°C  Low ${Math.round(p.minTempC)}°C</div>
             <div class="gust">Gusts: ${Math.round(p.windGustKPH||0)} km/h</div>
-            <div class="precip">Precip: ${p.precipMM||'0'} mm</div>
-            <div class="ai">${agoraAiAdvice(p, false)}</div>
+            <div class="precip">Rain: ${p.precipMM||'0'} mm</div>
           </div>
         `;
       }
