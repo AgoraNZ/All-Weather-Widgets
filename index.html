@@ -2,21 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <title>Forecast Widget</title>
-  <link href="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.css" rel="stylesheet"/>
-  <script src="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PUKERIMU Forecast Widget</title>
+  <!-- WeatherBlox styles & scripts -->
+  <link rel="stylesheet" href="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.css"/>
+  <script src="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.js"></script>
+  <style>
+    body { background: #000; margin: 0; padding: 20px; display: flex; justify-content: center; }
+    #wxblox-container { width: 360px; }
+  </style>
 </head>
-<body style="background:#000; padding:20px; display:flex; justify-content:center;">
-  <div id="wxblox-forecast" class="aeris-wrapper"></div>
+<body>
+  <div id="wxblox-container" class="aeris-wrapper"></div>
 
   <script>
-    const aeris = new AerisWeather('YOUR_CLIENT_ID', 'YOUR_CLIENT_SECRET');
+    // 1) Initialize AerisWeather with your credentials
+    const aeris = new AerisWeather('U8feQfLlcEfcXDfsWZs4C', 'HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq');
+
+    // 2) When ready, load the local forecast layout using your station ID
     aeris.on('ready', () => {
-      const widget = new aeris.wxblox.views.Forecast('#wxblox-forecast');
-      widget.load({
-        p: 'pws_pukerimu',
-        limit: 12
-      });
+      const view = new aeris.wxblox.layouts.local.Main('#wxblox-container');
+      view.load({ p: 'pws_pukerimu' });
     });
   </script>
 </body>
