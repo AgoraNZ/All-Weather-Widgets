@@ -1,66 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF‑8"/>
   <meta name="viewport" content="width=900,initial-scale=1"/>
-  <title>PUKERIMU Weather</title>
-
-  <!-- WeatherBlox Styles & Library -->
+  <title>Debug WeatherBlox</title>
   <link rel="stylesheet" href="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.css"/>
   <script src="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.min.js"></script>
-
   <style>
-    body {
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-      background: #000;
-      font-family: sans-serif;
-    }
-    .weather-container {
-      display: flex;
-      gap: 20px;
-    }
-    .current-box {
-      width: 360px;
-      height: 450px;
-      border-radius: 20px;
-      overflow: hidden;
-      background: #181e2a;
-    }
-    .forecast-box {
-      width: 500px;
-      height: 450px;
-      border-radius: 20px;
-      overflow: hidden;
-      background: #181e2a;
-    }
+    body { margin:0; background:#000; color:#fff; font-family:sans-serif;}
+    .box { background:#181e2a; border:1px solid #444; width:360px;height:450px; margin:20px;}
+    #forecast.box { width:500px;}
   </style>
 </head>
 <body>
-
-  <div class="weather-container">
-    <div id="current" class="current-box"></div>
-    <div id="forecast" class="forecast-box"></div>
-  </div>
+  <h1>WeatherBlox Debug</h1>
+  <div id="current" class="box">Loading Current...</div>
+  <div id="forecast" class="box">Loading Forecast...</div>
 
   <script>
+    console.log('Starting widget...');
     const aeris = new AerisWeather(
       'U8feQfLlcEfcXDfsWZs4C',
       'HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq'
     );
-
     aeris.on('ready', () => {
-      new aeris.wxblox.views.Current('#current')
-        .load({ p: 'pws_pukerimu' });
+      console.log('Aeris ready!');
+      const curr = new aeris.wxblox.views.Current('#current');
+      curr.on('load:done', () => console.log('Current loaded'));
+      curr.on('load:error', e => console.error('Current error', e));
+      curr.load({ p: 'pws_pukerimu' });
 
-      new aeris.wxblox.views.Forecast('#forecast')
-        .load({ p: 'pws_pukerimu', limit: 12 });
+      const fc = new aeris.wxblox.views.Forecast('#forecast');
+      fc.on('load:done', () => console.log('Forecast loaded'));
+      fc.on('load:error', e => console.error('Forecast error', e));
+      fc.load({ p: 'pws_pukerimu', limit: 12 });
     });
-
-    aeris.on('error', err => console.error('Widget load error:', err));
+    aeris.on('error', err => console.error('Aeris init error:', err));
   </script>
-
 </body>
 </html>
