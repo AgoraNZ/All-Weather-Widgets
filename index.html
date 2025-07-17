@@ -1,67 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=900,initial-scale=1">
-  <title>PUKERIMU Weather</title>
-
-  <!-- WeatherBlox CSS & JS (as per docs) -->
-  <link href="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.css" rel="stylesheet">
+<!DOCTYPE html><html><head>
+  <link rel="stylesheet" href="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.css"/>
   <script src="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.min.js"></script>
-  
-  <style>
-    body {
-      margin: 0;
-      padding: 20px;
-      background: #000;
-      display: flex;
-      justify-content: center;
-      font-family: sans-serif;
-      height: 100vh;
-      box-sizing: border-box;
-    }
-    .weather-container {
-      display: flex;
-      gap: 20px;
-    }
-    .widget-box {
-      background: #181e2a;
-      border-radius: 20px;
-      overflow: hidden;
-    }
-    #current {
-      width: 360px;
-      height: 450px;
-    }
-    #forecast {
-      width: 500px;
-      height: 450px;
-    }
-  </style>
-</head>
-<body>
-  <div class="weather-container">
-    <div id="current" class="widget-box"></div>
-    <div id="forecast" class="widget-box"></div>
-  </div>
-
+</head><body>
+  <div id="current" style="width:360px;height:450px;"></div>
   <script>
+    console.log("🔍 Starting widget debug…");
     const aeris = new AerisWeather(
       'U8feQfLlcEfcXDfsWZs4C',
       'HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq'
     );
-
     aeris.on('ready', () => {
-      console.log('WeatherBlox ready');
-
+      console.log("✅ Aeris is ready!");
       new aeris.wxblox.views.Current('#current')
+        .on('load:done', () => console.log('✅ Rendered current widget'))
+        .on('load:error', e => console.error('❌ Load error:', e))
         .load({ p: 'pws_pukerimu' });
-
-      new aeris.wxblox.views.Forecast('#forecast')
-        .load({ p: 'pws_pukerimu', limit: 12 });
     });
-
-    aeris.on('error', err => console.error('Initialization error', err));
+    aeris.on('error', err => console.error('❌ Init error:', err));
   </script>
-</body>
-</html>
+</body></html>
