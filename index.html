@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=900, initial-scale=1.0" />
+  <meta name="viewport" content="width=300, initial-scale=1.0" />
   <title>PUKERIMU Weather</title>
 
-  <!-- WeatherBlox CSS & non-minified JS -->
+  <!-- WeatherBlox CSS & JS -->
   <link
     rel="stylesheet"
     href="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.css"
@@ -17,10 +17,17 @@
       margin: 0;
       padding: 20px;
       background: #000;
+      height: 100vh;
       display: flex;
       justify-content: center;
+      align-items: center;
       box-sizing: border-box;
-      height: 100vh;
+    }
+    #wrapper {
+      width: 880px;
+      height: 450px;
+      transform: scale(0.3);
+      transform-origin: top left;
     }
     #wxblox {
       width: 880px;
@@ -33,7 +40,9 @@
 </head>
 <body>
 
-  <div id="wxblox"></div>
+  <div id="wrapper">
+    <div id="wxblox"></div>
+  </div>
 
   <script>
     const aeris = new AerisWeather(
@@ -42,15 +51,15 @@
     );
 
     aeris.on('ready', () => {
-      console.log("✅ WeatherBlox ready—rendering Main layout");
+      console.log("✅ WeatherBlox ready");
 
       new aeris.wxblox.layouts.local.Main('#wxblox')
-        .on('load:done', () => console.log('✅ Layout loaded'))
-        .on('load:error', e => console.error('❗ Layout error:', e))
-        .load({ p: 'pws_pukerimu' });
+        .load({ p: 'pws_pukerimu' })
+        .on('load:done', () => console.log('✅ Widget loaded'))
+        .on('load:error', e => console.error('❌ Widget load error', e));
     });
 
-    aeris.on('error', e => console.error('❗ Aeris init error:', e));
+    aeris.on('error', e => console.error('❗ Initialization error', e));
   </script>
 
 </body>
