@@ -79,20 +79,21 @@
       line-height: 1.4;
       white-space: pre-line;
     }
-    #ai-advice, .forecast-card .ai-advice-fc {
+    #ai-advice {
       background: #252c48;
       color: #fee680;
       border-radius: 8px;
-      font-size: 1.08rem;
-      margin-top: 0.1em;
+      font-size: 1.11rem;
+      margin-top: 0.19em;
       padding: 7px 10px 7px 12px;
       font-weight: 500;
       max-width: 99%;
       box-shadow: 0 1px 8px #0002;
       min-height: 28px;
       margin-bottom: 2px;
+      display: block;
     }
-    #ai-advice strong, .forecast-card .ai-advice-fc strong { color: #fff6b2; }
+    #ai-advice strong { color: #fff6b2; }
     #forecast-block {
       flex: 1;
       display: flex;
@@ -104,8 +105,8 @@
       gap: 14px;
     }
     .forecast-card {
-      min-width: 170px;
-      max-width: 180px;
+      min-width: 140px;
+      max-width: 160px;
       height: 210px;
       background: #232f47;
       border-radius: 16px;
@@ -268,51 +269,51 @@
       return (txt||'').charAt(0).toUpperCase() + (txt||'').slice(1);
     }
 
-    // Agora Ai: context-aware farm advice, *all branded as Agora Ai*
-    function agoraAiAdvice(opts) {
+    // Agora Ai recommendations (wide variety for NZ, generic, not DairyNZ branded)
+    function agoraAiAdvice(opts, day) {
       let adv = [];
       const m = new Date(opts.dateISO || Date.now()).getMonth() + 1;
       // Spring
       if (m >= 8 && m <= 11) {
-        if (opts.temp >= 19 && opts.humidity >= 70) adv.push("Watch for heat stress in springers, provide water and shade.");
-        if (opts.precip >= 7) adv.push("Heavy rain: Stand cows off, avoid pugging.");
-        if (opts.temp <= 4) adv.push("Cold snap: Monitor calves and supplement bedding.");
-        adv.push("Check pasture cover for calving mobs.");
+        if (opts.temp >= 19 && opts.humidity >= 70) adv.push("Ryegrass staggers possible, ensure shade and water for cows.");
+        if (opts.precip >= 7) adv.push("Heavy rain likely, consider using stand-off areas and back fences.");
+        if (opts.temp <= 4) adv.push("Cold snap expected, monitor young stock closely.");
+        adv.push("Calving: check pasture cover and balance feed for springers.");
       }
       // Summer
       if (m >= 12 || m <= 2) {
-        if (opts.temp >= 25) adv.push("Heat stress risk. Shift stock early, avoid long walks, check water lines.");
-        if (opts.precip === 0) adv.push("Dry spell: Review feed and check water storage.");
-        if (opts.gust >= 40) adv.push("Secure loose equipment, monitor for wind damage.");
-        adv.push("Monitor for facial eczema spores. Consider zinc dosing.");
+        if (opts.temp >= 25) adv.push("Heat stress risk. Shift cows early, keep troughs topped up.");
+        if (opts.precip === 0) adv.push("Dry spell: Check water storage, monitor pasture growth.");
+        if (opts.gust >= 40) adv.push("Strong winds: Secure loose equipment and gates.");
+        adv.push("Watch for facial eczema spore counts; consider zinc dosing.");
       }
       // Autumn
       if (m >= 3 && m <= 5) {
-        if (opts.precip >= 10) adv.push("Heavy rain: use stand-off if possible.");
-        if (opts.temp <= 6) adv.push("Monitor cows for condition loss.");
-        adv.push("Begin autumn feed budget; prep for drying off.");
+        if (opts.precip >= 10) adv.push("Heavy rain: Avoid wet paddocks, use stand-off if possible.");
+        if (opts.temp <= 6) adv.push("Cooler temps: Watch late-lactation cow condition.");
+        adv.push("Review feed budget and prep for drying off.");
       }
       // Winter
       if (m >= 6 && m <= 8) {
-        if (opts.temp <= 2) adv.push("Possible frost: Protect newborns and check troughs.");
-        if (opts.precip >= 6) adv.push("Rain: Stand cows off pastures to reduce pugging.");
-        adv.push("Supplement with extra baleage or hay as needed.");
+        if (opts.temp <= 2) adv.push("Possible frost overnight. Protect calves, check troughs.");
+        if (opts.precip >= 6) adv.push("Wet underfoot. Rotate grazing, avoid paddock damage.");
+        adv.push("Supplement with baleage or hay as needed.");
       }
       // Extreme or notable
-      if (opts.temp >= 31) adv.push("Extreme heat: Delay work, shade all stock.");
-      if (opts.precip >= 30) adv.push("Flood risk: Move equipment and stock to high ground.");
-      if (opts.gust >= 70) adv.push("Severe wind: Cancel machinery use, check for trees down.");
+      if (opts.temp >= 31) adv.push("Extreme heat: Delay work and ensure all animals have shade.");
+      if (opts.precip >= 30) adv.push("Flood risk. Move stock and equipment to higher ground.");
+      if (opts.gust >= 70) adv.push("Severe wind warning. Check trees and fences.");
       // General fallback
       if (adv.length === 0) {
-        if (opts.precip > 0) adv.push("Showers: watch for mud in gateways.");
-        else adv.push("No rain: rotate paddocks, check water lines.");
-        adv.push("Inspect fences and troughs. Review pasture covers.");
+        if (opts.precip > 0) adv.push("Patchy rain expected. Check gateways for mud.");
+        else adv.push("No rain: Rotate paddocks, monitor water lines.");
+        adv.push("Inspect fences and troughs.");
       }
-      adv.push("Agora Ai advice.");
-      return adv.join(" ");
+      return "Agora Ai: " + adv.join(" ");
     }
 
     function openPopup(opts) {
+      // opts: {title, summary, lowhigh, extra, ai, hist}
       document.getElementById('popup-title').textContent = opts.title || "";
       document.getElementById('popup-summary').textContent = opts.summary || "";
       document.getElementById('popup-lowhigh').textContent = opts.lowhigh || "";
@@ -349,14 +350,14 @@
          <b>Gusts:</b> ${p.windGustKPH !== null && p.windGustKPH !== undefined ? Math.round(p.windGustKPH)+' km/h' : 'NA'}<br>
          <b>Pressure:</b> ${p.pressureMB !== null && p.pressureMB !== undefined ? p.pressureMB+' hPa' : 'NA'}<br>
          <b>Precip:</b> ${p.precipMM !== null && p.precipMM !== undefined ? p.precipMM+' mm' : '0 mm'}`;
-      // Direct display of Agora Ai for current conditions
+      // Direct display of Agora Ai for current conditions (always visible)
       document.getElementById('ai-advice').textContent = agoraAiAdvice({
         temp: p.tempC,
         humidity: p.humidity,
         gust: p.windGustKPH,
         precip: p.precipMM,
         dateISO: p.dateTimeISO
-      });
+      }, 0);
       // On click, show popup with AI + historical info (replace with real rain history)
       document.getElementById('current-block').onclick = () => openPopup({
         title: "Current Conditions",
@@ -374,12 +375,12 @@
           gust: p.windGustKPH,
           precip: p.precipMM,
           dateISO: p.dateTimeISO
-        }),
+        }, 0),
         hist: "<strong>Rain history:</strong><br>Today: 2 mm<br>This week: 17 mm<br>This month: 67 mm<br>This year: 895 mm"
       });
     });
 
-    // Fetch forecast, skip today, show 6 boxes with Agora Ai visible
+    // Fetch forecast, skip today, show 6 boxes with Agora Ai popup
     fetch(forecastUrl).then(r=>r.json()).then(json => {
       if (!json.success) throw new Error('No forecast');
       const fc = json.response[0].periods || [];
@@ -399,7 +400,7 @@
               gust: p.windGustKPH,
               precip: p.precipMM,
               dateISO: p.dateTimeISO
-            })}\`
+            }, i)}\`
           })">
             <div class="day">${dayOfWeek(p.dateTimeISO)}</div>
             <img class="icon" src="${iconUrl(p.icon)}" alt="" width="40" height="40">
@@ -407,19 +408,12 @@
             <div class="lowhigh">High: ${Math.round(p.maxTempC)}°C<br>Low: ${Math.round(p.minTempC)}°C</div>
             <div class="gust">Gusts: ${Math.round(p.windGustKPH||0)} km/h</div>
             <div class="precip">Precip: ${p.precipMM||'0'} mm</div>
-            <div class="ai-advice-fc">${agoraAiAdvice({
-              temp: p.tempC||p.maxTempC,
-              humidity: p.humidity,
-              gust: p.windGustKPH,
-              precip: p.precipMM,
-              dateISO: p.dateTimeISO
-            })}</div>
           </div>
         `;
       }
     });
 
-    // Popup dismiss controls
+    // Dismiss popup on background click or Esc
     document.getElementById('popup-bg').onclick = function(e){
       if (e.target === this) closePopup();
     }
