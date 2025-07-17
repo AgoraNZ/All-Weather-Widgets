@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>JBLOCK Weather Widget</title>
+  <style>
+    body {
+      background: #0a2239;
+      color: #fff;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    #widget {
+      background: #102040;
+      padding: 20px;
+      border-radius: 16px;
+      width: 320px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    }
+    h2 {
+      margin: 0 0 10px;
+      text-align: center;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+    }
+    .label { color: #aac; }
+    .value { color: #ffd; }
+  </style>
+</head>
+<body>
+  <div id="widget">
+    <h2>JBLOCK Station</h2>
+    <div class="row"><span class="label">Temp:</span><span id="temp" class="value">-- °C</span></div>
+    <div class="row"><span class="label">Humidity:</span><span id="humidity" class="value">-- %</span></div>
+    <div class="row"><span class="label">Wind:</span><span id="wind" class="value">-- km/h</span></div>
+    <div class="row"><span class="label">Condition:</span><span id="weather" class="value">--</span></div>
+  </div>
+
+  <script>
+    const url = 'https://data.api.xweather.com/conditions/pws_jblock?format=json&plimit=1&filter=minutelyprecip,1min&fields=periods.tempC,periods.dewpointC,periods.humidity,periods.windSpeedKPH,periods.windDir,periods.weather&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq';
+
+    async function refresh() {
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        const p = data.response?.[0]?.periods?.[0];
+        if (!p) throw new Error('Invalid data');
+
+        document.getElementById('temp').textContent = p.tempC !== null ? `${p.tempC.toFixed(1)} °C` : '--';
+        document.getElementById('humidity').textContent = p.humidity !== null ? `${p.humidity} %` : '--';
+        document.getElementById('wind').textContent = p.windSpeedKPH !== null ? `${p.windSpeedKPH} km/h` : '--';
+        document.getElementById('weather').textContent = p.weather || '--';
+      } catch (err) {
+        console.error('Weather error:', err);
+      }
+    }
+
+    refresh();
+    setInterval(refresh, 60 * 1000); // Auto refresh every minute
+  </script>
+</body>
+</html>
