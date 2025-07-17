@@ -75,7 +75,9 @@
       margin-bottom: 7px;
     }
     .weather-row img {
-      width: 58px; height: 58px; margin-right: 4px;
+      width: 58px;
+      height: 58px;
+      margin-right: 4px;
     }
     .current-cols {
       flex: 1;
@@ -183,7 +185,10 @@
       white-space: pre-line;
       font-weight: 400;
     }
-    .forecast-card .lowhigh, .forecast-card .gust, .forecast-card .precip, .forecast-card .extra {
+    .forecast-card .lowhigh,
+    .forecast-card .gust,
+    .forecast-card .precip,
+    .forecast-card .extra {
       width: 100%;
       display: block;
     }
@@ -216,7 +221,10 @@
     #popup-bg {
       position: fixed;
       z-index: 99999;
-      top: 0; left: 0; right: 0; bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       background: rgba(20, 30, 50, 0.86);
       display: none;
       align-items: center;
@@ -238,7 +246,8 @@
     }
     #popup-close {
       position: absolute;
-      top: 10px; right: 22px;
+      top: 10px;
+      right: 22px;
       font-size: 2.3rem;
       color: #aad7ff;
       cursor: pointer;
@@ -250,7 +259,9 @@
       font-weight: bold;
       margin-bottom: 12px;
     }
-    #popup-summary, #popup-lowhigh, #popup-extra {
+    #popup-summary,
+    #popup-lowhigh,
+    #popup-extra {
       margin-bottom: 10px;
     }
     #popup-ai {
@@ -265,9 +276,18 @@
       line-height: 1.22;
     }
     @media (max-width: 1300px) {
-      #main-container { width: 99vw !important; }
-      #forecast-block { gap: 17px; }
-      .forecast-card { min-width: 190px; max-width: 200px; height: 250px; padding: 14px 6px 6px 15px;}
+      #main-container {
+        width: 99vw !important;
+      }
+      #forecast-block {
+        gap: 17px;
+      }
+      .forecast-card {
+        min-width: 190px;
+        max-width: 200px;
+        height: 250px;
+        padding: 14px 6px 6px 15px;
+      }
     }
   </style>
 </head>
@@ -364,11 +384,11 @@
         "Sweep steps and plant room entry to reduce slips.",
         "Check gloves and boots are stocked in the shed.",
         "Clean the filter at the shed water inlet.",
-        "Inspect chemical drums and hoses for leaks.",
+        "Inspect chemical lines and hoses for leaks.",
         "Disinfect calf feeders and hang to dry.",
         "Remove loose twine or rope from the yard.",
         "Spray weeds along fence lines on fine days.",
-        "Move empty drums to the recycling area.",
+        "Check teat spray canister is full before milking.",
         "Hang up all milking clusters at end of milking.",
         "Sweep the feed room and remove old meal bags.",
         "Hose down the exit race for a cleaner walk-off.",
@@ -418,7 +438,7 @@
       .then(json => {
         if (!json.success) throw new Error('No current conditions');
         const p = json.response[0].periods[0];
-        document.getElementById('temp').textContent = 
+        document.getElementById('temp').textContent =
           (typeof p.tempC === 'number') ? `${Math.round(p.tempC)}°C` : '--°C';
         const icon = p.icon || '';
         const icElem = document.getElementById('cur-icon');
@@ -484,10 +504,15 @@
         fcDom.innerHTML = "";
         // Rain history
         const now = new Date();
-        const weekAgo = new Date(now); weekAgo.setDate(now.getDate() - 6);
-        const monthAgo = new Date(now); monthAgo.setMonth(now.getMonth() - 1);
-        const yearAgo = new Date(now); yearAgo.setFullYear(now.getFullYear() - 1);
-        let weekRain = 0, monthRain = 0, yearRain = 0;
+        const weekAgo = new Date(now);
+        weekAgo.setDate(now.getDate() - 6);
+        const monthAgo = new Date(now);
+        monthAgo.setMonth(now.getMonth() - 1);
+        const yearAgo = new Date(now);
+        yearAgo.setFullYear(now.getFullYear() - 1);
+        let weekRain = 0,
+            monthRain = 0,
+            yearRain = 0;
         for (let period of fc) {
           let d = new Date(period.dateTimeISO);
           if (d >= weekAgo) weekRain += Number(period.precipMM) || 0;
@@ -549,8 +574,12 @@
     function closePopup() {
       document.getElementById('popup-bg').style.display = 'none';
     }
-    document.getElementById('popup-bg').onclick = (e) => { if (e.target === e.currentTarget) closePopup(); }
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closePopup(); });
+    document.getElementById('popup-bg').onclick = (e) => {
+      if (e.target === e.currentTarget) closePopup();
+    };
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closePopup();
+    });
   </script>
 </body>
 </html>
