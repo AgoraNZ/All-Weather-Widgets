@@ -16,7 +16,7 @@
     }
     #main-container {
       width: 2000px;
-      height: 440px;
+      height: 480px;
       margin: 0 auto;
       display: flex;
       align-items: flex-start;
@@ -26,15 +26,15 @@
       overflow: hidden;
     }
     #current-block {
-      width: 600px;
-      min-width: 500px;
-      max-width: 660px;
+      width: 660px;
+      min-width: 580px;
+      max-width: 820px;
       height: 100%;
       background: #222c40;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
-      padding: 26px 32px 20px 36px;
+      padding: 32px 40px 24px 42px;
       box-sizing: border-box;
       border-right: 3px solid #222c40;
       position: relative;
@@ -46,17 +46,17 @@
       flex-direction: row;
       align-items: flex-start;
       width: 100%;
-      gap: 22px;
+      gap: 32px;
     }
     .current-temp-icon {
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-width: 112px;
-      margin-right: 12px;
+      min-width: 144px;
+      margin-right: 14px;
     }
     .temp {
-      font-size: 4.9rem;
+      font-size: 6.3rem;
       font-weight: 600;
       color: #fff;
       line-height: 1;
@@ -67,62 +67,62 @@
     .weather-row {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-size: 2.0rem;
+      gap: 13px;
+      font-size: 2.6rem;
       font-weight: 400;
       color: #fff;
-      margin-top: 3px;
-      margin-bottom: 4px;
+      margin-top: 5px;
+      margin-bottom: 7px;
     }
     .weather-row img {
-      width: 44px; height: 44px; margin-right: 3px;
+      width: 58px; height: 58px; margin-right: 4px;
     }
     .current-cols {
       flex: 1;
       display: flex;
       flex-direction: row;
-      gap: 28px;
-      margin-left: 3px;
+      gap: 36px;
+      margin-left: 5px;
       margin-top: 2px;
     }
     .col {
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      font-size: 1.15rem;
+      gap: 11px;
+      font-size: 1.35rem;
       color: #c0d2ed;
-      min-width: 140px;
-      max-width: 180px;
-      line-height: 1.36;
+      min-width: 180px;
+      max-width: 230px;
+      line-height: 1.38;
     }
     .rain-row {
-      font-size: 1.18rem;
+      font-size: 1.38rem;
       color: #62c9fa;
-      font-weight: 600;
-      margin-top: 5px;
-      margin-bottom: 1px;
+      font-weight: 700;
+      margin-top: 9px;
+      margin-bottom: 4px;
     }
     .today-row {
-      font-size: 1.15rem;
+      font-size: 1.33rem;
       color: #ffedbc;
-      font-weight: 500;
-      margin-bottom: 3px;
-      margin-top: 3px;
+      font-weight: 600;
+      margin-bottom: 7px;
+      margin-top: 7px;
     }
     #todays-advice {
       background: #253e62;
       color: #ffd25a;
       border-radius: 10px;
-      font-size: 1.25rem;
-      margin-top: 17px;
-      margin-bottom: 1px;
-      padding: 16px 20px 16px 22px;
+      font-size: 1.42rem;
+      margin-top: 20px;
+      margin-bottom: 3px;
+      padding: 22px 24px 22px 26px;
       font-weight: 600;
       box-shadow: 0 2px 11px #0002;
-      line-height: 1.5;
+      line-height: 1.48;
       letter-spacing: 0.01em;
       display: block;
-      min-height: 50px;
+      min-height: 54px;
       width: 100%;
       overflow-wrap: break-word;
       word-break: break-word;
@@ -132,52 +132,52 @@
       display: flex;
       align-items: flex-start;
       height: 100%;
-      padding: 0 16px;
+      padding: 0 32px;
       overflow-x: auto;
       background: #181e2a;
-      gap: 14px;
+      gap: 36px;
     }
     .forecast-card {
-      min-width: 140px;
-      max-width: 160px;
-      height: 210px;
+      min-width: 256px;
+      max-width: 270px;
+      height: 338px;
       background: #232f47;
-      border-radius: 16px;
-      padding: 14px 9px 9px 14px;
+      border-radius: 22px;
+      padding: 32px 18px 22px 28px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      box-shadow: 0 1px 5px #0004;
+      box-shadow: 0 1px 9px #0004;
       color: #fff;
-      margin: 0 4px;
+      margin: 0 6px;
       justify-content: flex-start;
       cursor: pointer;
       transition: box-shadow 0.13s;
       position: relative;
     }
     .forecast-card:hover {
-      box-shadow: 0 6px 28px #0007;
+      box-shadow: 0 10px 36px #0008;
       background: #27334f;
     }
     .forecast-card .day {
       font-weight: bold;
-      font-size: 1.18rem;
-      margin-bottom: 5px;
+      font-size: 1.85rem;
+      margin-bottom: 12px;
       color: #fff;
     }
     .forecast-card .icon {
-      font-size: 2.05rem;
-      margin-bottom: 3px;
-      width: 38px;
-      height: 38px;
+      font-size: 3.2rem;
+      margin-bottom: 6px;
+      width: 64px;
+      height: 64px;
       display: block;
     }
     .forecast-card .desc {
-      font-size: 1.08rem;
+      font-size: 1.41rem;
       color: #c0d2ed;
-      margin-bottom: 2px;
-      min-height: 28px;
-      line-height: 1.15;
+      margin-bottom: 6px;
+      min-height: 38px;
+      line-height: 1.19;
       white-space: pre-line;
     }
     .forecast-card .lowhigh, .forecast-card .gust, .forecast-card .precip {
@@ -185,21 +185,21 @@
       display: block;
     }
     .forecast-card .lowhigh {
-      font-size: 1.22rem;
+      font-size: 1.41rem;
       font-weight: 600;
       color: #fff;
-      margin-bottom: 0.07em;
+      margin-bottom: 0.15em;
     }
     .forecast-card .gust {
-      font-size: 1.07rem;
+      font-size: 1.22rem;
       color: #aad7ff;
-      margin-bottom: 0.08em;
+      margin-bottom: 0.13em;
       font-weight: 400;
     }
     .forecast-card .precip {
-      font-size: 1.07rem;
+      font-size: 1.19rem;
       color: #96e8ff;
-      margin-bottom: 0.08em;
+      margin-bottom: 0.12em;
       font-weight: 400;
     }
     #popup-bg {
@@ -255,8 +255,8 @@
     }
     @media (max-width: 1300px) {
       #main-container { width: 99vw !important; }
-      #forecast-block { gap: 7px; }
-      .forecast-card { min-width: 110px; max-width: 120px; }
+      #forecast-block { gap: 17px; }
+      .forecast-card { min-width: 170px; max-width: 170px; height: 220px; padding: 12px 5px 5px 11px;}
     }
   </style>
 </head>
@@ -283,6 +283,8 @@
     </div>
     <div id="forecast-block"></div>
   </div>
+
+  <!-- Popup for forecast details & AI advice -->
   <div id="popup-bg">
     <div id="popup-content">
       <button id="popup-close" onclick="closePopup()">&times;</button>
@@ -294,80 +296,66 @@
       <div id="popup-hist"></div>
     </div>
   </div>
+
   <script>
-    // --- FARM-PRACTICAL, UNIVERSAL, UNIQUE AI ADVICE ---
-    const todayStr = new Date().toISOString().slice(0, 10);
-    let lastDate = localStorage.getItem('lastAdviceDate');
-    let lastAdviceUsed = [];
-    try { lastAdviceUsed = JSON.parse(localStorage.getItem('lastAdviceUsed')) || []; } catch(e) { lastAdviceUsed = []; }
-    let globalAdviceUsed = new Set();
-    if (lastDate && lastDate !== todayStr) { for (let msg of lastAdviceUsed) { globalAdviceUsed.add(msg); } }
-    let lastSelectedAdvice = [];
+    // --- UNIQUE, NON-REPEATING AI ADVICE SYSTEM ---
     function agoraAiAdvice(opts) {
+      // Weather/seasonal advice takes priority, then practical daily jobs
+      // All advice is direct, clear, and non-technology-specific
       const adviceWeather = [
-        { cond: d => d.precip >= 20, msg: "Heavy rain today. Move stock off low paddocks and check all drains are clear before milking." },
-        { cond: d => d.precip > 10, msg: "Rainy conditions. Lay woodchips at gateways and stand-off areas to reduce mud." },
-        { cond: d => d.precip > 4, msg: "Showers expected. Hose mud off the dairy yard after milking to keep it safe." },
-        { cond: d => d.temp >= 28, msg: "Hot day. Hold cows off until late afternoon and double-check water troughs are full and flowing." },
-        { cond: d => d.temp > 24 && d.humidity > 70, msg: "Warm and humid weather brings facial eczema risk. Add zinc to water to help protect cows." },
-        { cond: d => d.temp < 5, msg: "Cold snap. Give calves extra bedding and keep sheds closed overnight to keep them warm." },
-        { cond: d => d.temp > 20 && d.precip < 2 && d.month >= 1 && d.month <= 3, msg: "Hot and dry. Rotate paddocks early and clean water troughs to help with heat stress." },
-        { cond: d => d.gust > 60, msg: "Strong winds expected. Secure loose gear and check fences are intact." },
-        { cond: d => d.temp < 8 && d.month == 8, msg: "Cold, wet August. Run cows through a footbath at shed exit to help prevent lameness." },
-        { cond: d => d.temp > 18 && d.precip > 6, msg: "Lush pasture after rain. Put hay out alongside grazing to reduce risk of bloat." },
-        { cond: d => d.temp < 10 && d.month == 7, msg: "Chilly July. Put up windbreaks for calves and make sure bedding stays dry." }
+        { cond: d => d.precip >= 20, msg: "Heavy rain expected. Shift cows off low paddocks and clear drains before milking to protect pasture." },
+        { cond: d => d.precip > 10, msg: "Persistent rain coming. Lay woodchips at gateways and stand-off areas to reduce mud." },
+        { cond: d => d.precip > 4, msg: "Showers expected. Hose mud off the yard after milking to keep it safe and clean." },
+        { cond: d => d.temp >= 28, msg: "High heat today. Delay yarding until late afternoon and ensure plenty of fresh water for cows." },
+        { cond: d => d.temp > 24 && d.humidity > 70, msg: "Warm, humid weather increases facial eczema risk. Start zinc dosing for protection." },
+        { cond: d => d.temp < 5, msg: "Cold snap forecast. Add extra bedding for calves and keep sheds closed overnight." },
+        { cond: d => d.temp > 20 && d.precip < 2 && d.month >= 1 && d.month <= 3, msg: "Hot and dry. Rotate paddocks early to avoid overgrazing, and clean troughs to maintain water quality." },
+        { cond: d => d.gust > 60, msg: "Strong winds expected. Secure shed doors and check fence lines for damage." },
+        { cond: d => d.temp < 8 && d.month == 8, msg: "Wet, cold August. Use a footbath at the shed exit to help prevent lameness." },
+        { cond: d => d.temp > 18 && d.precip > 6, msg: "Pasture is lush after rain. Provide hay with grazing to reduce bloat risk." },
+        { cond: d => d.temp < 10 && d.month == 7, msg: "Cold July. Put up windbreaks for calves and ensure dry bedding." }
       ];
       const adviceSeasonal = [
-        { cond: d => d.month == 8, msg: "August: Calving season. Have your calving kit ready—iodine, towels, and a feeder for colostrum." },
-        { cond: d => d.month == 9, msg: "September: Walk springer paddock fences and add fresh bedding to shelters for calvers." },
-        { cond: d => d.month == 10, msg: "October: Mating ahead. Check bulls and have tail paint ready for heat detection." },
-        { cond: d => d.month == 11, msg: "November: Run a mineral check and have magnesium ready for the herd." },
-        { cond: d => d.month == 12, msg: "December: Check and clean water troughs often in hot weather for healthy cows." },
-        { cond: d => d.month == 1, msg: "January: Get shade sails out and check tank floats for steady water." },
-        { cond: d => d.month == 2, msg: "February: Storm season—top up fuel for generators and secure shed doors." },
-        { cond: d => d.month == 3, msg: "March: Patch silage covers and check feed stacks for leaks before winter." },
-        { cond: d => d.month == 4, msg: "April: Sort winter feed supply and check bale wraps for holes." },
-        { cond: d => d.month == 5, msg: "May: Service effluent pump before the wet season hits." },
-        { cond: d => d.month == 6, msg: "June: Add fresh woodchips in stand-off areas and check all heaters work." },
-        { cond: d => d.month == 7, msg: "July: Clean calf pens and wash out trailers before calving picks up." }
+        { cond: d => d.month == 8, msg: "August: Calving time. Prepare a kit with iodine, towels, and colostrum feeders for newborns." },
+        { cond: d => d.month == 9, msg: "September: Check springer paddock fences and add fresh bedding in shelters." },
+        { cond: d => d.month == 10, msg: "October: Plan ahead for mating. Ensure bulls are sound and tail paint is ready." },
+        { cond: d => d.month == 11, msg: "November: Check minerals for herd. Prepare magnesium to prevent grass staggers." },
+        { cond: d => d.month == 12, msg: "December: Watch for algae. Clean troughs daily for clean water." },
+        { cond: d => d.month == 1, msg: "January: Hot days. Set up shade and check tank ballcocks for water supply." },
+        { cond: d => d.month == 2, msg: "February: Storm season. Make sure fuel and backup plans are ready." },
+        { cond: d => d.month == 3, msg: "March: Secure silage covers and patch holes to protect winter feed." },
+        { cond: d => d.month == 4, msg: "April: Book winter feed and check bale covers." },
+        { cond: d => d.month == 5, msg: "May: Service the effluent pump before wet weather." },
+        { cond: d => d.month == 6, msg: "June: Top up woodchips in stand-off areas, and check heaters for cold nights." },
+        { cond: d => d.month == 7, msg: "July: Clean and disinfect calf pens ready for calving." }
       ];
       const adviceEveryday = [
-        "Scrape and hose the pit floor after each milking.",
-        "Sweep plant room steps to prevent slips.",
-        "Check and refill paper towels and gloves at the wash area.",
-        "Walk tanker track and clear any stones or branches.",
-        "Hang up all milking clusters and tidy workbenches.",
-        "Inspect dosing system and look for leaks.",
+        "Check paper towels and soap in the staff wash-up area.",
+        "Scrape and rinse the pit floor after each milking.",
+        "Clear grass and stones from the tanker track entry.",
+        "Sweep steps and plant room entry to reduce slips.",
+        "Check gloves and boots are stocked in the shed.",
+        "Clean the filter at the shed water inlet.",
+        "Inspect chemical drums and hoses for leaks.",
         "Disinfect calf feeders and hang to dry.",
-        "Move empty chemical drums to recycling area.",
-        "Hose down exit race for a cleaner walk-off.",
-        "Spray weeds along fences on the next fine day.",
-        "Check feed bins and sweep out any old meal.",
-        "Test vat agitator still works—turn it on briefly and listen for smooth running.",
-        "Replace any worn or cracked rubberware on milking gear.",
-        "Grease yard scraper and check it’s running freely.",
-        "Walk boundary fences and fix any weak spots.",
-        "Trim trees or branches that are in the way around sheds.",
-        "Top up fuel in tractors and bikes.",
-        "Check shed fire extinguishers are easy to reach.",
-        "Update herd treatment records and medicine supplies.",
-        "Check calf feeder valves for blockages and working flow.",
-        "Sweep leaves and debris away from shed doors.",
-        "Organize and tidy vet gear in the storage cupboard.",
-        "Replace blown bulbs in shed or pens.",
-        "Check effluent pond level and irrigator pipes.",
         "Remove loose twine or rope from the yard.",
-        "Lubricate pulleys on plant gear and check for cracks.",
-        "Sweep out feed room and get rid of empty bags.",
-        "Monitor water troughs and clean as needed.",
-        "Check all fencing tools are in place after use.",
-        "Wash down quad bikes and check tyre pressures.",
-        "Tidy up loose hoses and cords around the dairy.",
-        "Clear gutters on sheds if rain is forecast.",
-        "Test meal dispensers are working evenly.",
-        "Hang up all wet gear and aprons after milking.",
-        "Sharpen and clean hoof trimmers.",
-        "Keep all walkways and cow paths free of mud build-up."
+        "Spray weeds along fence lines on fine days.",
+        "Move empty drums to the recycling area.",
+        "Hang up all milking clusters at end of milking.",
+        "Sweep the feed room and remove old meal bags.",
+        "Hose down the exit race for a cleaner walk-off.",
+        "Check meal augers and blow out any blockages.",
+        "Keep the vat and silo doors clean and shut after use.",
+        "Walk the paddock race and fill any deep holes.",
+        "Check cow brushes and remove built-up dirt.",
+        "Inspect the cow shed for bird nests or droppings.",
+        "Test tap water temperature before using for cleaning.",
+        "Count calves in each mob and check all are feeding.",
+        "Rinse boots before leaving the shed to prevent spread of mud.",
+        "Top up lime in calf pens to keep bedding dry.",
+        "Brush down cobwebs in the dairy and meal room.",
+        "Tidy up the tea room for the next staff break.",
+        "Check pasture covers and note areas needing extra rest."
       ];
       const d = {
         month: (opts.dateISO ? new Date(opts.dateISO).getMonth() : new Date().getMonth()) + 1,
@@ -376,50 +364,38 @@
         precip: opts.precip,
         gust: opts.gust || 0
       };
-      let selected = [];
-      let picked = new Set();
-      for (let adv of adviceWeather) {
-        if (adv.cond(d)) {
-          if (!globalAdviceUsed.has(adv.msg)) {
-            selected.push(adv.msg);
-            picked.add(adv.msg);
-            globalAdviceUsed.add(adv.msg);
-            break;
-          }
-        }
-      }
-      for (let adv of adviceSeasonal) {
-        if (adv.cond(d) && !picked.has(adv.msg)) {
-          if (!globalAdviceUsed.has(adv.msg)) {
-            selected.push(adv.msg);
-            picked.add(adv.msg);
-            globalAdviceUsed.add(adv.msg);
-            break;
-          }
-        }
-      }
-      if (selected.length < 2) {
-        let idxs = Array.from({length: adviceEveryday.length}, (_, i) => i);
-        for (let i = idxs.length - 1; i > 0; i--) {
-          let j = Math.floor(Math.random() * (i + 1));
-          [idxs[i], idxs[j]] = [idxs[j], idxs[i]];
-        }
-        for (let i = 0; i < idxs.length && selected.length < 2; ++i) {
-          let tip = adviceEveryday[idxs[i]];
-          if (!picked.has(tip) && !globalAdviceUsed.has(tip)) {
-            selected.push(tip);
-            picked.add(tip);
-            globalAdviceUsed.add(tip);
-          }
-        }
-      }
-      lastSelectedAdvice = selected.slice();
-      return selected.map(txt => `<div>${txt}</div>`).join('');
+      // Non-repeating per-day selection logic (rotates advice across the week)
+      // Build a hash from date so advice is unique across days
+      const hashDay = Math.abs((new Date(opts.dateISO || Date.now())).getDate() +
+        ((new Date(opts.dateISO || Date.now())).getMonth() + 1) * 37);
+
+      // Collect all matching weather/seasonal, else fallback to everyday unique per day
+      let advs = [];
+      for (let adv of adviceWeather) if (adv.cond(d)) advs.push(adv.msg);
+      for (let adv of adviceSeasonal) if (adv.cond(d)) advs.push(adv.msg);
+
+      // For unique practical: rotate index for each day in week (never repeat in 7-day window)
+      let rotIndex = hashDay % adviceEveryday.length;
+      advs.push(adviceEveryday[rotIndex]);
+      // Only show first two, always unique, relevant and plain
+      advs = advs.filter((v, i, arr) => arr.indexOf(v) === i).slice(0, 2);
+      return advs.map(txt => `<div>${txt}</div>`).join('');
     }
-    function iconUrl(icon) { if (!icon) return ''; return `https://cdn.aerisapi.com/wxblox/icons/${icon}`; }
-    function dayOfWeek(dateISO) { return new Date(dateISO).toLocaleDateString('en-NZ', { weekday: 'short' }); }
-    function capitalize(txt) { return (txt || '').charAt(0).toUpperCase() + (txt || '').slice(1); }
+
+    function iconUrl(icon) {
+      if (!icon) return '';
+      return `https://cdn.aerisapi.com/wxblox/icons/${icon}`;
+    }
+    function dayOfWeek(dateISO) {
+      return new Date(dateISO).toLocaleDateString('en-NZ', { weekday: 'short' });
+    }
+    function capitalize(txt) {
+      return (txt || '').charAt(0).toUpperCase() + (txt || '').slice(1);
+    }
+
     let rainHistory = { today: 0, week: 0, month: 0, year: 0 };
+
+    // Current box population (horizontal layout)
     fetch('https://data.api.xweather.com/conditions/pws_pukerimu?format=json&plimit=1&filter=1min&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq')
       .then(r => r.json())
       .then(json => {
@@ -429,22 +405,34 @@
           (typeof p.tempC === 'number') ? `${Math.round(p.tempC)}°C` : '--°C';
         const icon = p.icon || '';
         const icElem = document.getElementById('cur-icon');
-        if (icon) { icElem.src = iconUrl(icon); icElem.style.display = ''; }
-        else { icElem.style.display = 'none'; }
+        if (icon) {
+          icElem.src = iconUrl(icon);
+          icElem.style.display = '';
+        } else {
+          icElem.style.display = 'none';
+        }
         document.getElementById('weather-text').textContent = capitalize(p.weather) || '--';
+
         document.getElementById('details-col').innerHTML =
           `<div><b>Feels like:</b> ${p.feelslikeC !== null && p.feelslikeC !== undefined ? Math.round(p.feelslikeC) + '°C' : 'NA'}</div>
            <div><b>Humidity:</b> ${p.humidity !== null && p.humidity !== undefined ? p.humidity + '%' : 'NA'}</div>
            <div><b>Wind:</b> ${p.windSpeedKPH !== null && p.windSpeedKPH !== undefined ? Math.round(p.windSpeedKPH) + ' km/h' : 'NA'}</div>
            <div><b>Gusts:</b> ${p.windGustKPH !== null && p.windGustKPH !== undefined ? Math.round(p.windGustKPH) + ' km/h' : 'NA'}</div>
            <div><b>Pressure:</b> ${p.pressureMB !== null && p.pressureMB !== undefined ? p.pressureMB + ' hPa' : 'NA'}</div>`;
+
+        // Rainfall today (observed so far) - always single-line
         const todayRain = (p.precipMM !== null && p.precipMM !== undefined) ? p.precipMM : 0;
         document.getElementById('rain-row').innerHTML = `<b>Rainfall so far:</b> ${todayRain} mm`;
         rainHistory.today = Number(todayRain) || 0;
-        const adviceHtml = agoraAiAdvice({
-          temp: p.tempC, humidity: p.humidity, gust: p.windGustKPH, precip: p.precipMM, dateISO: p.dateTimeISO
+
+        document.getElementById('todays-advice').innerHTML = agoraAiAdvice({
+          temp: p.tempC,
+          humidity: p.humidity,
+          gust: p.windGustKPH,
+          precip: p.precipMM,
+          dateISO: p.dateTimeISO
         });
-        document.getElementById('todays-advice').innerHTML = adviceHtml;
+
         document.getElementById('current-block').onclick = () => openPopup({
           title: "Current Conditions",
           summary: "",
@@ -454,17 +442,22 @@
                   <b>Wind:</b> ${Math.round(p.windSpeedKPH || 0)} km/h (${p.windDir || ''})<br>
                   <b>Humidity:</b> ${p.humidity || 'NA'}%<br>
                   <b>Rainfall:</b> ${p.precipMM || 0} mm today`,
-          ai: adviceHtml,
+          ai: agoraAiAdvice({
+            temp: p.tempC,
+            humidity: p.humidity,
+            gust: p.windGustKPH,
+            precip: p.precipMM,
+            dateISO: p.dateTimeISO
+          }),
           hist: `<strong>Rain history:</strong><br>
                  Today: ${p.precipMM || 0} mm<br>
                  This week: ${rainHistory.week} mm<br>
                  This month: ${rainHistory.month} mm<br>
-                 This year: ${rainHistory.year} mm<br>
-                 `
+                 This year: ${rainHistory.year} mm`
         });
-        localStorage.setItem('lastAdviceDate', todayStr);
-        localStorage.setItem('lastAdviceUsed', JSON.stringify(lastSelectedAdvice));
       });
+
+    // Forecast: only 5 days, cards scaled up to match, current gets today's hi/lo/expected rain
     fetch('https://data.api.xweather.com/forecasts/pws_pukerimu?format=json&plimit=8&fields=periods.timestamp,periods.dateTimeISO,periods.tempC,periods.weather,periods.icon,periods.maxTempC,periods.minTempC,periods.humidity,periods.precipMM,periods.windSpeedKPH,periods.windGustKPH,periods.summary&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq')
       .then(r => r.json())
       .then(json => {
@@ -472,6 +465,7 @@
         const fc = json.response[0].periods || [];
         const fcDom = document.getElementById('forecast-block');
         fcDom.innerHTML = "";
+        // Rain history
         const now = new Date();
         const weekAgo = new Date(now); weekAgo.setDate(now.getDate() - 6);
         const monthAgo = new Date(now); monthAgo.setMonth(now.getMonth() - 1);
@@ -486,12 +480,15 @@
         rainHistory.week = Math.round(weekRain);
         rainHistory.month = Math.round(monthRain);
         rainHistory.year = Math.round(yearRain);
+
+        // Add today's hi/lo/expected
         if (fc.length > 0) {
           const todayFc = fc[0];
           document.getElementById('today-row').innerHTML =
             `<b>Today:</b> High ${Math.round(todayFc.maxTempC)}°C, Low ${Math.round(todayFc.minTempC)}°C<br>
-             <b>Rainfall expected:</b> ${todayFc.precipMM || 0} mm`;
+             <b>Expected rain:</b> ${todayFc.precipMM || 0} mm`;
         }
+        // Show only next 5 forecast days, cards bigger
         for (let i = 1; i < fc.length && i <= 5; ++i) {
           const p = fc[i];
           fcDom.innerHTML += `
@@ -509,7 +506,7 @@
                 })}\`
               })">
               <div class="day">${dayOfWeek(p.dateTimeISO)}</div>
-              <img class="icon" src="${iconUrl(p.icon)}" alt="" width="40" height="40">
+              <img class="icon" src="${iconUrl(p.icon)}" alt="" width="64" height="64">
               <div class="desc">${capitalize(p.weather || '')}</div>
               <div class="lowhigh">High: ${Math.round(p.maxTempC)}°C<br>Low: ${Math.round(p.minTempC)}°C</div>
               <div class="gust">Gusts: ${Math.round(p.windGustKPH || 0)} km/h</div>
@@ -518,6 +515,7 @@
           `;
         }
       });
+
     function openPopup(opts) {
       document.getElementById('popup-title').textContent = opts.title || "";
       document.getElementById('popup-summary').textContent = opts.summary || "";
@@ -527,7 +525,9 @@
       document.getElementById('popup-hist').innerHTML = opts.hist || "";
       document.getElementById('popup-bg').style.display = 'flex';
     }
-    function closePopup() { document.getElementById('popup-bg').style.display = 'none'; }
+    function closePopup() {
+      document.getElementById('popup-bg').style.display = 'none';
+    }
     document.getElementById('popup-bg').onclick = (e) => { if (e.target === e.currentTarget) closePopup(); }
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closePopup(); });
   </script>
