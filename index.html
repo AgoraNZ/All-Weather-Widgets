@@ -1,41 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF‑8"/>
-  <meta name="viewport" content="width=900,initial-scale=1"/>
-  <title>Debug WeatherBlox</title>
-  <link rel="stylesheet" href="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.css"/>
+  <meta charset="UTF‑8">
+  <meta name="viewport" content="width=900,initial-scale=1.0">
+  <title>PUKERIMU Weather</title>
+
+  <!-- WeatherBlox Libraries -->
+  <link rel="stylesheet" href="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.css">
   <script src="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.min.js"></script>
+
   <style>
-    body { margin:0; background:#000; color:#fff; font-family:sans-serif;}
-    .box { background:#181e2a; border:1px solid #444; width:360px;height:450px; margin:20px;}
-    #forecast.box { width:500px;}
+    body {
+      margin: 0;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .weather-container {
+      display: flex;
+      gap: 20px;
+      width: 880px;
+    }
+
+    .current-box, .forecast-box {
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      background: #181e2a;
+      flex-shrink: 0;
+    }
+
+    .current-box {
+      width: 360px;
+      height: 450px;
+    }
+
+    .forecast-box {
+      width: 500px;
+      height: 450px;
+    }
+
+    /* Scale the internal widget if it overflows container */
+    .widget-inner {
+      position: absolute;
+      top: 0; left: 0;
+      transform-origin: top left;
+    }
   </style>
 </head>
 <body>
-  <h1>WeatherBlox Debug</h1>
-  <div id="current" class="box">Loading Current...</div>
-  <div id="forecast" class="box">Loading Forecast...</div>
 
-  <script>
-    console.log('Starting widget...');
-    const aeris = new AerisWeather(
-      'U8feQfLlcEfcXDfsWZs4C',
-      'HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq'
-    );
-    aeris.on('ready', () => {
-      console.log('Aeris ready!');
-      const curr = new aeris.wxblox.views.Current('#current');
-      curr.on('load:done', () => console.log('Current loaded'));
-      curr.on('load:error', e => console.error('Current error', e));
-      curr.load({ p: 'pws_pukerimu' });
+<div class="weather-container">
+  <div id="current" class="current-box"><div class="widget-inner" id="current-inner"></div></div>
+  <div id="forecast" class="forecast-box"><div class="widget-inner" id="forecast-inner"></div></div>
+</div>
 
-      const fc = new aeris.wxblox.views.Forecast('#forecast');
-      fc.on('load:done', () => console.log('Forecast loaded'));
-      fc.on('load:error', e => console.error('Forecast error', e));
-      fc.load({ p: 'pws_pukerimu', limit: 12 });
+<script>
+  const aeris = new AerisWeather('U8feQfLlcEfcXDfsWZs4C', 'HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq');
+  aeris.on('ready', () => {
+    console.log('Aeris ready');
+
+    const curr = new aeris.wxblox.views.Current('#current-inner');
+    curr.on('load:done', () => {
+      console.log('Current loaded');
+      scaleWidget('#current-inner', 360, 450);
     });
-    aeris.on('error', err => console.error('Aeris init error:', err));
-  </script>
+    curr.on('load:error', e => console.error('Current load error', e));
+    curr.load({ p: 'pws_pukerimu' });
+
+    const fc = new aeris.wxblox.views.Forecast('#forecast-inner');
+    fc.on('load:done', () => {
+      console.log('Forecast loaded');
+      scaleWidget('#forecast-inner', 500, 450);
+    });
+    fc.on('load:error', e => console.error('Forecast load error', e));
+    fc.load({ p: 'pws_pukerimu', limit: 12 });
+  });
+
+  aeris.on('error', e => console.error('Aeris error:', e));
+
+  function scaleWidget(selector, targetW, targetH) {
+    const el = document.querySelector(selector);
+    if (!el) return;
+
+    const rect = el.getBoundingClientRect();
+    const scaleX = targetW / rect.width;
+    const scaleY = targetH / rect.height;
+    const scale = Math.min(scaleX, scaleY);
+    el.style.transform = `scale(${scale})`;
+    console.log(`Scaled ${selector} by ${scale.toFixed(2)}`);
+  }
+</script>
+
 </body>
 </html>
