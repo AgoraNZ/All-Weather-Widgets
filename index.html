@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Skinny Wide Weather Widget</title>
+  <title>Skinny Wide Weather Widget – Agora Ai</title>
   <meta name="viewport" content="width=2000">
   <style>
     html, body {
@@ -35,14 +35,14 @@
       flex-direction: column;
       align-items: flex-start;
       justify-content: flex-start;
-      padding: 22px 28px 22px 34px;
+      padding: 26px 28px 22px 32px;
       box-sizing: border-box;
       border-right: 3px solid #222c40;
     }
     #current-block .temp {
-      font-size: 5rem;
+      font-size: 4.3rem;
       font-weight: 600;
-      margin-bottom: 0.1em;
+      margin-bottom: 0.12em;
       color: #fff;
       line-height: 1;
       text-shadow: 0 1px 16px #222;
@@ -50,68 +50,58 @@
     #current-block .weather-row {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 2.3rem;
+      gap: 13px;
+      font-size: 2.1rem;
       font-weight: 400;
       color: #fff;
-      margin-bottom: 0.1em;
+      margin-bottom: 0.17em;
+      min-height: 55px;
     }
     #current-block .weather-row img {
-      width: 44px; height: 44px; margin-right: 5px;
+      width: 44px; height: 44px; margin-right: 4px;
     }
     #current-block .summary {
-      font-size: 1.16rem;
+      font-size: 1.21rem;
       color: #c0d2ed;
       font-weight: 400;
-      margin-bottom: 0.6em;
-      margin-top: 0.08em;
-      max-width: 99%;
+      margin-bottom: 0.38em;
+      margin-top: 0.02em;
+      max-width: 98%;
       word-break: break-word;
     }
-    #current-block .ai-box {
-      font-size: 1.04rem;
-      color: #e2edff;
-      background: #23354b;
-      border-radius: 7px;
-      padding: 8px 12px;
-      margin-bottom: 0.5em;
-      margin-top: 0.18em;
+    #current-block .ai {
+      font-size: 1.16rem;
+      color: #aad7ff;
+      margin-bottom: 0.28em;
       font-weight: 500;
-      max-width: 96%;
-      line-height: 1.45;
+      background: #232f47;
+      border-radius: 11px;
+      padding: 9px 14px 7px 11px;
+      line-height: 1.52;
+      min-width: 94%;
+      max-width: 97%;
     }
     #current-block .details {
-      font-size: 1.05rem;
+      font-size: 1.01rem;
       color: #c0d2ed;
-      margin-bottom: 0.18em;
-      margin-top: 0.08em;
-      line-height: 1.7;
+      margin-bottom: 0.1em;
+      margin-top: 0.07em;
+      line-height: 1.45;
       white-space: pre-line;
-    }
-    #current-block .more-link {
-      font-size: 0.97rem;
-      color: #83c2ff;
-      margin-top: 0.19em;
-      cursor: pointer;
-      text-decoration: underline;
-      font-weight: 500;
-      border: none;
-      background: none;
-      padding: 0;
     }
     #forecast-block {
       flex: 1;
       display: flex;
       align-items: center;
       height: 100%;
-      padding: 0 14px;
+      padding: 0 13px;
       overflow-x: auto;
       background: #181e2a;
-      gap: 14px;
+      gap: 15px;
     }
     .forecast-card {
-      min-width: 140px;
-      max-width: 153px;
+      min-width: 143px;
+      max-width: 151px;
       height: 210px;
       background: #232f47;
       border-radius: 16px;
@@ -133,42 +123,55 @@
     }
     .forecast-card .day {
       font-weight: bold;
-      font-size: 1.17rem;
-      margin-bottom: 5px;
+      font-size: 1.14rem;
+      margin-bottom: 3px;
       color: #fff;
     }
     .forecast-card .icon {
-      font-size: 2.1rem;
-      margin-bottom: 3px;
-      width: 40px;
-      height: 40px;
+      font-size: 2.0rem;
+      margin-bottom: 1px;
+      width: 36px;
+      height: 36px;
       display: block;
     }
     .forecast-card .desc {
-      font-size: 1.01rem;
+      font-size: 0.97rem;
       color: #c0d2ed;
-      margin-bottom: 2px;
-      min-height: 28px;
-      line-height: 1.15;
+      margin-bottom: 1px;
+      min-height: 22px;
+      line-height: 1.10;
       white-space: pre-line;
     }
     .forecast-card .lowhigh {
-      font-size: 1.23rem;
+      font-size: 1.11rem;
       font-weight: 600;
       color: #fff;
-      margin-bottom: 0.12em;
+      margin-bottom: 0.07em;
     }
     .forecast-card .gust {
       font-size: 1.01rem;
       color: #aad7ff;
-      margin-bottom: 0.09em;
+      margin-bottom: 0.06em;
       font-weight: 400;
     }
     .forecast-card .precip {
-      font-size: 1.01rem;
+      font-size: 0.97rem;
       color: #96e8ff;
-      margin-bottom: 0.09em;
+      margin-bottom: 0.08em;
       font-weight: 400;
+    }
+    .forecast-card .ai {
+      font-size: 0.98rem;
+      color: #aad7ff;
+      margin-bottom: 0.09em;
+      font-weight: 500;
+      margin-top: 0.14em;
+      background: #243153;
+      border-radius: 7px;
+      padding: 6px 8px 5px 8px;
+      min-width: 100%;
+      max-width: 99%;
+      line-height: 1.37;
     }
     /* Popup */
     #popup-bg {
@@ -219,10 +222,9 @@
         <img id="cur-icon" src="" style="display:none;">
         <span id="weather-text">Loading…</span>
       </div>
-      <div class="summary" id="summary"> </div>
-      <div class="ai-box" id="ai-summary"></div>
+      <div class="summary" id="summary"></div>
+      <div class="ai" id="ai-cur">Agora Ai loading advice…</div>
       <div class="details" id="details"></div>
-      <button class="more-link" id="current-more" onclick="openCurrentPopup()">More info</button>
     </div>
     <div id="forecast-block"></div>
   </div>
@@ -234,21 +236,17 @@
       <div id="popup-summary" style="margin-top: 18px;"></div>
       <div id="popup-lowhigh" style="margin-top: 13px; font-size:1.5rem;"></div>
       <div id="popup-extra" style="margin-top: 14px; font-size:1.2rem;color:#aad7ff;"></div>
+      <div id="popup-ai" style="margin-top: 20px; font-size:1.11rem; color:#aad7ff;"></div>
     </div>
   </div>
   <script>
-    // Station & API settings — CHANGE for your site!
-    const stationSlug = 'pws_pukerimu';
-    const clientId = 'U8feQfLlcEfcXDfsWZs4C';
-    const clientSecret = 'HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq';
-    const currentUrl = `https://data.api.xweather.com/conditions/${stationSlug}?format=json&plimit=1&filter=1min&client_id=${clientId}&client_secret=${clientSecret}`;
-    const forecastUrl = `https://data.api.xweather.com/forecasts/${stationSlug}?format=json&plimit=7&fields=periods.timestamp,periods.dateTimeISO,periods.tempC,periods.weather,periods.icon,periods.maxTempC,periods.minTempC,periods.humidity,periods.precipMM,periods.windSpeedKPH,periods.windGustKPH,periods.summary&client_id=${clientId}&client_secret=${clientSecret}`;
+    // API endpoints (swap for your station)
+    const currentUrl = 'https://data.api.xweather.com/conditions/pws_pukerimu?format=json&plimit=1&filter=1min&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq';
+    const forecastUrl = 'https://data.api.xweather.com/forecasts/pws_pukerimu?format=json&plimit=7&fields=periods.timestamp,periods.dateTimeISO,periods.tempC,periods.weather,periods.icon,periods.maxTempC,periods.minTempC,periods.humidity,periods.precipMM,periods.windSpeedKPH,periods.windGustKPH,periods.summary&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq';
 
-    // --- Utility Functions ---
     function iconUrl(icon) {
       if (!icon) return '';
-      // Try wxblox style icon url fallback to Aeris
-      return icon.startsWith('http') ? icon : `https://cdn.aerisapi.com/wxblox/icons/${icon}`;
+      return `https://cdn.aerisapi.com/wxblox/icons/${icon}`;
     }
     function dayOfWeek(dateISO) {
       return new Date(dateISO).toLocaleDateString('en-NZ', { weekday: 'short' });
@@ -256,68 +254,56 @@
     function capitalize(txt) {
       return (txt||'').charAt(0).toUpperCase() + (txt||'').slice(1);
     }
-
-    // DairyNZ/Agora AI sample advisories (expand this list as needed)
-    const agoraAiTips = [
-      // Wet weather
-      {match: w => w.rain > 8, text: "Heavy rain expected — use on/off grazing to protect pasture and provide magnesium for cow resilience."},
-      {match: w => w.rain > 2, text: "Rain likely today. Shift cows often and check paddock access to avoid pugging."},
-      // Hot/heat stress
-      {match: w => w.temp > 27, text: "Heat stress alert: Shade, cool water and early/late milking recommended. Hydration and extra electrolytes may help."},
-      {match: w => w.temp > 22 && w.humidity > 70, text: "Humid and warm — provide shade and monitor cows closely for heat stress."},
-      // Dry conditions
-      {match: w => w.rain < 0.5 && w.temp > 23, text: "Dry conditions: Monitor pasture residuals, plan for irrigation, and consider supplement feeds."},
-      // Storm
-      {match: w => w.gust > 40, text: "Strong winds forecast. Secure loose objects, check shelter and move vulnerable stock if needed."},
-      // Cold snap/snow
-      {match: w => w.temp < 4 && w.rain > 0, text: "Cold rain forecast. Move cows to shelter, keep feed up, and reduce paddock walking."},
-      {match: w => w.temp < 0, text: "Frost risk: Provide extra feed and water, especially for young stock."},
-      // General
-      {match: w => w.temp > 15 && w.rain < 1, text: "Ideal day for pasture growth. Rotate grazing as planned."},
-      {match: w => true, text: "Monitor weather changes regularly. For local advice, see DairyNZ and prepare as needed."}
-    ];
-    function getAgoraAiSummary(temp, rain, gust, humidity, context = "today") {
-      let w = { temp, rain, gust, humidity };
-      for (const tip of agoraAiTips) {
-        if (tip.match(w)) return "Agora Ai: " + tip.text;
+    // Agora Ai logic for forecast/current
+    function agoraAiAdvice(data, isCurrent) {
+      // Use the context (temp, weather, wind, precip, month) to choose dairy-appropriate tip
+      const temp = Math.round(data.tempC ?? data.maxTempC ?? 0);
+      const minT = Math.round(data.minTempC ?? temp);
+      const maxT = Math.round(data.maxTempC ?? temp);
+      const gust = Math.round(data.windGustKPH ?? data.windSpeedKPH ?? 0);
+      const rain = Math.round(data.precipMM ?? 0);
+      const w = (data.weather || data.weatherPrimary || '').toLowerCase();
+      const month = new Date().getMonth();
+      let season = (month >= 11 || month <= 1) ? "summer"
+                : (month >= 2 && month <= 4) ? "autumn"
+                : (month >= 5 && month <= 7) ? "winter"
+                : "spring";
+      // DairyNZ-style logic, tailored by weather/season
+      if (rain > 25) return "Heavy rain: Move cows off wet paddocks. Use stand-off to avoid pugging. Monitor effluent.";
+      if (w.includes('rain') || w.includes('shower')) {
+        if (gust > 50) return "Wind & rain: Secure gear. Protect soil, use on/off grazing. Watch for cow stress.";
+        if (rain > 5) return "Wet day: Rotate paddocks, protect pasture. Supply minerals (Mg) and shelter.";
+        return "Showery: Avoid damage to wet ground, adjust grazing intervals, check cow comfort.";
       }
-      return "Agora Ai: Check DairyNZ for latest seasonal tips.";
+      if (temp >= 28) return "Hot: Provide shade, cool water. Shift milking to cooler hours. Watch for heat stress.";
+      if (temp <= 4 && isCurrent) return "Cold: Ensure shelter, watch for frost, supply extra feed for warmth.";
+      if (gust > 60) return "Very windy: Protect light structures. Move stock from exposed areas. Watch for wind chill.";
+      if (w.includes('wind') && gust > 30) return "Windy: Check fences, secure loose items. Cows need shelter.";
+      if (season === "summer" && temp > 24 && rain < 2) return "Dry/hot: Start drought planning. Consider irrigation or supplements.";
+      if (season === "winter" && rain > 4) return "Winter wet: Keep cows off saturated soils, use standoff pads.";
+      if (season === "autumn" && w.includes("fog")) return "Foggy: Slow cow movement. Monitor for hoof problems.";
+      if (w.includes('snow')) return "Snow: Move cows to shelter, check water supplies, reduce milking if needed.";
+      if (rain === 0 && season === "spring") return "Spring growth: Monitor for facial eczema risk. Keep feed fresh.";
+      if (season === "spring" && temp > 12 && rain < 2) return "Growth phase: Plan for high pasture demand and rotating grazing.";
+      if (rain > 2 && season === "autumn") return "Autumn rain: Keep pastures growing. Rotate grazing and protect new grass.";
+      if (w.includes("cloud")) return "Cloudy: Maintain mineral supplements. Ideal for pasture growth.";
+      if (w.includes("clear") || w.includes("sun")) return "Clear skies: Monitor for sunburn and heat stress.";
+      return "Typical NZ day: Maintain good feed, shelter, and water. Review DairyNZ for seasonal advice.";
     }
 
-    function openPopup(day, summary, lowhigh, extra) {
+    function openPopup(day, summary, lowhigh, extra, ai) {
       document.getElementById('popup-day').textContent = day;
       document.getElementById('popup-summary').textContent = summary || 'No details available';
       document.getElementById('popup-lowhigh').textContent = lowhigh || '';
       document.getElementById('popup-extra').innerHTML = extra || '';
+      document.getElementById('popup-ai').innerHTML = "<b>Agora Ai:</b> " + (ai || '');
       document.getElementById('popup-bg').style.display = 'flex';
     }
     function closePopup() {
       document.getElementById('popup-bg').style.display = 'none';
     }
 
-    // More info popup for current box
-    function openCurrentPopup() {
-      fetch(currentUrl)
-        .then(r=>r.json())
-        .then(json => {
-          const p = json.response[0].periods[0];
-          let week = "—", year = "—", month = "—";
-          if (p && p.precipMM) {
-            week = Math.round(p.precipMM * 7) + ' mm';
-            month = Math.round(p.precipMM * 30) + ' mm';
-            year = Math.round(p.precipMM * 365) + ' mm';
-          }
-          openPopup(
-            "Current & Historical",
-            "Historical rainfall:",
-            "",
-            `<b>Past week:</b> ${week}<br><b>Past month:</b> ${month}<br><b>Past year:</b> ${year}`
-          );
-        });
-    }
-
-    // ---- Data Loading ----
-    // Current conditions
+    // Load current conditions
     fetch(currentUrl).then(r=>r.json()).then(json => {
       if (!json.success) throw new Error('No current conditions');
       const p = json.response[0].periods[0];
@@ -336,20 +322,19 @@
       document.getElementById('summary').textContent =
         capitalize(p.weatherPrimary || p.weather || '') +
         (p.sky !== undefined ? ` • Sky: ${p.sky}%` : '');
-      // Agora AI summary
-      const aiText = getAgoraAiSummary(p.tempC, p.precipMM, p.windGustKPH, p.humidity, "today");
-      document.getElementById('ai-summary').textContent = aiText;
-      // Details
+      // Details, formatted for neat fit
       document.getElementById('details').innerHTML =
-        `<b>Feels like:</b> ${p.feelslikeC !== null && p.feelslikeC !== undefined ? Math.round(p.feelslikeC)+'°C' : 'NA'}<br>
-         <b>Humidity:</b> ${p.humidity !== null && p.humidity !== undefined ? p.humidity+'%' : 'NA'}<br>
+        `<b>Feels:</b> ${p.feelslikeC !== null && p.feelslikeC !== undefined ? Math.round(p.feelslikeC)+'°C' : 'NA'} &nbsp;|&nbsp;
+         <b>Humidity:</b> ${p.humidity !== null && p.humidity !== undefined ? p.humidity+'%' : 'NA'} &nbsp;|&nbsp;
          <b>Wind:</b> ${p.windSpeedKPH !== null && p.windSpeedKPH !== undefined ? Math.round(p.windSpeedKPH)+' km/h' : 'NA'}<br>
-         <b>Gusts:</b> ${p.windGustKPH !== null && p.windGustKPH !== undefined ? Math.round(p.windGustKPH)+' km/h' : 'NA'}<br>
-         <b>Pressure:</b> ${p.pressureMB !== null && p.pressureMB !== undefined ? p.pressureMB+' hPa' : 'NA'}<br>
-         <b>Precip:</b> ${p.precipMM !== null && p.precipMM !== undefined ? p.precipMM+' mm' : '0 mm'}`;
+         <b>Gusts:</b> ${p.windGustKPH !== null && p.windGustKPH !== undefined ? Math.round(p.windGustKPH)+' km/h' : 'NA'} &nbsp;|&nbsp;
+         <b>Pressure:</b> ${p.pressureMB !== null && p.pressureMB !== undefined ? p.pressureMB+' hPa' : 'NA'} &nbsp;|&nbsp;
+         <b>Rain:</b> ${p.precipMM !== null && p.precipMM !== undefined ? p.precipMM+' mm' : '0 mm'}`;
+      // Agora Ai summary for current box
+      document.getElementById('ai-cur').textContent = "Agora Ai: " + agoraAiAdvice(p, true);
     });
 
-    // Load forecast and display
+    // Load forecast
     fetch(forecastUrl).then(r=>r.json()).then(json => {
       if (!json.success) throw new Error('No forecast');
       const fc = json.response[0].periods || [];
@@ -357,24 +342,21 @@
       fcDom.innerHTML = '';
       for (let i=1; i<fc.length; ++i) { // skip today
         const p = fc[i];
-        // AI summary for this day
-        const aiText = getAgoraAiSummary(
-          (p.maxTempC+p.minTempC)/2, p.precipMM, p.windGustKPH, p.humidity, "forecast"
-        );
         fcDom.innerHTML += `
           <div class="forecast-card" tabindex="0" onclick="openPopup(
             '${dayOfWeek(p.dateTimeISO)}',
             \`${(p.summary||p.weather||'No summary').replace(/`/g,'')}\`,
-            'High ${Math.round(p.maxTempC)}°C  Low ${Math.round(p.minTempC)}°C',
-            'Gusts: ${Math.round(p.windGustKPH||0)} km/h<br>Rain: ${p.precipMM||'0'} mm<br>Agora Ai: ${aiText.replace("Agora Ai: ","")}'
+            'H:${Math.round(p.maxTempC)}° L:${Math.round(p.minTempC)}°',
+            'Humidity: ${(p.humidity||'--')}%<br>Wind: ${Math.round(p.windSpeedKPH||0)} km/h<br>Gusts: ${Math.round(p.windGustKPH||0)} km/h<br>Precip: ${(p.precipMM||'0')} mm',
+            "${agoraAiAdvice(p, false).replace(/"/g,'&quot;')}"
           )">
             <div class="day">${dayOfWeek(p.dateTimeISO)}</div>
             <img class="icon" src="${iconUrl(p.icon)}" alt="" width="40" height="40">
-            <div class="desc">${capitalize(p.weather || '')
-                        <div class="desc">${capitalize(p.weather || '')}</div>
-            <div class="lowhigh">High ${Math.round(p.maxTempC)}°C&nbsp; Low ${Math.round(p.minTempC)}°C</div>
+            <div class="desc">${capitalize(p.weather || '')}</div>
+            <div class="lowhigh">H:${Math.round(p.maxTempC)}° L:${Math.round(p.minTempC)}°</div>
             <div class="gust">Gusts: ${Math.round(p.windGustKPH||0)} km/h</div>
-            <div class="precip">Rain: ${p.precipMM||'0'} mm</div>
+            <div class="precip">Precip: ${p.precipMM||'0'} mm</div>
+            <div class="ai">${agoraAiAdvice(p, false)}</div>
           </div>
         `;
       }
