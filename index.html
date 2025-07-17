@@ -72,7 +72,7 @@
       font-weight: 400;
       color: #fff;
       margin-top: 3px;
-      margin-bottom: 4px;
+      margin-bottom: 4px.
     }
     .weather-row img {
       width: 44px; height: 44px; margin-right: 3px;
@@ -283,6 +283,8 @@
     </div>
     <div id="forecast-block"></div>
   </div>
+
+  <!-- Popup for forecast details & AI advice -->
   <div id="popup-bg">
     <div id="popup-content">
       <button id="popup-close" onclick="closePopup()">&times;</button>
@@ -294,80 +296,90 @@
       <div id="popup-hist"></div>
     </div>
   </div>
+
   <script>
-    // --- FARM-PRACTICAL, UNIVERSAL, UNIQUE AI ADVICE ---
+    // --- UNIQUE, NON-REPEATING AI ADVICE SYSTEM ---
     const todayStr = new Date().toISOString().slice(0, 10);
     let lastDate = localStorage.getItem('lastAdviceDate');
     let lastAdviceUsed = [];
-    try { lastAdviceUsed = JSON.parse(localStorage.getItem('lastAdviceUsed')) || []; } catch(e) { lastAdviceUsed = []; }
+    try {
+      lastAdviceUsed = JSON.parse(localStorage.getItem('lastAdviceUsed')) || [];
+    } catch(e) {
+      lastAdviceUsed = [];
+    }
     let globalAdviceUsed = new Set();
-    if (lastDate && lastDate !== todayStr) { for (let msg of lastAdviceUsed) { globalAdviceUsed.add(msg); } }
+    if (lastDate && lastDate !== todayStr) {
+      for (let msg of lastAdviceUsed) {
+        globalAdviceUsed.add(msg);
+      }
+    }
     let lastSelectedAdvice = [];
     function agoraAiAdvice(opts) {
+      // Weather/seasonal advice takes priority, then fall back to practical daily jobs
+      // Each entry provides context (why) and benefit
       const adviceWeather = [
-        { cond: d => d.precip >= 20, msg: "Heavy rain today. Move stock off low paddocks and check all drains are clear before milking." },
-        { cond: d => d.precip > 10, msg: "Rainy conditions. Lay woodchips at gateways and stand-off areas to reduce mud." },
-        { cond: d => d.precip > 4, msg: "Showers expected. Hose mud off the dairy yard after milking to keep it safe." },
-        { cond: d => d.temp >= 28, msg: "Hot day. Hold cows off until late afternoon and double-check water troughs are full and flowing." },
-        { cond: d => d.temp > 24 && d.humidity > 70, msg: "Warm and humid weather brings facial eczema risk. Add zinc to water to help protect cows." },
-        { cond: d => d.temp < 5, msg: "Cold snap. Give calves extra bedding and keep sheds closed overnight to keep them warm." },
-        { cond: d => d.temp > 20 && d.precip < 2 && d.month >= 1 && d.month <= 3, msg: "Hot and dry. Rotate paddocks early and clean water troughs to help with heat stress." },
-        { cond: d => d.gust > 60, msg: "Strong winds expected. Secure loose gear and check fences are intact." },
-        { cond: d => d.temp < 8 && d.month == 8, msg: "Cold, wet August. Run cows through a footbath at shed exit to help prevent lameness." },
-        { cond: d => d.temp > 18 && d.precip > 6, msg: "Lush pasture after rain. Put hay out alongside grazing to reduce risk of bloat." },
-        { cond: d => d.temp < 10 && d.month == 7, msg: "Chilly July. Put up windbreaks for calves and make sure bedding stays dry." }
+        { cond: d => d.precip >= 20, msg: "Heavy rain expected. Move stock off low paddocks and clear drains to prevent flooding." },
+        { cond: d => d.precip > 10, msg: "Persistent rain is forecast. Lay woodchips at gateways and stand-off areas to reduce mud." },
+        { cond: d => d.precip > 4, msg: "Showers expected. Hose mud off the dairy yard after milking to keep it clean and safe." },
+        { cond: d => d.temp >= 28, msg: "High heat today. Delay yarding until late afternoon and make sure the herd has plenty of water." },
+        { cond: d => d.temp > 24 && d.humidity > 70, msg: "Warm and humid weather increases facial eczema risk. Give cows zinc to help protect them." },
+        { cond: d => d.temp < 5, msg: "Cold snap forecast. Give calves extra bedding and keep sheds closed overnight so they stay warm." },
+        { cond: d => d.temp > 20 && d.precip < 2 && d.month >= 1 && d.month <= 3, msg: "Hot and dry conditions. Rotate paddocks early to avoid overgrazing, and clean water troughs to maintain water quality." },
+        { cond: d => d.gust > 60, msg: "Strong winds expected. Secure shed doors and check fences for damage to prevent escapes." },
+        { cond: d => d.temp < 8 && d.month == 8, msg: "Wet, cold August weather can harm hooves. Use a footbath at the shed exit to help prevent lameness." },
+        { cond: d => d.temp > 18 && d.precip > 6, msg: "Pasture is lush after rain. Give cows some hay along with grazing to reduce the risk of bloat." },
+        { cond: d => d.temp < 10 && d.month == 7, msg: "Cold July weather. Put up windbreaks for calves and ensure their bedding is dry to keep them healthy." }
       ];
       const adviceSeasonal = [
-        { cond: d => d.month == 8, msg: "August: Calving season. Have your calving kit ready—iodine, towels, and a feeder for colostrum." },
-        { cond: d => d.month == 9, msg: "September: Walk springer paddock fences and add fresh bedding to shelters for calvers." },
-        { cond: d => d.month == 10, msg: "October: Mating ahead. Check bulls and have tail paint ready for heat detection." },
-        { cond: d => d.month == 11, msg: "November: Run a mineral check and have magnesium ready for the herd." },
-        { cond: d => d.month == 12, msg: "December: Check and clean water troughs often in hot weather for healthy cows." },
-        { cond: d => d.month == 1, msg: "January: Get shade sails out and check tank floats for steady water." },
-        { cond: d => d.month == 2, msg: "February: Storm season—top up fuel for generators and secure shed doors." },
-        { cond: d => d.month == 3, msg: "March: Patch silage covers and check feed stacks for leaks before winter." },
-        { cond: d => d.month == 4, msg: "April: Sort winter feed supply and check bale wraps for holes." },
-        { cond: d => d.month == 5, msg: "May: Service effluent pump before the wet season hits." },
-        { cond: d => d.month == 6, msg: "June: Add fresh woodchips in stand-off areas and check all heaters work." },
-        { cond: d => d.month == 7, msg: "July: Clean calf pens and wash out trailers before calving picks up." }
+        { cond: d => d.month == 8, msg: "August: Calving season. Have a calving kit ready with iodine, towels, and colostrum feeders for newborn calves." },
+        { cond: d => d.month == 9, msg: "September: Check springer paddock fences and add fresh bedding in shelters for expectant cows." },
+        { cond: d => d.month == 10, msg: "October: Plan ahead for mating. Ensure bulls are sound and have tail paint ready for heat detection." },
+        { cond: d => d.month == 11, msg: "November: Do a quick mineral check on the herd. Prepare magnesium supplements to prevent grass staggers." },
+        { cond: d => d.month == 12, msg: "December: Summer heat can cause algae. Check and clean water troughs daily so stock have clean water." },
+        { cond: d => d.month == 1, msg: "January: Hot weather. Set up shade sails and check tank ballcocks for steady water supply." },
+        { cond: d => d.month == 2, msg: "February: Storm season. Fuel up the generator and test shed alarms in case of outages." },
+        { cond: d => d.month == 3, msg: "March: Autumn is coming. Secure silage covers and patch any holes to protect feed for winter." },
+        { cond: d => d.month == 4, msg: "April: Winter feed planning. Book supplementary feed now and check bale covers for holes so feed stays dry." },
+        { cond: d => d.month == 5, msg: "May: Winter is close. Service the effluent pump now to avoid breakdowns during the wet season." },
+        { cond: d => d.month == 6, msg: "June: Mid-winter. Top up woodchips in stand-off areas and ensure heaters are working to keep stock warm." },
+        { cond: d => d.month == 7, msg: "July: Calving is near. Clean and disinfect calf trailers and pens to reduce disease risk." }
       ];
       const adviceEveryday = [
-        "Scrape and hose the pit floor after each milking.",
-        "Sweep plant room steps to prevent slips.",
-        "Check and refill paper towels and gloves at the wash area.",
-        "Walk tanker track and clear any stones or branches.",
-        "Hang up all milking clusters and tidy workbenches.",
-        "Inspect dosing system and look for leaks.",
-        "Disinfect calf feeders and hang to dry.",
-        "Move empty chemical drums to recycling area.",
-        "Hose down exit race for a cleaner walk-off.",
-        "Spray weeds along fences on the next fine day.",
-        "Check feed bins and sweep out any old meal.",
-        "Test vat agitator still works—turn it on briefly and listen for smooth running.",
-        "Replace any worn or cracked rubberware on milking gear.",
-        "Grease yard scraper and check it’s running freely.",
-        "Walk boundary fences and fix any weak spots.",
-        "Trim trees or branches that are in the way around sheds.",
-        "Top up fuel in tractors and bikes.",
-        "Check shed fire extinguishers are easy to reach.",
-        "Update herd treatment records and medicine supplies.",
-        "Check calf feeder valves for blockages and working flow.",
-        "Sweep leaves and debris away from shed doors.",
-        "Organize and tidy vet gear in the storage cupboard.",
-        "Replace blown bulbs in shed or pens.",
-        "Check effluent pond level and irrigator pipes.",
-        "Remove loose twine or rope from the yard.",
-        "Lubricate pulleys on plant gear and check for cracks.",
-        "Sweep out feed room and get rid of empty bags.",
-        "Monitor water troughs and clean as needed.",
-        "Check all fencing tools are in place after use.",
-        "Wash down quad bikes and check tyre pressures.",
-        "Tidy up loose hoses and cords around the dairy.",
-        "Clear gutters on sheds if rain is forecast.",
-        "Test meal dispensers are working evenly.",
-        "Hang up all wet gear and aprons after milking.",
-        "Sharpen and clean hoof trimmers.",
-        "Keep all walkways and cow paths free of mud build-up."
+        "Check and refill paper towels in the staff wash-up area.",
+        "Give a quick scrape and rinse to the pit floor after each milking.",
+        "Clear grass and stones from the tanker track entry.",
+        "Sweep the steps and entry to the plant room to reduce slips.",
+        "Check the backup supply of gloves and boots in the shed.",
+        "Run the vat agitator test to confirm the alarm sounds.",
+        "Clean the filter at the shed water inlet.",
+        "Inspect the chemical dosing system for any leaks.",
+        "Disinfect calf feeders and hang them up to dry.",
+        "Clear away any loose twine or rope from the yard.",
+        "Spray weeds along fence lines on the next fine day.",
+        "Check for empty chemical drums and move them to the recycling area.",
+        "Tidy the storage bench and hang up all milking clusters.",
+        "Sweep out the feed room and remove empty meal bags.",
+        "Hose down the exit race for a cleaner walk-off.",
+        "Grease the backing gate and yard scraper to keep them running smoothly.",
+        "Test the backup generator under load to ensure it's working properly.",
+        "Check the milk cooler and vat refrigeration unit for any alarms or issues.",
+        "Clear debris from the milking shed gutters to ensure proper drainage.",
+        "Sharpen and clean hoof trimmers for the next hoof care session.",
+        "Calibrate the feed dispenser to ensure accurate rations.",
+        "Lubricate milking machine pulleys and inspect rubberware for cracks.",
+        "Replace or clean the milk filters for optimal milk flow.",
+        "Ensure shed fire extinguishers are charged and accessible.",
+        "Walk the perimeter fences and fix any weak spots or damage.",
+        "Organize and inventory veterinary supplies and medicines.",
+        "Replace any burnt-out bulbs in the calving pens or yard lights.",
+        "Rinse down yard scrapers and remove any caked manure.",
+        "Test the water trough backup pump to ensure it kicks in.",
+        "Sweep away leaves and debris from around the milking shed.",
+        "Check and top up fuel in tractors and bikes as needed.",
+        "Monitor the effluent pond level and irrigator operation.",
+        "Trim overgrown bushes or trees around sheds for better access.",
+        "Update herd treatment records and medicine inventory.",
+        "Verify calf feeder valves are working properly and unclogged."
       ];
       const d = {
         month: (opts.dateISO ? new Date(opts.dateISO).getMonth() : new Date().getMonth()) + 1,
@@ -385,6 +397,8 @@
             picked.add(adv.msg);
             globalAdviceUsed.add(adv.msg);
             break;
+          } else {
+            continue;
           }
         }
       }
@@ -395,6 +409,8 @@
             picked.add(adv.msg);
             globalAdviceUsed.add(adv.msg);
             break;
+          } else {
+            continue;
           }
         }
       }
@@ -416,10 +432,21 @@
       lastSelectedAdvice = selected.slice();
       return selected.map(txt => `<div>${txt}</div>`).join('');
     }
-    function iconUrl(icon) { if (!icon) return ''; return `https://cdn.aerisapi.com/wxblox/icons/${icon}`; }
-    function dayOfWeek(dateISO) { return new Date(dateISO).toLocaleDateString('en-NZ', { weekday: 'short' }); }
-    function capitalize(txt) { return (txt || '').charAt(0).toUpperCase() + (txt || '').slice(1); }
+
+    function iconUrl(icon) {
+      if (!icon) return '';
+      return `https://cdn.aerisapi.com/wxblox/icons/${icon}`;
+    }
+    function dayOfWeek(dateISO) {
+      return new Date(dateISO).toLocaleDateString('en-NZ', { weekday: 'short' });
+    }
+    function capitalize(txt) {
+      return (txt || '').charAt(0).toUpperCase() + (txt || '').slice(1);
+    }
+
     let rainHistory = { today: 0, week: 0, month: 0, year: 0 };
+
+    // Current box population (horizontal layout)
     fetch('https://data.api.xweather.com/conditions/pws_pukerimu?format=json&plimit=1&filter=1min&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq')
       .then(r => r.json())
       .then(json => {
@@ -429,22 +456,36 @@
           (typeof p.tempC === 'number') ? `${Math.round(p.tempC)}°C` : '--°C';
         const icon = p.icon || '';
         const icElem = document.getElementById('cur-icon');
-        if (icon) { icElem.src = iconUrl(icon); icElem.style.display = ''; }
-        else { icElem.style.display = 'none'; }
+        if (icon) {
+          icElem.src = iconUrl(icon);
+          icElem.style.display = '';
+        } else {
+          icElem.style.display = 'none';
+        }
         document.getElementById('weather-text').textContent = capitalize(p.weather) || '--';
+
+        // Weather details, shown in a vertical col for left, some for right
         document.getElementById('details-col').innerHTML =
           `<div><b>Feels like:</b> ${p.feelslikeC !== null && p.feelslikeC !== undefined ? Math.round(p.feelslikeC) + '°C' : 'NA'}</div>
            <div><b>Humidity:</b> ${p.humidity !== null && p.humidity !== undefined ? p.humidity + '%' : 'NA'}</div>
            <div><b>Wind:</b> ${p.windSpeedKPH !== null && p.windSpeedKPH !== undefined ? Math.round(p.windSpeedKPH) + ' km/h' : 'NA'}</div>
            <div><b>Gusts:</b> ${p.windGustKPH !== null && p.windGustKPH !== undefined ? Math.round(p.windGustKPH) + ' km/h' : 'NA'}</div>
            <div><b>Pressure:</b> ${p.pressureMB !== null && p.pressureMB !== undefined ? p.pressureMB + ' hPa' : 'NA'}</div>`;
+
+        // Rainfall today (observed so far)
         const todayRain = (p.precipMM !== null && p.precipMM !== undefined) ? p.precipMM : 0;
         document.getElementById('rain-row').innerHTML = `<b>Rainfall so far:</b> ${todayRain} mm`;
         rainHistory.today = Number(todayRain) || 0;
+
         const adviceHtml = agoraAiAdvice({
-          temp: p.tempC, humidity: p.humidity, gust: p.windGustKPH, precip: p.precipMM, dateISO: p.dateTimeISO
+          temp: p.tempC,
+          humidity: p.humidity,
+          gust: p.windGustKPH,
+          precip: p.precipMM,
+          dateISO: p.dateTimeISO
         });
         document.getElementById('todays-advice').innerHTML = adviceHtml;
+
         document.getElementById('current-block').onclick = () => openPopup({
           title: "Current Conditions",
           summary: "",
@@ -465,6 +506,8 @@
         localStorage.setItem('lastAdviceDate', todayStr);
         localStorage.setItem('lastAdviceUsed', JSON.stringify(lastSelectedAdvice));
       });
+
+    // Forecast: only 5 days, plus update current with today's hi/lo/expected rain
     fetch('https://data.api.xweather.com/forecasts/pws_pukerimu?format=json&plimit=8&fields=periods.timestamp,periods.dateTimeISO,periods.tempC,periods.weather,periods.icon,periods.maxTempC,periods.minTempC,periods.humidity,periods.precipMM,periods.windSpeedKPH,periods.windGustKPH,periods.summary&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq')
       .then(r => r.json())
       .then(json => {
@@ -472,6 +515,7 @@
         const fc = json.response[0].periods || [];
         const fcDom = document.getElementById('forecast-block');
         fcDom.innerHTML = "";
+        // Rain history
         const now = new Date();
         const weekAgo = new Date(now); weekAgo.setDate(now.getDate() - 6);
         const monthAgo = new Date(now); monthAgo.setMonth(now.getMonth() - 1);
@@ -486,12 +530,19 @@
         rainHistory.week = Math.round(weekRain);
         rainHistory.month = Math.round(monthRain);
         rainHistory.year = Math.round(yearRain);
+
+        // Add today's hi/lo/expected
         if (fc.length > 0) {
           const todayFc = fc[0];
           document.getElementById('today-row').innerHTML =
-            `<b>Today:</b> High ${Math.round(todayFc.maxTempC)}°C, Low ${Math.round(todayFc.minTempC)}°C<br>
-             <b>Rainfall expected:</b> ${todayFc.precipMM || 0} mm`;
+            `<b>Today:</b> High ${Math.round(todayFc.maxTempC)}°C, Low ${Math.round(todayFc.minTempC)}°C`;
+          // Update rain row with expected precipitation
+          const observed = rainHistory.today || 0;
+          const expected = todayFc.precipMM || 0;
+          document.getElementById('rain-row').innerHTML =
+            `<b>Rainfall so far:</b> ${observed} mm<br><b>Rainfall expected:</b> ${expected} mm`;
         }
+        // Show only next 5 forecast days
         for (let i = 1; i < fc.length && i <= 5; ++i) {
           const p = fc[i];
           fcDom.innerHTML += `
@@ -518,6 +569,7 @@
           `;
         }
       });
+
     function openPopup(opts) {
       document.getElementById('popup-title').textContent = opts.title || "";
       document.getElementById('popup-summary').textContent = opts.summary || "";
@@ -527,7 +579,9 @@
       document.getElementById('popup-hist').innerHTML = opts.hist || "";
       document.getElementById('popup-bg').style.display = 'flex';
     }
-    function closePopup() { document.getElementById('popup-bg').style.display = 'none'; }
+    function closePopup() {
+      document.getElementById('popup-bg').style.display = 'none';
+    }
     document.getElementById('popup-bg').onclick = (e) => { if (e.target === e.currentTarget) closePopup(); }
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closePopup(); });
   </script>
