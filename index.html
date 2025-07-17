@@ -260,7 +260,6 @@
     }
     function moonPhaseEmoji(phase) {
       if (!phase) return "🌑";
-      // Rough mapping, can swap for icons if wanted
       phase = phase.toLowerCase();
       if (phase.includes("full")) return "🌕";
       if (phase.includes("waning crescent")) return "🌘";
@@ -363,15 +362,19 @@
           <div class="forecast-card" tabindex="0" onclick="openPopup(
             '${dayOfWeek(p.dateTimeISO)}',
             \`${(p.summary||p.weather||'No summary').replace(/`/g,'')}\`,
-            'High: ${Math.round(p.maxTempC)}°C<br>Low: ${Math.round(p.minTempC)}°C<br>Gusts: ${Math.round(p.windGustKPH||0)} km/h<br>Rain: ${p.precipMM||'0'} mm',
-            ''
+            'High: ${p.maxTempC!=null?Math.round(p.maxTempC)+'°C':'NA'}<br>Low: ${p.minTempC!=null?Math.round(p.minTempC)+'°C':'NA'}<br>Gusts: ${p.windGustKPH!=null?Math.round(p.windGustKPH):'NA'} km/h<br>Rain: ${p.precipMM!=null?p.precipMM:'0'} mm'
           )">
             <div class="day">${dayOfWeek(p.dateTimeISO)}</div>
             <img class="icon" src="${iconUrl(p.icon)}" alt="" width="38" height="38">
             <div class="moon-phase">${moonPhaseEmoji(p.moonPhase)} ${p.moonPhase||''}</div>
             <div class="desc">${capitalize(p.weather || '')}</div>
             <div class="line"></div>
-            <div class="item">High <span>${Math.round(p.maxTempC)}°C</span></div>
-            <div class="item">Low <span>${Math.round(p.minTempC)}°C</span></div>
-            <div class="item">Gusts <span>${Math.round(p.windGustKPH||0)} km/h</span></div>
-            <div class="item">
+            <div class="item">High <span>${p.maxTempC!=null?Math.round(p.maxTempC)+'°C':'NA'}</span></div>
+            <div class="item">Low <span>${p.minTempC!=null?Math.round(p.minTempC)+'°C':'NA'}</span></div>
+            <div class="item">Gusts <span>${p.windGustKPH!=null?Math.round(p.windGustKPH):'NA'} km/h</span></div>
+            <div class="item">Rain <span>${p.precipMM!=null?p.precipMM:'0'} mm</span></div>
+          </div>`;
+      }
+    });
+
+   
