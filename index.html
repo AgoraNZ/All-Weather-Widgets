@@ -94,6 +94,20 @@
       display: block;
     }
     #ai-advice strong { color: #fff6b2; }
+    #today-advice {
+      background: #22304e;
+      color: #aee8e6;
+      border-radius: 8px;
+      font-size: 1.07rem;
+      margin-top: 2px;
+      padding: 7px 12px 8px 14px;
+      font-weight: 400;
+      max-width: 98%;
+      box-shadow: 0 1px 8px #0003;
+      min-height: 22px;
+      margin-bottom: 4px;
+      display: block;
+    }
     #forecast-block {
       flex: 1;
       display: flex;
@@ -238,6 +252,7 @@
       <div class="summary" id="summary"></div>
       <div class="details" id="details"></div>
       <div id="ai-advice"></div>
+      <div id="today-advice"></div>
     </div>
     <div id="forecast-block"></div>
   </div>
@@ -254,12 +269,11 @@
     </div>
   </div>
   <script>
-    // --- Start AI ADVICE SYSTEM ---
+    // --- AI ADVICE SYSTEM ---
     function agoraAiAdvice(opts, day) {
-      // Rich advice bank for NZ dairy/farm conditions.
-      // Add/expand as much as you like! All advice will match context or come from general pool.
+      // Use a rich advice bank (see previous answer for large pool)
       const advicePool = [
-        // --- Weather-specific (with context) ---
+        // -- Weather, compliance, animal health, season, etc. --
         { cond: d => d.temp >= 28 && d.month >= 12 && d.month <= 2, msg: "Heatwave expected. Shift milking to cooler hours, check water troughs every 2 hours." },
         { cond: d => d.temp >= 25 && d.precip < 1, msg: "Dry and hot—rotate paddocks early and monitor for dust inhalation in stock." },
         { cond: d => d.temp <= 3 && d.month >= 6 && d.month <= 8, msg: "Frost warning—ice on tracks, take extra care moving stock. Salt high-risk walkways if possible." },
@@ -275,8 +289,7 @@
         { cond: d => d.precip > 8 && d.month >= 6 && d.month <= 8, msg: "Winter rain—rotate break fences more frequently, check drains for blockages." },
         { cond: d => d.temp > 31, msg: "Extreme heat—delay heavy tasks to late afternoon and check all animals for heat stress symptoms." },
         { cond: d => d.humidity > 90, msg: "High humidity—monitor for mastitis and ensure ventilation in sheds." },
-
-        // --- Compliance & Health/Safety ---
+        // --- Compliance, health, paddock tips, random general, etc ---
         { cond: d => d.temp < 10 && d.month >= 6 && d.month <= 8, msg: "Wear PPE gloves when handling chemicals—cold increases splash risk." },
         { cond: d => d.precip > 10, msg: "Muddy conditions—clear access to emergency exits and first aid supplies." },
         { cond: d => d.temp < 4, msg: "Keep chemical stores above 4°C to prevent damage to sensitive products." },
@@ -286,8 +299,6 @@
         { cond: d => d.temp > 27, msg: "High temps—record and log all animal treatments, as medicine withdrawal times may change in heat." },
         { cond: d => d.month == 7, msg: "Mid-winter: review hazard register and update all emergency contact info." },
         { cond: d => d.temp > 20 && d.month >= 2 && d.month <= 3, msg: "Annual audit time—prepare wash records and review effluent discharge logs." },
-
-        // --- Animal health/seasonal ---
         { cond: d => d.temp < 10 && d.month >= 6 && d.month <= 8, msg: "Young calves need deep bedding and wind protection overnight." },
         { cond: d => d.temp > 21 && d.month >= 9 && d.month <= 11, msg: "Monitor for flystrike on young stock." },
         { cond: d => d.temp > 15 && d.precip > 8, msg: "Liver fluke risk after rain—check sheep and beef for signs." },
@@ -297,21 +308,16 @@
         { cond: d => d.temp < 8 && d.month == 8, msg: "Spring: Check for sleepy sickness in ewes." },
         { cond: d => d.temp > 10 && d.month == 10, msg: "October: Monitor cows for ketosis and provide balanced minerals." },
         { cond: d => d.temp < 5 && d.month == 6, msg: "June: Check heaters and backup power for calf sheds." },
-
-        // --- Paddock/farm tasks & reminders ---
         { cond: d => d.precip === 0 && d.temp > 18, msg: "No rain—schedule fencing repairs or water trough maintenance." },
         { cond: d => d.month == 11, msg: "Pre-summer—service irrigation and update water use consents." },
         { cond: d => d.temp > 20 && d.month >= 10 && d.month <= 12, msg: "Peak grass growth—move break fences daily for best utilization." },
         { cond: d => d.temp < 15 && d.month == 5, msg: "May: Book winter feed deliveries and check all bale covers for holes." },
         { cond: d => d.month == 4 && d.temp < 10, msg: "April: Wash and store all irrigation gear before first frost." },
-
-        // --- Safety & legal compliance reminders ---
         { cond: d => d.gust > 30, msg: "Windy—secure ladders, check that all spray signage is visible at main gate." },
         { cond: d => d.precip > 8, msg: "Rain—remind staff of slips, trips, and falls, and update toolbox talk this week." },
         { cond: d => d.temp > 15 && d.temp < 22 && d.humidity > 70, msg: "Good conditions for weed spraying—check wind direction before application." },
         { cond: d => d.month == 7, msg: "July: Prepare for annual Worksafe inspection; check fire extinguishers and first aid kits." },
-
-        // --- General (random draw, always present) ---
+        // -- Always add a few general tips as filler/variety --
         { cond: d => true, msg: "Test your emergency generator this week to ensure it's ready for an outage." },
         { cond: d => true, msg: "Inspect all PPE for wear and replace damaged items before your next chemical delivery." },
         { cond: d => true, msg: "Review and log this month's water meter readings for your records." },
@@ -322,13 +328,9 @@
         { cond: d => true, msg: "Review vet treatments with your team; update whiteboard if changed." },
         { cond: d => true, msg: "Keep feed pads clean and check for early signs of acidosis in herd." },
         { cond: d => true, msg: "Review MSDS sheets for all farm chemicals—store updated copies in the dairy." },
-        { cond: d => true, msg: "Test backup alarms on milk plant and effluent systems today." },
-        // ...you can keep adding more for even more variety...
+        { cond: d => true, msg: "Test backup alarms on milk plant and effluent systems today." }
       ];
-
-      // Extract info
       const m = new Date(opts.dateISO || Date.now()).getMonth() + 1;
-      // Match all relevant advice for current conditions
       let matches = advicePool.filter(a => a.cond({
         month: m,
         temp: opts.temp,
@@ -336,8 +338,6 @@
         precip: opts.precip,
         gust: opts.gust || 0
       }));
-
-      // Pick 2-3 random relevant advices per load
       let shown = [];
       while (matches.length && shown.length < 3) {
         let idx = Math.floor(Math.random() * matches.length);
@@ -388,7 +388,7 @@
          <b>Pressure:</b> ${p.pressureMB !== null && p.pressureMB !== undefined ? p.pressureMB+' hPa' : 'NA'}<br>
          <b>Rain Today:</b> ${p.precipMM !== null && p.precipMM !== undefined ? p.precipMM+' mm' : '0 mm'}<br>
          <b>Rain Rate:</b> ${p.precipRateMM !== null && p.precipRateMM !== undefined ? p.precipRateMM+' mm/hr' : '0 mm/hr'}`;
-      // Direct display of Agora Ai for current conditions (always visible)
+      // AI advice for current conditions (main box)
       document.getElementById('ai-advice').textContent = agoraAiAdvice({
         temp: p.tempC,
         humidity: p.humidity,
@@ -396,6 +396,15 @@
         precip: p.precipMM,
         dateISO: p.dateTimeISO
       }, 0);
+      // Today’s (also live-data) advice box (just a different style and color, but same logic as main AI)
+      document.getElementById('today-advice').textContent = agoraAiAdvice({
+        temp: p.tempC,
+        humidity: p.humidity,
+        gust: p.windGustKPH,
+        precip: p.precipMM,
+        dateISO: p.dateTimeISO
+      }, 0);
+
       // On click, show popup with AI + historical info (replace with real rain history)
       document.getElementById('current-block').onclick = () => openPopup({
         title: "Current Conditions",
@@ -454,7 +463,6 @@
 
     // Popup functions
     function openPopup(opts) {
-      // opts: {title, summary, lowhigh, extra, ai, hist}
       document.getElementById('popup-title').textContent = opts.title || "";
       document.getElementById('popup-summary').textContent = opts.summary || "";
       document.getElementById('popup-lowhigh').textContent = opts.lowhigh || "";
