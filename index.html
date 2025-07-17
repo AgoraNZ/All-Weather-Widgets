@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Skinny Wide Weather Widget</title>
+  <title>Farm Weather Widget</title>
   <meta name="viewport" content="width=2000">
   <style>
     html, body {
@@ -26,21 +26,22 @@
       overflow: hidden;
     }
     #current-block {
-      width: 410px;
-      min-width: 350px;
-      max-width: 460px;
+      width: 390px;
+      min-width: 340px;
+      max-width: 420px;
       height: 100%;
       background: #222c40;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      justify-content: center;
-      padding: 32px 36px 32px 42px;
+      justify-content: flex-start;
+      padding: 22px 20px 22px 32px;
       box-sizing: border-box;
       border-right: 3px solid #222c40;
+      position: relative;
     }
     #current-block .temp {
-      font-size: 5rem;
+      font-size: 4.3rem;
       font-weight: 600;
       margin-bottom: 0.1em;
       color: #fff;
@@ -50,30 +51,35 @@
     #current-block .weather-row {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 2.3rem;
+      gap: 10px;
+      font-size: 2rem;
       font-weight: 400;
       color: #fff;
-      margin-bottom: 0.2em;
+      margin-bottom: 0.13em;
     }
     #current-block .weather-row img {
-      width: 48px; height: 48px; margin-right: 6px;
+      width: 42px; height: 42px; margin-right: 4px;
     }
-    #current-block .summary {
-      font-size: 1.28rem;
-      color: #c0d2ed;
-      font-weight: 400;
+    #current-block .summary-ai {
+      font-size: 1.09rem;
+      color: #fee4a0;
+      font-weight: 500;
       margin-bottom: 0.7em;
       margin-top: 0.2em;
+      background: #253050;
+      border-radius: 12px;
+      padding: 7px 12px;
       max-width: 97%;
       word-break: break-word;
+      min-height: 46px;
+      box-shadow: 0 1px 7px #0004;
     }
     #current-block .details {
-      font-size: 1.08rem;
+      font-size: 1.02rem;
       color: #c0d2ed;
-      margin-bottom: 0.2em;
-      margin-top: 0.1em;
-      line-height: 1.75;
+      margin-bottom: 0.18em;
+      margin-top: 0.05em;
+      line-height: 1.58;
       white-space: pre-line;
     }
     #forecast-block {
@@ -81,24 +87,24 @@
       display: flex;
       align-items: center;
       height: 100%;
-      padding: 0 16px;
+      padding: 0 8px;
       overflow-x: auto;
       background: #181e2a;
       gap: 14px;
     }
     .forecast-card {
-      min-width: 140px;
-      max-width: 155px;
-      height: 210px;
+      min-width: 122px;
+      max-width: 135px;
+      height: 208px;
       background: #232f47;
-      border-radius: 16px;
-      padding: 15px 11px 7px 15px;
+      border-radius: 14px;
+      padding: 14px 10px 8px 10px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       box-shadow: 0 1px 5px #0004;
       color: #fff;
-      margin: 0 4px;
+      margin: 0 3px;
       justify-content: flex-start;
       cursor: pointer;
       transition: box-shadow 0.13s;
@@ -110,41 +116,46 @@
     }
     .forecast-card .day {
       font-weight: bold;
-      font-size: 1.18rem;
-      margin-bottom: 5px;
+      font-size: 1.10rem;
+      margin-bottom: 4px;
       color: #fff;
     }
     .forecast-card .icon {
-      font-size: 2.1rem;
-      margin-bottom: 3px;
-      width: 40px;
-      height: 40px;
+      font-size: 2rem;
+      margin-bottom: 2px;
+      width: 38px;
+      height: 38px;
       display: block;
     }
     .forecast-card .desc {
       font-size: 1.01rem;
       color: #c0d2ed;
-      margin-bottom: 2px;
-      min-height: 28px;
+      margin-bottom: 1px;
+      min-height: 24px;
       line-height: 1.15;
       white-space: pre-line;
     }
-    .forecast-card .lowhigh {
-      font-size: 1.25rem;
+    .forecast-card .high, .forecast-card .low {
+      font-size: 1.08rem;
       font-weight: 600;
       color: #fff;
-      margin-bottom: 0.12em;
+      margin-bottom: 0.1em;
+      display: inline-block;
+    }
+    .forecast-card .low {
+      color: #7ac6ff;
+      margin-left: 5px;
     }
     .forecast-card .gust {
-      font-size: 1.05rem;
+      font-size: 0.97rem;
       color: #aad7ff;
-      margin-bottom: 0.1em;
+      margin-bottom: 0.12em;
       font-weight: 400;
     }
     .forecast-card .precip {
-      font-size: 1.03rem;
+      font-size: 0.95rem;
       color: #96e8ff;
-      margin-bottom: 0.1em;
+      margin-bottom: 0.08em;
       font-weight: 400;
     }
     /* Popup */
@@ -160,21 +171,21 @@
     #popup-content {
       background: #232f47;
       border-radius: 18px;
-      padding: 42px 58px;
+      padding: 38px 41px;
       color: #fff;
-      font-size: 2.1rem;
+      font-size: 2rem;
       font-weight: 500;
-      max-width: 480px;
+      max-width: 440px;
       width: 92vw;
       box-shadow: 0 12px 40px #000c;
-      line-height: 1.42;
+      line-height: 1.37;
       position: relative;
       text-align: center;
     }
     #popup-close {
       position: absolute;
       top: 10px; right: 22px;
-      font-size: 2.4rem;
+      font-size: 2.2rem;
       color: #aad7ff;
       cursor: pointer;
       background: none;
@@ -186,6 +197,12 @@
     #forecast-block::-webkit-scrollbar-thumb {
       background: #445e8a; border-radius: 4px;
     }
+    @media (max-width: 1500px) {
+      #main-container { width: 99vw; }
+      #forecast-block { gap: 7px; }
+      .forecast-card { min-width: 90px; max-width: 98px; }
+      #current-block { min-width: 220px; max-width: 275px; }
+    }
   </style>
 </head>
 <body>
@@ -196,7 +213,7 @@
         <img id="cur-icon" src="" style="display:none;">
         <span id="weather-text">Loading…</span>
       </div>
-      <div class="summary" id="summary"> </div>
+      <div class="summary-ai" id="summary-ai"> </div>
       <div class="details" id="details"></div>
     </div>
     <div id="forecast-block"></div>
@@ -207,8 +224,8 @@
       <button id="popup-close" onclick="closePopup()">&times;</button>
       <div id="popup-day"></div>
       <div id="popup-summary" style="margin-top: 18px;"></div>
-      <div id="popup-lowhigh" style="margin-top: 13px; font-size:1.5rem;"></div>
-      <div id="popup-extra" style="margin-top: 14px; font-size:1.2rem;color:#aad7ff;"></div>
+      <div id="popup-lowhigh" style="margin-top: 13px; font-size:1.3rem;"></div>
+      <div id="popup-extra" style="margin-top: 13px; font-size:1.09rem;color:#aad7ff;"></div>
     </div>
   </div>
   <script>
@@ -226,15 +243,46 @@
     function capitalize(txt) {
       return (txt||'').charAt(0).toUpperCase() + (txt||'').slice(1);
     }
-    function openPopup(day, summary, lowhigh, extra) {
+    function openPopup(day, summary, high, low, extra) {
       document.getElementById('popup-day').textContent = day;
       document.getElementById('popup-summary').textContent = summary || 'No details available';
-      document.getElementById('popup-lowhigh').textContent = lowhigh || '';
+      document.getElementById('popup-lowhigh').innerHTML = (high || '') + (low ? ` &nbsp; ${low}` : '');
       document.getElementById('popup-extra').innerHTML = extra || '';
       document.getElementById('popup-bg').style.display = 'flex';
     }
     function closePopup() {
       document.getElementById('popup-bg').style.display = 'none';
+    }
+
+    // “AI” daily summary for farmers, based on actual weather data:
+    function farmSummary(p) {
+      let s = '';
+      // Conditions, wind, rain, time of day
+      if (!p) return 'Weather unavailable.';
+      if ((p.precipMM || 0) > 1) {
+        s += `Expect rain or showers. Check cow tracks for muddy patches.`;
+      } else if ((p.precipMM || 0) > 0.1) {
+        s += `Chance of light showers, mostly ${p.weatherDir || p.windDir || ''} wind.`;
+      } else if ((p.sky||0) > 80 && (p.tempC||0) < 10) {
+        s += `Cloudy and cool.`;
+      } else {
+        s += `Mainly fine, light breeze.`;
+      }
+      if ((p.windGustKPH||0) > 35) {
+        s += ` Gusty winds likely. Secure loose equipment.`;
+      }
+      if ((p.tempC||0) < 2) {
+        s += ` Possible morning frost.`;
+      }
+      if ((p.tempC||0) > 27) {
+        s += ` Hot—ensure water troughs are checked.`;
+      }
+      // Dairy-specific hints
+      if ((p.precipMM||0) > 0.1) {
+        s += ` Paddock work may be tricky in wet spots.`;
+      }
+      if (s.length < 10 && p.weather) s = capitalize(p.weather)+'.';
+      return s.trim();
     }
 
     // Load current conditions
@@ -252,18 +300,16 @@
         icElem.style.display = 'none';
       }
       document.getElementById('weather-text').textContent = capitalize(p.weather) || '--';
-      // Summary
-      document.getElementById('summary').textContent = 
-        capitalize(p.weatherPrimary || p.weather || '') +
-        (p.sky !== undefined ? ` • Sky: ${p.sky}%` : '');
+      // AI Summary
+      document.getElementById('summary-ai').textContent = farmSummary(p);
       // Details, formatted for neat fit
       document.getElementById('details').innerHTML =
-        `<b>Feels like:</b> ${p.feelslikeC !== null && p.feelslikeC !== undefined ? Math.round(p.feelslikeC)+'°C' : 'NA'}<br>
-         <b>Humidity:</b> ${p.humidity !== null && p.humidity !== undefined ? p.humidity+'%' : 'NA'}<br>
-         <b>Wind:</b> ${p.windSpeedKPH !== null && p.windSpeedKPH !== undefined ? Math.round(p.windSpeedKPH)+' km/h' : 'NA'}<br>
-         <b>Gusts:</b> ${p.windGustKPH !== null && p.windGustKPH !== undefined ? Math.round(p.windGustKPH)+' km/h' : 'NA'}<br>
-         <b>Pressure:</b> ${p.pressureMB !== null && p.pressureMB !== undefined ? p.pressureMB+' hPa' : 'NA'}<br>
-         <b>Precip:</b> ${p.precipMM !== null && p.precipMM !== undefined ? p.precipMM+' mm' : '0 mm'}`;
+        `<b>Feels:</b> ${p.feelslikeC !== null && p.feelslikeC !== undefined ? Math.round(p.feelslikeC)+'°C' : 'NA'} &nbsp; `+
+        `<b>Hum:</b> ${p.humidity !== null && p.humidity !== undefined ? p.humidity+'%' : 'NA'}<br>` +
+        `<b>Wind:</b> ${p.windSpeedKPH !== null && p.windSpeedKPH !== undefined ? Math.round(p.windSpeedKPH)+' km/h' : 'NA'}`+
+        `<b> Gusts:</b> ${p.windGustKPH !== null && p.windGustKPH !== undefined ? Math.round(p.windGustKPH)+' km/h' : 'NA'}<br>` +
+        `<b>Pres:</b> ${p.pressureMB !== null && p.pressureMB !== undefined ? p.pressureMB+' hPa' : 'NA'}`+
+        `<b> Precip:</b> ${p.precipMM !== null && p.precipMM !== undefined ? p.precipMM+' mm' : '0 mm'}`;
     });
 
     // Load forecast
@@ -278,13 +324,15 @@
           <div class="forecast-card" tabindex="0" onclick="openPopup(
             '${dayOfWeek(p.dateTimeISO)}',
             \`${(p.summary||p.weather||'No summary').replace(/`/g,'')}\`,
-            'H:${Math.round(p.maxTempC)}° L:${Math.round(p.minTempC)}°',
+            'High: <span style="color:#fff">${Math.round(p.maxTempC)}°C</span>',
+            'Low: <span style="color:#7ac6ff">${Math.round(p.minTempC)}°C</span>',
             'Humidity: ${(p.humidity||'--')}%<br>Wind: ${Math.round(p.windSpeedKPH||0)} km/h<br>Gusts: ${Math.round(p.windGustKPH||0)} km/h<br>Precip: ${(p.precipMM||'0')} mm'
           )">
             <div class="day">${dayOfWeek(p.dateTimeISO)}</div>
-            <img class="icon" src="${iconUrl(p.icon)}" alt="" width="40" height="40">
+            <img class="icon" src="${iconUrl(p.icon)}" alt="" width="38" height="38">
             <div class="desc">${capitalize(p.weather || '')}</div>
-            <div class="lowhigh">H:${Math.round(p.maxTempC)}° L:${Math.round(p.minTempC)}°</div>
+            <div class="high">High: ${Math.round(p.maxTempC)}°C</div>
+            <div class="low">Low: ${Math.round(p.minTempC)}°C</div>
             <div class="gust">Gusts: ${Math.round(p.windGustKPH||0)} km/h</div>
             <div class="precip">Precip: ${p.precipMM||'0'} mm</div>
           </div>
