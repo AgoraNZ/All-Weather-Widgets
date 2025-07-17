@@ -371,3 +371,22 @@
             <div class="day">${dayOfWeek(p.dateTimeISO)}</div>
             <img class="icon" src="${iconUrl(p.icon)}" alt="" width="40" height="40">
             <div class="desc">${capitalize(p.weather || '')
+                        <div class="desc">${capitalize(p.weather || '')}</div>
+            <div class="lowhigh">High ${Math.round(p.maxTempC)}°C&nbsp; Low ${Math.round(p.minTempC)}°C</div>
+            <div class="gust">Gusts: ${Math.round(p.windGustKPH||0)} km/h</div>
+            <div class="precip">Rain: ${p.precipMM||'0'} mm</div>
+          </div>
+        `;
+      }
+    });
+
+    // Dismiss popup on background click or Esc
+    document.getElementById('popup-bg').onclick = function(e){
+      if (e.target === this) closePopup();
+    }
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape') closePopup();
+    });
+  </script>
+</body>
+</html>
