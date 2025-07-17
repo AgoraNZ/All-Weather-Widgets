@@ -269,45 +269,45 @@
       return (txt||'').charAt(0).toUpperCase() + (txt||'').slice(1);
     }
 
-    // Agora Ai recommendations (wide variety for NZ, generic)
+    // Agora Ai recommendations (with short reasons)
     function agoraAiAdvice(opts, day) {
       let adv = [];
       const m = new Date(opts.dateISO || Date.now()).getMonth() + 1;
-      // Spring
+      // Spring (Aug-Nov)
       if (m >= 8 && m <= 11) {
-        if (opts.temp >= 19 && opts.humidity >= 70) adv.push("Ryegrass staggers possible, ensure shade and water for cows.");
-        if (opts.precip >= 7) adv.push("Heavy rain likely, consider using stand-off areas and back fences.");
-        if (opts.temp <= 4) adv.push("Cold snap expected, monitor young stock closely.");
-        adv.push("Calving: check pasture cover and balance feed for springers.");
+        if (opts.temp >= 19 && opts.humidity >= 70) adv.push("Monitor for ryegrass staggers—warm, humid spring triggers it. Provide shade and water.");
+        if (opts.precip >= 7) adv.push("Heavy rain likely—wet soils risk pugging. Use back fencing or stand-off pads.");
+        if (opts.temp <= 4) adv.push("Cold snap expected. Young stock can chill quickly; shelter recommended.");
+        adv.push("Spring calving: Check pasture cover and ensure balanced feeding for new calves.");
       }
-      // Summer
+      // Summer (Dec-Feb)
       if (m >= 12 || m <= 2) {
-        if (opts.temp >= 25) adv.push("Heat stress risk. Shift cows early, keep troughs topped up.");
-        if (opts.precip === 0) adv.push("Dry spell: Check water storage, monitor pasture growth.");
-        if (opts.gust >= 40) adv.push("Strong winds: Secure loose equipment and gates.");
-        adv.push("Watch for facial eczema spore counts; consider zinc dosing.");
+        if (opts.temp >= 25) adv.push("Heat stress likely. Cows need shade and frequent water refills in hot weather.");
+        if (opts.precip === 0) adv.push("Dry spell—grass slows, monitor water tanks and pasture. Rotate early.");
+        if (opts.gust >= 40) adv.push("Strong winds forecast. Secure loose gear and gates before gusts.");
+        adv.push("Facial eczema risk rises in hot, humid periods. Check spore counts.");
       }
-      // Autumn
+      // Autumn (Mar-May)
       if (m >= 3 && m <= 5) {
-        if (opts.precip >= 10) adv.push("Heavy rain: Avoid wet paddocks, use stand-off if possible.");
-        if (opts.temp <= 6) adv.push("Cooler temps: Watch late-lactation cow condition.");
-        adv.push("Review feed budget and prep for drying off.");
+        if (opts.precip >= 10) adv.push("Heavy rain expected—risk of paddock damage. Shift stock off wet areas.");
+        if (opts.temp <= 6) adv.push("Cooler temps reduce grass growth—review late-lactation cow condition.");
+        adv.push("Autumn prep: Plan feed and assess cows for drying-off.");
       }
-      // Winter
+      // Winter (Jun-Aug)
       if (m >= 6 && m <= 8) {
-        if (opts.temp <= 2) adv.push("Possible frost overnight. Protect calves, check troughs.");
-        if (opts.precip >= 6) adv.push("Wet underfoot. Rotate grazing, avoid paddock damage.");
-        adv.push("Supplement with baleage or hay as needed.");
+        if (opts.temp <= 2) adv.push("Possible frost—calves need shelter and ice-free troughs.");
+        if (opts.precip >= 6) adv.push("Wet underfoot—rotate grazing to protect pasture from damage.");
+        adv.push("Winter feeding: Extra supplements may be needed during cold snaps.");
       }
-      // Extreme or notable
-      if (opts.temp >= 31) adv.push("Extreme heat: Delay work and ensure all animals have shade.");
-      if (opts.precip >= 30) adv.push("Flood risk. Move stock and equipment to higher ground.");
-      if (opts.gust >= 70) adv.push("Severe wind warning. Check trees and fences.");
+      // Extreme/Notable Weather
+      if (opts.temp >= 31) adv.push("Extreme heat warning. Delay work and check animals for shade and water.");
+      if (opts.precip >= 30) adv.push("Flood risk today—move gear and stock to higher ground before rain peaks.");
+      if (opts.gust >= 70) adv.push("Severe wind forecast. Inspect trees and fencing for safety.");
       // General fallback
       if (adv.length === 0) {
-        if (opts.precip > 0) adv.push("Patchy rain expected. Check gateways for mud.");
-        else adv.push("No rain: Rotate paddocks, monitor water lines.");
-        adv.push("Inspect fences and troughs.");
+        if (opts.precip > 0) adv.push("Rain on the way. Check muddy gateways and rotate paddocks.");
+        else adv.push("Dry period: Inspect water troughs and test lines for leaks.");
+        adv.push("Walk fences and troughs as routine.");
       }
       return "Agora Ai: " + adv.join(" ");
     }
