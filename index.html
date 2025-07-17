@@ -34,65 +34,72 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      justify-content: center;
-      padding: 32px 36px 32px 42px;
+      justify-content: flex-start;
+      padding: 18px 25px 14px 28px;
       box-sizing: border-box;
       border-right: 3px solid #222c40;
       position: relative;
+      gap: 9px;
+    }
+    #current-block .row {
+      display: flex; align-items: center; gap: 10px; width: 100%;
     }
     #current-block .temp {
-      font-size: 5rem;
+      font-size: 4.4rem;
       font-weight: 600;
-      margin-bottom: 0.1em;
       color: #fff;
       line-height: 1;
-      text-shadow: 0 1px 16px #222;
+      text-shadow: 0 1px 12px #222;
+      margin-right: 10px;
+      min-width: 110px;
     }
     #current-block .weather-row {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 2.3rem;
-      font-weight: 400;
+      gap: 10px;
+      font-size: 2rem;
       color: #fff;
-      margin-bottom: 0.2em;
+      margin-bottom: 2px;
     }
     #current-block .weather-row img {
-      width: 48px; height: 48px; margin-right: 6px;
+      width: 38px; height: 38px; margin-right: 4px;
     }
     #current-block .summary {
-      font-size: 1.28rem;
+      font-size: 1.2rem;
       color: #c0d2ed;
-      font-weight: 400;
-      margin-bottom: 0.7em;
-      margin-top: 0.2em;
+      margin-top: 2px;
+      margin-bottom: 1px;
       max-width: 97%;
       word-break: break-word;
+      font-weight: 500;
     }
     #current-block .details {
-      font-size: 1.08rem;
+      font-size: 1.03rem;
       color: #c0d2ed;
-      margin-bottom: 0.2em;
-      margin-top: 0.1em;
-      line-height: 1.45;
+      line-height: 1.32;
+      margin-top: 1px;
+      margin-bottom: 3px;
       white-space: pre-line;
     }
     #current-block .moon {
-      margin-bottom: 0.4em;
+      margin-bottom: 3px;
+      margin-top: 3px;
     }
     #current-block .ai-summary {
-      font-size: 1.18rem;
+      font-size: 1.13rem;
       color: #fee4a0;
       font-weight: 600;
       background: #253050;
       border-radius: 10px;
-      padding: 7px 12px;
+      padding: 7px 12px 7px 11px;
       max-width: 95%;
+      min-height: 36px;
       word-break: break-word;
-      min-height: 39px;
-      margin-top: 0.4em;
-      margin-bottom: 0.3em;
+      margin-top: 6px;
+      margin-bottom: 3px;
       box-shadow: 0 1px 7px #0004;
+      line-height: 1.35;
+      letter-spacing: .01em;
     }
     #forecast-block {
       flex: 1;
@@ -144,10 +151,10 @@
       margin-top: -2px;
     }
     .forecast-card .lowhigh, .forecast-card .gust, .forecast-card .precip {
-      font-size: 1.1rem;
+      font-size: 1.08rem;
       font-weight: 600;
-      margin-bottom: 0.1em;
-      margin-top: 0.09em;
+      margin-bottom: 0.11em;
+      margin-top: 0.08em;
       width: 100%;
     }
     .forecast-card .lowhigh { color: #fff; }
@@ -198,14 +205,16 @@
   <div id="main-container">
     <div id="current-block">
       <div class="moon"><canvas id="moon-today" width="34" height="34"></canvas></div>
-      <div class="temp" id="temp">--°C</div>
-      <div class="weather-row" id="weather-row">
-        <img id="cur-icon" src="" style="display:none;">
-        <span id="weather-text">Loading…</span>
+      <div class="row">
+        <div class="temp" id="temp">--°C</div>
+        <div class="weather-row" id="weather-row">
+          <img id="cur-icon" src="" style="display:none;">
+          <span id="weather-text">Loading…</span>
+        </div>
       </div>
-      <div class="summary" id="summary"> </div>
+      <div class="summary" id="summary"></div>
       <div class="details" id="details"></div>
-      <div class="ai-summary" id="ai-summary"> </div>
+      <div class="ai-summary" id="ai-summary"></div>
     </div>
     <div id="forecast-block"></div>
   </div>
@@ -267,7 +276,7 @@
     function closePopup() {
       document.getElementById('popup-bg').style.display = 'none';
     }
-    function aiSummary(p) {
+    function agoraAiSummary(p) {
       if (!p) return '';
       let s = '';
       if ((p.precipMM || 0) > 1) { s += `Rain likely. Plan inside jobs.`; }
@@ -279,7 +288,7 @@
       if ((p.tempC||0) > 27) { s += ` Hot—check water troughs.`; }
       if ((p.precipMM||0) > 0.1) { s += ` Watch for slippery gateways.`; }
       if (s.length < 10 && p.weather) s = capitalize(p.weather)+'.';
-      return s.trim();
+      return 'Agora Ai: ' + s.trim();
     }
 
     // Load current conditions
@@ -297,20 +306,19 @@
         icElem.style.display = 'none';
       }
       document.getElementById('weather-text').textContent = capitalize(p.weather) || '--';
-      // Moon
+      // Moon (use forecast moon phase if not present)
       if (typeof p.moonPhasePct === 'number') drawMoon(document.getElementById('moon-today'), p.moonPhasePct);
       // Summary
       document.getElementById('summary').textContent = 
-        capitalize(p.weatherPrimary || p.weather || '') +
-        (p.sky !== undefined ? ` • Sky: ${p.sky}%` : '');
-      // Details, formatted for neat fit
+        capitalize(p.weatherPrimary || p.weather || '');
+      // Details, condensed for neat fit
       document.getElementById('details').innerHTML =
-        `<b>Feels:</b> ${p.feelslikeC !== null && p.feelslikeC !== undefined ? Math.round(p.feelslikeC)+'°C' : '--'}<br>
-         <b>Humidity:</b> ${p.humidity !== null && p.humidity !== undefined ? p.humidity+'%' : '--'}<br>
-         <b>Wind:</b> ${p.windSpeedKPH !== null && p.windSpeedKPH !== undefined ? Math.round(p.windSpeedKPH)+' km/h' : '--'}<br>
-         <b>Gusts:</b> ${p.windGustKPH !== null && p.windGustKPH !== undefined ? Math.round(p.windGustKPH)+' km/h' : '--'}<br>
-         <b>Precip:</b> ${p.precipMM !== null && p.precipMM !== undefined ? p.precipMM+' mm' : '0 mm'}`;
-      document.getElementById('ai-summary').textContent = aiSummary(p);
+        `<b>Feels:</b> ${p.feelslikeC !== null && p.feelslikeC !== undefined ? Math.round(p.feelslikeC)+'°C' : '--'}
+         <b>Humidity:</b> ${p.humidity !== null && p.humidity !== undefined ? p.humidity+'%' : '--'}
+         <b>Wind:</b> ${p.windSpeedKPH !== null && p.windSpeedKPH !== undefined ? Math.round(p.windSpeedKPH)+' km/h' : '--'}
+         <b>Gusts:</b> ${p.windGustKPH !== null && p.windGustKPH !== undefined ? Math.round(p.windGustKPH)+' km/h' : '--'}
+         <b>Precip:</b> ${p.precipMM !== null && p.precipMM !== undefined ? p.precipMM+' mm' : '0 mm'}`.replace(/\n\s*/g,'<span style="display:inline-block;width:13px;"></span>');
+      document.getElementById('ai-summary').textContent = agoraAiSummary(p);
     });
 
     // Load forecast
@@ -326,7 +334,7 @@
             '${dayOfWeek(p.dateTimeISO)}',
             \`${(p.summary||p.weather||'No summary').replace(/`/g,'')}\`,
             'High: ${Math.round(p.maxTempC)}°C&nbsp;&nbsp;Low: ${Math.round(p.minTempC)}°C',
-            'Gusts: ${Math.round(p.windGustKPH||0)} km/h<br>Rain: ${(p.precipMM||'0')} mm<br><br><b>Farm AI:</b> ${aiSummary(p)}'
+            'Gusts: ${Math.round(p.windGustKPH||0)} km/h<br>Rain: ${(p.precipMM||'0')} mm<br><br><b>Agora Ai:</b> ${agoraAiSummary(p)}'
           )">
             <div class="day">${dayOfWeek(p.dateTimeISO)}</div>
             <canvas class="moon" id="moon${i}" width="34" height="34"></canvas>
