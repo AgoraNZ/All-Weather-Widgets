@@ -89,21 +89,21 @@
       display: flex;
       flex-direction: column;
       gap: 11px;
-      font-size: 1.45rem;
+      font-size: 1.35rem;
       color: #c0d2ed;
       min-width: 180px;
       max-width: 230px;
       line-height: 1.38;
     }
     .rain-row {
-      font-size: 1.48rem;
+      font-size: 1.38rem;
       color: #62c9fa;
       font-weight: 700;
       margin-top: 9px;
       margin-bottom: 4px;
     }
     .today-row {
-      font-size: 1.43rem;
+      font-size: 1.33rem;
       color: #ffedbc;
       font-weight: 600;
       margin-bottom: 7px;
@@ -113,13 +113,13 @@
       background: #253e62;
       color: #ffd25a;
       border-radius: 10px;
-      font-size: 1.55rem;
+      font-size: 1.42rem;
       margin-top: 20px;
       margin-bottom: 3px;
-      padding: 26px 32px 26px 34px;
+      padding: 22px 24px 22px 26px;
       font-weight: 600;
       box-shadow: 0 2px 11px #0002;
-      line-height: 1.52;
+      line-height: 1.48;
       letter-spacing: 0.01em;
       display: block;
       min-height: 54px;
@@ -135,81 +135,78 @@
       padding: 0 32px;
       overflow-x: auto;
       background: #181e2a;
-      gap: 36px;
+      gap: 40px;
     }
     .forecast-card {
-      min-width: 355px;
-      max-width: 375px;
-      height: 415px;
+      min-width: 290px;
+      max-width: 310px;
+      height: 365px;
       background: #232f47;
-      border-radius: 28px;
-      padding: 46px 30px 30px 36px;
+      border-radius: 26px;
+      padding: 36px 18px 22px 28px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      box-shadow: 0 2px 13px #0005;
+      box-shadow: 0 1px 9px #0004;
       color: #fff;
-      margin: 0 9px;
+      margin: 0 8px;
       justify-content: flex-start;
       cursor: pointer;
       transition: box-shadow 0.13s;
       position: relative;
     }
     .forecast-card:hover {
-      box-shadow: 0 14px 42px #0008;
+      box-shadow: 0 10px 36px #0008;
       background: #27334f;
     }
     .forecast-card .day {
       font-weight: bold;
-      font-size: 2.6rem;
-      margin-bottom: 18px;
+      font-size: 2.1rem;
+      margin-bottom: 14px;
       color: #fff;
-      letter-spacing: 0.02em;
     }
     .forecast-card .icon {
-      font-size: 5.1rem;
-      margin-bottom: 10px;
-      width: 120px;
-      height: 120px;
+      font-size: 3.6rem;
+      margin-bottom: 8px;
+      width: 80px;
+      height: 80px;
       display: block;
       align-self: center;
     }
     .forecast-card .desc {
-      font-size: 1.74rem;
+      font-size: 1.55rem;
       color: #c0d2ed;
-      margin-bottom: 12px;
-      min-height: 42px;
-      line-height: 1.22;
+      margin-bottom: 10px;
+      min-height: 38px;
+      line-height: 1.19;
       white-space: pre-line;
-      font-weight: 400;
     }
     .forecast-card .lowhigh, .forecast-card .gust, .forecast-card .precip, .forecast-card .extra {
       width: 100%;
       display: block;
     }
     .forecast-card .lowhigh {
-      font-size: 1.65rem;
+      font-size: 1.42rem;
       font-weight: 600;
       color: #fff;
-      margin-bottom: 0.16em;
-      margin-top: 0.02em;
+      margin-bottom: 0.15em;
     }
     .forecast-card .gust {
-      font-size: 1.42rem;
+      font-size: 1.25rem;
       color: #aad7ff;
       margin-bottom: 0.12em;
       font-weight: 400;
     }
     .forecast-card .precip {
-      font-size: 1.38rem;
+      font-size: 1.22rem;
       color: #96e8ff;
-      margin-bottom: 0.11em;
+      margin-bottom: 0.12em;
       font-weight: 400;
     }
     .forecast-card .extra {
-      font-size: 1.21rem;
-      color: #7beea3;
-      margin-top: 10px;
+      font-size: 1.11rem;
+      color: #85f8a7;
+      margin-top: 6px;
       font-weight: 600;
     }
     #popup-bg {
@@ -224,14 +221,14 @@
     #popup-content {
       background: #232f47;
       border-radius: 18px;
-      padding: 38px 56px;
+      padding: 36px 54px;
       color: #fff;
-      font-size: 1.72rem;
+      font-size: 1.6rem;
       font-weight: 500;
-      max-width: 520px;
+      max-width: 480px;
       width: 92vw;
       box-shadow: 0 12px 40px #000c;
-      line-height: 1.4;
+      line-height: 1.36;
       position: relative;
       text-align: center;
     }
@@ -245,22 +242,22 @@
       border: none;
     }
     #popup-title {
-      font-size: 1.2em;
+      font-size: 1.15em;
       font-weight: bold;
       margin-bottom: 10px;
     }
     #popup-summary, #popup-lowhigh, #popup-extra {
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
     #popup-ai {
-      margin-top: 12px;
-      font-size: 1.18rem;
+      margin-top: 10px;
+      font-size: 1.13rem;
       color: #fee680;
     }
     #popup-hist {
       margin-top: 14px;
       color: #aad7ff;
-      font-size: 1.12rem;
+      font-size: 1.03rem;
       line-height: 1.22;
     }
     @media (max-width: 1300px) {
@@ -293,8 +290,6 @@
     </div>
     <div id="forecast-block"></div>
   </div>
-
-  <!-- Popup for forecast details & AI advice -->
   <div id="popup-bg">
     <div id="popup-content">
       <button id="popup-close" onclick="closePopup()">&times;</button>
@@ -306,8 +301,16 @@
       <div id="popup-hist"></div>
     </div>
   </div>
-
   <script>
+    function pastureOutlook(temp, precip) {
+      if (temp >= 20 && precip >= 5) return "Pasture growth: Excellent—expect a big jump in covers.";
+      if (temp < 10 && precip < 2) return "Pasture growth: Slow—soil temps and moisture are low.";
+      return "";
+    }
+    function dewRisk(humidity, temp) {
+      if (humidity && humidity > 85 && temp > 10) return "High dew risk: Allow time for paddocks to dry before grazing/mowing.";
+      return "";
+    }
     function iconUrl(icon) {
       if (!icon) return '';
       return `https://cdn.aerisapi.com/wxblox/icons/${icon}`;
@@ -318,32 +321,12 @@
     function capitalize(txt) {
       return (txt || '').charAt(0).toUpperCase() + (txt || '').slice(1);
     }
-    function pastureOutlook(temp, precip) {
-      if (temp >= 20 && precip >= 5) return "Pasture growth: Excellent—expect a big jump in covers.";
-      if (temp < 10 && precip < 2) return "Pasture growth: Slow—soil temps and moisture are low.";
-      return "";
-    }
-    function dewRisk(humidity, temp) {
-      if (humidity && humidity > 85 && temp > 10) return "High dew risk: Allow time for paddocks to dry before grazing/mowing.";
-      return "";
-    }
 
+    // Use your existing agoraAiAdvice function here exactly as in your last working code!
     function agoraAiAdvice(opts) {
-      // ... your full advice array from before, unchanged for brevity ...
-      // See previous code for adviceWeather, adviceSeasonal, adviceEveryday
-
-      // (use your existing logic here!)
-      // I'll keep this line, so you just keep your original code in this function!
-      // Add pasture/dew outlook if relevant:
-      let advs = [];
-      // (copy your existing selection logic for weather/seasonal/everyday advice)
-      // (see previous code for details)
-      // --- Pasture/dew as additional tip ---
-      let outlook = pastureOutlook(opts.temp, opts.precip);
-      let dew = dewRisk(opts.humidity, opts.temp);
-      if (outlook) advs.push(`<span class="extra">${outlook}</span>`);
-      if (dew) advs.push(`<span class="extra">${dew}</span>`);
-      return advs.map(txt => `<div>${txt}</div>`).join('');
+      // Paste your full, working, non-repeating advice logic here!
+      // (This is just a stub so your code will load.)
+      return "<div>Example advice 1</div><div>Example advice 2</div>";
     }
 
     let rainHistory = { today: 0, week: 0, month: 0, year: 0 };
@@ -353,7 +336,7 @@
       .then(json => {
         if (!json.success) throw new Error('No current conditions');
         const p = json.response[0].periods[0];
-        document.getElementById('temp').textContent = 
+        document.getElementById('temp').textContent =
           (typeof p.tempC === 'number') ? `${Math.round(p.tempC)}°C` : '--°C';
         const icon = p.icon || '';
         const icElem = document.getElementById('cur-icon');
@@ -417,7 +400,6 @@
         fcDom.innerHTML = "";
         for (let i = 1; i < fc.length && i <= 5; ++i) {
           const p = fc[i];
-          // Show pasture/dew on each forecast
           let outlook = pastureOutlook(p.tempC || p.maxTempC, p.precipMM);
           let dew = dewRisk(p.humidity, p.tempC || p.maxTempC);
           fcDom.innerHTML += `
@@ -435,7 +417,7 @@
                 })}\`
               })">
               <div class="day">${dayOfWeek(p.dateTimeISO)}</div>
-              <img class="icon" src="${iconUrl(p.icon)}" alt="" width="120" height="120">
+              <img class="icon" src="${iconUrl(p.icon)}" alt="" width="80" height="80">
               <div class="desc">${capitalize(p.weather || '')}</div>
               <div class="lowhigh">High: ${Math.round(p.maxTempC)}°C<br>Low: ${Math.round(p.minTempC)}°C</div>
               <div class="gust">Gusts: ${Math.round(p.windGustKPH || 0)} km/h</div>
@@ -444,6 +426,13 @@
               ${dew ? `<div class="extra">${dew}</div>` : ''}
             </div>
           `;
+        }
+        // Today's high/low/expected rain in current block
+        if (fc.length > 0) {
+          const todayFc = fc[0];
+          document.getElementById('today-row').innerHTML =
+            `<b>Today:</b> High ${Math.round(todayFc.maxTempC)}°C, Low ${Math.round(todayFc.minTempC)}°C<br>
+             <b>Expected rain:</b> ${todayFc.precipMM || 0} mm`;
         }
       });
 
