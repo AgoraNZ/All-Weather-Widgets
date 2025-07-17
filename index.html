@@ -2,78 +2,53 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=900"/>
+  <meta name="viewport" content="width=1000"/>
   <title>PUKERIMU Weather</title>
   <link rel="stylesheet" href="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.css"/>
   <script src="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.js"></script>
   <style>
     body {
       background: #000;
-      color: #fff;
       margin: 0;
-      min-height: 100vh;
-      font-family: sans-serif;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
     .weather-container {
       display: flex;
-      flex-direction: row;
       gap: 24px;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 40px;
-      max-width: 1200px;
+      width: 900px; /* total width */
     }
     .current-box, .forecast-box {
       background: #181e2a;
       border-radius: 20px;
-      box-shadow: 0 2px 16px #000a;
-      padding: 0;
+      overflow: hidden;
     }
     .current-box {
-      width: 320px;
-      min-height: 380px;
-      overflow: hidden;
-      display: flex;
-      align-items: stretch;
-      justify-content: center;
+      width: 360px;
+      height: 450px;
     }
     .forecast-box {
-      width: 550px;
-      min-height: 380px;
-      overflow: hidden;
-      display: flex;
-      align-items: stretch;
-      justify-content: center;
-    }
-    /* Responsive tweak */
-    @media (max-width: 900px) {
-      .weather-container { flex-direction: column; align-items: center; }
-      .current-box, .forecast-box { width: 98vw; min-width: 260px; max-width: 100%; }
+      width: 500px;
+      height: 450px;
     }
   </style>
 </head>
 <body>
   <div class="weather-container">
-    <!-- Current Conditions -->
-    <div class="current-box" id="wxblox-current"></div>
-    <!-- Forecast -->
-    <div class="forecast-box" id="wxblox-forecast"></div>
+    <div id="wxblox-current" class="current-box"></div>
+    <div id="wxblox-forecast" class="forecast-box"></div>
   </div>
 
   <script>
-    // Initialize AerisWeather
     const aeris = new AerisWeather('U8feQfLlcEfcXDfsWZs4C', 'HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq');
     aeris.on('ready', () => {
-      // Rectangle "Current Conditions" on the left
       const current = new aeris.wxblox.layouts.local.Current('#wxblox-current');
       current.load({ p: 'pws_pukerimu' });
 
-      // Horizontal multi-hour "Forecast" on the right
       const forecast = new aeris.wxblox.layouts.local.Forecast('#wxblox-forecast');
-      forecast.load({ p: 'pws_pukerimu', limit: 12 }); // 12 hours
+      forecast.load({ p: 'pws_pukerimu', limit: 12 });
     });
   </script>
 </body>
