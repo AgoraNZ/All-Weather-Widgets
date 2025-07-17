@@ -2,70 +2,65 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=1000"/>
-  <title>PUKERIMU Weather Dashboard</title>
+  <meta name="viewport" content="width=900,initial-scale=1"/>
+  <title>PUKERIMU Weather</title>
 
-  <!-- Import WeatherBlox Library & Styles -->
-  <link rel="stylesheet"
-        href="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.css"/>
-  <script src="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.js"></script>
+  <!-- WeatherBlox Styles & Library -->
+  <link rel="stylesheet" href="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.css"/>
+  <script src="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.min.js"></script>
 
   <style>
     body {
-      background: #000;
       margin: 0;
-      height: 100vh;
+      padding: 20px;
       display: flex;
       justify-content: center;
-      align-items: center;
+      background: #000;
       font-family: sans-serif;
     }
     .weather-container {
       display: flex;
       gap: 20px;
-      width: 880px;
     }
     .current-box {
       width: 360px;
       height: 450px;
-      background: #181e2a;
       border-radius: 20px;
       overflow: hidden;
+      background: #181e2a;
     }
     .forecast-box {
       width: 500px;
       height: 450px;
-      background: #181e2a;
       border-radius: 20px;
       overflow: hidden;
+      background: #181e2a;
     }
   </style>
 </head>
 <body>
+
   <div class="weather-container">
     <div id="current" class="current-box"></div>
     <div id="forecast" class="forecast-box"></div>
   </div>
 
   <script>
-    // Initialize XWeather client with your credentials
     const aeris = new AerisWeather(
       'U8feQfLlcEfcXDfsWZs4C',
-      'HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq',
-      { api: { root: 'https://api.xweather.com' } }
+      'HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq'
     );
 
     aeris.on('ready', () => {
-      // Left panel: current conditions
       new aeris.wxblox.views.Current('#current')
         .load({ p: 'pws_pukerimu' });
 
-      // Right panel: 12-hour forecast
       new aeris.wxblox.views.Forecast('#forecast')
         .load({ p: 'pws_pukerimu', limit: 12 });
     });
 
-    aeris.on('error', err => console.error('XWeather init failed:', err));
+    aeris.on('error', err => console.error('Widget load error:', err));
   </script>
+
 </body>
 </html>
