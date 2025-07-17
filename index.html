@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <title>Agora Weather Widget</title>
   <meta name="viewport" content="width=2000">
+  <script src="https://unpkg.com/lunarphase-js"></script>
   <style>
     html, body {
       background: #181e2a;
@@ -203,7 +204,7 @@
 <body>
   <div id="main-container">
     <div id="current-block">
-      <div class="moon"><canvas id="moon-today" width="34" height="34"></canvas></div>
+      <div class="moon" id="moon-today"></div>
       <div class="row">
         <div class="temp" id="temp">--°C</div>
         <div class="weather-row" id="weather-row">
@@ -230,31 +231,34 @@
   <script>
     // API endpoints (swap for your station)
     const currentUrl = 'https://data.api.xweather.com/conditions/pws_pukerimu?format=json&plimit=1&filter=1min&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq';
-    const forecastUrl = 'https://data.api.xweather.com/forecasts/pws_pukerimu?format=json&plimit=7&fields=periods.timestamp,periods.dateTimeISO,periods.tempC,periods.weather,periods.icon,periods.maxTempC,periods.minTempC,periods.humidity,periods.precipMM,periods.windSpeedKPH,periods.windGustKPH,periods.summary,periods.moonPhasePct&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq';
+    const forecastUrl = 'https://data.api.xweather.com/forecasts/pws_pukerimu?format=json&plimit=7&fields=periods.timestamp,periods.dateTimeISO,periods.tempC,periods.weather,periods.icon,periods.maxTempC,periods.minTempC,periods.humidity,periods.precipMM,periods.windSpeedKPH,periods.windGustKPH,periods.summary&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq';
 
-    // Moon phase: 0=new, 0.5=full, etc
-    function drawMoon(canvas, phase) {
-      const ctx = canvas.getContext('2d');
-      ctx.clearRect(0,0,36,36);
-      ctx.beginPath();
-      ctx.arc(17,17,15,0,2*Math.PI);
-      ctx.fillStyle = "#111";
-      ctx.fill();
-      ctx.save();
-      ctx.globalCompositeOperation = "source-atop";
-      ctx.beginPath();
-      ctx.arc(17,17,15, -0.5*Math.PI, 1.5*Math.PI);
-      ctx.fillStyle = "#fff";
-      if (phase <= 0.5) {
-        ctx.ellipse(17,17,15*(1-phase*2),15,0,0,2*Math.PI);
-      } else {
-        ctx.ellipse(17,17,15*(phase-0.5)*2,15,0,0,2*Math.PI);
-      }
-      ctx.fill();
-      ctx.restore();
-      ctx.strokeStyle = "#fff8"; ctx.lineWidth = 1.2; ctx.stroke();
+    // Moon widget using lunarphase-js
+    function moonSVG(phase, size=36) {
+      // phase: 0=new, 0.25=first q, 0.5=full, 0.75=last q, 1=new
+      // Draw with SVG for best browser compatibility
+      let illum = lunarphase.getIllumination(phase) * 100;
+      let label = lunarphase.getPhaseName(phase);
+      let d = Math.round(phase*29.53);
+      // This SVG draws the phase with shadow
+      let mag = Math.abs(phase-0.5)*2;
+      let r = size/2-2;
+      return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+        <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="#fff"/>
+        <path d="${describeMoonShadow(size/2, size/2, r, phase)}" fill="#181e2a"/>
+        <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="#fff8" stroke-width="2"/>
+        <title>${label} (${illum.toFixed(1)}%)</title>
+      </svg>`;
     }
-
+    // Returns SVG path for moon shadow at given phase
+    function describeMoonShadow(cx, cy, r, phase) {
+      let sweep = phase<0.5 ? 1 : 0;
+      let angle = Math.abs(phase-0.5)*Math.PI*2;
+      let rx = r*Math.abs(Math.cos(angle/2));
+      let arc = `M${cx-r},${cy}A${r},${r},0,1,1,${cx+r},${cy}`;
+      let shadow = `A${rx},${r},0,1,${sweep},${cx-r},${cy}`;
+      return arc+shadow+"Z";
+    }
     function iconUrl(icon) {
       if (!icon) return '';
       return `https://cdn.aerisapi.com/wxblox/icons/${icon}`;
@@ -307,9 +311,10 @@
         icElem.style.display = 'none';
       }
       document.getElementById('weather-text').textContent = capitalize(p.weather) || '--';
-      // Moon
-      let moonPct = (typeof p.moonPhasePct === 'number') ? p.moonPhasePct : 0.25;
-      drawMoon(document.getElementById('moon-today'), moonPct);
+      // Moon (today)
+      let today = new Date();
+      let moonPhase = lunarphase.getMoonIllumination(today).phase;
+      document.getElementById('moon-today').innerHTML = moonSVG(moonPhase, 34);
       // Summary
       document.getElementById('summary').textContent = 
         capitalize(p.weatherPrimary || p.weather || '');
@@ -332,37 +337,11 @@
       fcDom.innerHTML = '';
       for (let i=1; i<fc.length; ++i) { // skip today
         const p = fc[i];
+        let d = new Date(p.dateTimeISO);
+        let moonPhase = lunarphase.getMoonIllumination(d).phase;
         fcDom.innerHTML += `
           <div class="forecast-card" tabindex="0" onclick="openPopup(
             '${dayOfWeek(p.dateTimeISO)}',
             \`${(p.summary||p.weather||'No summary').replace(/`/g,'')}\`,
             'High: ${Math.round(p.maxTempC)}°C&nbsp;&nbsp;Low: ${Math.round(p.minTempC)}°C',
-            'Gusts: ${Math.round(p.windGustKPH||0)} km/h<br>Rain: ${(p.precipMM||'0')} mm<br><br><b>Agora Ai:</b> ${agoraAiSummary(p)}'
-          )">
-            <div class="day">${dayOfWeek(p.dateTimeISO)}</div>
-            <canvas class="moon" id="moon${i}" width="34" height="34"></canvas>
-            <img class="icon" src="${iconUrl(p.icon)}" alt="" width="36" height="36">
-            <div class="lowhigh">High: ${Math.round(p.maxTempC)}°C &nbsp;Low: ${Math.round(p.minTempC)}°C</div>
-            <div class="gust">Gusts: ${Math.round(p.windGustKPH||0)} km/h</div>
-            <div class="precip">Rain: ${p.precipMM||'0'} mm</div>
-          </div>
-        `;
-      }
-      // Draw moons for forecast cards
-      for (let i=1; i<fc.length; ++i) {
-        const p = fc[i];
-        let moonPhase = (typeof p.moonPhasePct === 'number') ? p.moonPhasePct : 0.25;
-        drawMoon(document.getElementById('moon'+i), moonPhase);
-      }
-    });
-
-    // Dismiss popup on background click or Esc
-    document.getElementById('popup-bg').onclick = function(e){
-      if (e.target === this) closePopup();
-    }
-    document.addEventListener('keydown', function(e){
-      if (e.key === 'Escape') closePopup();
-    });
-  </script>
-</body>
-</html>
+            'Gusts: ${Math.round(p.windGustKPH||0)} km/h<br>Rain: ${(p.precipMM||'0')} mm<br><br><b>Agora Ai:</b> ${ag
