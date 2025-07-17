@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=1000"/>
   <title>PUKERIMU Weather</title>
-  <!-- Load WeatherBlox from Aeris/XWeather -->
   <link rel="stylesheet" href="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.css"/>
   <script src="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.js"></script>
   <style>
@@ -18,45 +17,48 @@
     }
     .weather-container {
       display: flex;
-      gap: 24px;
-      width: 880px; /* match total width */
-    }
-    .current-box, .forecast-box {
-      background: #181e2a;
-      border-radius: 20px;
-      overflow: hidden;
+      gap: 20px;
+      width: 880px;
     }
     .current-box {
       width: 360px;
       height: 450px;
+      background: #181e2a;
+      border-radius: 20px;
+      overflow: hidden;
     }
     .forecast-box {
       width: 500px;
       height: 450px;
+      background: #181e2a;
+      border-radius: 20px;
+      overflow: hidden;
     }
   </style>
 </head>
 <body>
   <div class="weather-container">
-    <div id="wxblox-current" class="current-box"></div>
-    <div id="wxblox-forecast" class="forecast-box"></div>
+    <div id="current" class="current-box"></div>
+    <div id="forecast" class="forecast-box"></div>
   </div>
 
   <script>
-    // 1) Initialize with your XWeather credentials
-    const aeris = new AerisWeather('U8feQfLlcEfcXDfsWZs4C', 'HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq');
+    const aeris = new AerisWeather(
+      'U8feQfLlcEfcXDfsWZs4C',
+      'HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq'
+    );
 
     aeris.on('ready', () => {
-      // 2) Current Conditions (left panel)
-      const current = new aeris.wxblox.layouts.local.Current('#wxblox-current');
-      current.load({ p: 'pws_pukerimu' });
+      // Load current conditions
+      const curr = new aeris.wxblox.views.Current('#current');
+      curr.load({ p: 'pws_pukerimu' });
 
-      // 3) Hourly Forecast (right panel)
-      const forecast = new aeris.wxblox.layouts.local.Forecast('#wxblox-forecast');
-      forecast.load({ p: 'pws_pukerimu', limit: 12 });
+      // Load hourly forecast
+      const fc = new aeris.wxblox.views.Forecast('#forecast');
+      fc.load({ p: 'pws_pukerimu', hours: 12 });
     });
 
-    aeris.on('error', err => console.error('AerisWeather load error', err));
+    aeris.on('error', err => console.error('Aeris error', err));
   </script>
 </body>
 </html>
