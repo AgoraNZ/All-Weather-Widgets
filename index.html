@@ -72,7 +72,7 @@
       font-weight: 400;
       color: #fff;
       margin-top: 3px;
-      margin-bottom: 4px;
+      margin-bottom: 4px.
     }
     .weather-row img {
       width: 44px; height: 44px; margin-right: 3px;
@@ -89,21 +89,21 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      font-size: 1.10rem;
+      font-size: 1.15rem;
       color: #c0d2ed;
       min-width: 140px;
       max-width: 180px;
       line-height: 1.36;
     }
     .rain-row {
-      font-size: 1.14rem;
+      font-size: 1.18rem;
       color: #62c9fa;
       font-weight: 600;
       margin-top: 5px;
       margin-bottom: 1px;
     }
     .today-row {
-      font-size: 1.10rem;
+      font-size: 1.15rem;
       color: #ffedbc;
       font-weight: 500;
       margin-bottom: 3px;
@@ -113,7 +113,7 @@
       background: #253e62;
       color: #ffd25a;
       border-radius: 10px;
-      font-size: 1.22rem;
+      font-size: 1.25rem;
       margin-top: 17px;
       margin-bottom: 1px;
       padding: 16px 20px 16px 22px;
@@ -161,7 +161,7 @@
     }
     .forecast-card .day {
       font-weight: bold;
-      font-size: 1.14rem;
+      font-size: 1.18rem;
       margin-bottom: 5px;
       color: #fff;
     }
@@ -173,7 +173,7 @@
       display: block;
     }
     .forecast-card .desc {
-      font-size: 1.00rem;
+      font-size: 1.08rem;
       color: #c0d2ed;
       margin-bottom: 2px;
       min-height: 28px;
@@ -185,19 +185,19 @@
       display: block;
     }
     .forecast-card .lowhigh {
-      font-size: 1.17rem;
+      font-size: 1.22rem;
       font-weight: 600;
       color: #fff;
       margin-bottom: 0.07em;
     }
     .forecast-card .gust {
-      font-size: 1.02rem;
+      font-size: 1.07rem;
       color: #aad7ff;
       margin-bottom: 0.08em;
       font-weight: 400;
     }
     .forecast-card .precip {
-      font-size: 1.01rem;
+      font-size: 1.07rem;
       color: #96e8ff;
       margin-bottom: 0.08em;
       font-weight: 400;
@@ -299,35 +299,50 @@
 
   <script>
     // --- UNIQUE, NON-REPEATING AI ADVICE SYSTEM ---
+    const todayStr = new Date().toISOString().slice(0, 10);
+    let lastDate = localStorage.getItem('lastAdviceDate');
+    let lastAdviceUsed = [];
+    try {
+      lastAdviceUsed = JSON.parse(localStorage.getItem('lastAdviceUsed')) || [];
+    } catch(e) {
+      lastAdviceUsed = [];
+    }
+    let globalAdviceUsed = new Set();
+    if (lastDate && lastDate !== todayStr) {
+      for (let msg of lastAdviceUsed) {
+        globalAdviceUsed.add(msg);
+      }
+    }
+    let lastSelectedAdvice = [];
     function agoraAiAdvice(opts) {
       // Weather/seasonal advice takes priority, then fall back to practical daily jobs
       // Each entry provides context (why) and benefit
       const adviceWeather = [
-        { cond: d => d.precip >= 20, msg: "Heavy rain is expected today. Shift stock off low paddocks and clear drains before milking to prevent pasture damage and flooding." },
+        { cond: d => d.precip >= 20, msg: "Heavy rain expected. Move stock off low paddocks and clear drains to prevent flooding." },
         { cond: d => d.precip > 10, msg: "Persistent rain is forecast. Lay woodchips at gateways and stand-off areas to reduce mud." },
         { cond: d => d.precip > 4, msg: "Showers expected. Hose mud off the dairy yard after milking to keep it clean and safe." },
-        { cond: d => d.temp >= 28, msg: "High heat today. Delay yarding until late afternoon and ensure all water lines are flowing so cows stay cool and hydrated." },
+        { cond: d => d.temp >= 28, msg: "High heat today. Delay yarding until late afternoon and make sure the herd has plenty of water." },
         { cond: d => d.temp > 24 && d.humidity > 70, msg: "Warm and humid weather increases facial eczema risk. Give cows zinc to help protect them." },
         { cond: d => d.temp < 5, msg: "Cold snap forecast. Give calves extra bedding and keep sheds closed overnight so they stay warm." },
         { cond: d => d.temp > 20 && d.precip < 2 && d.month >= 1 && d.month <= 3, msg: "Hot and dry conditions. Rotate paddocks early to avoid overgrazing, and clean water troughs to maintain water quality." },
-        { cond: d => d.gust > 60, msg: "Strong winds expected. Secure shed doors and check fence lines for damage to prevent accidents or escapes." },
+        { cond: d => d.gust > 60, msg: "Strong winds expected. Secure shed doors and check fences for damage to prevent escapes." },
         { cond: d => d.temp < 8 && d.month == 8, msg: "Wet, cold August weather can harm hooves. Use a footbath at the shed exit to help prevent lameness." },
         { cond: d => d.temp > 18 && d.precip > 6, msg: "Pasture is lush after rain. Give cows some hay along with grazing to reduce the risk of bloat." },
         { cond: d => d.temp < 10 && d.month == 7, msg: "Cold July weather. Put up windbreaks for calves and ensure their bedding is dry to keep them healthy." }
       ];
       const adviceSeasonal = [
-        { cond: d => d.month == 8, msg: "August: Calving season is starting. Prepare a calving kit with iodine, clean towels, and colostrum feeders so you’re ready for newborn calves." },
-        { cond: d => d.month == 9, msg: "September: Check springer paddock fences and add fresh bedding in shelters so expectant cows stay safe and comfortable." },
+        { cond: d => d.month == 8, msg: "August: Calving season. Have a calving kit ready with iodine, towels, and colostrum feeders for newborn calves." },
+        { cond: d => d.month == 9, msg: "September: Check springer paddock fences and add fresh bedding in shelters for expectant cows." },
         { cond: d => d.month == 10, msg: "October: Plan ahead for mating. Ensure bulls are sound and have tail paint ready for heat detection." },
         { cond: d => d.month == 11, msg: "November: Do a quick mineral check on the herd. Prepare magnesium supplements to prevent grass staggers." },
-        { cond: d => d.month == 12, msg: "December: Summer heat can cause algae. Check water troughs daily and clean out algae so stock have clean water." },
-        { cond: d => d.month == 1, msg: "January: Hot weather ahead. Set up shade sails and check all tank ballcocks to ensure a steady water supply." },
-        { cond: d => d.month == 2, msg: "February: Storm season. Fuel up the backup generator and test shed alarms in case of power outages." },
+        { cond: d => d.month == 12, msg: "December: Summer heat can cause algae. Check and clean water troughs daily so stock have clean water." },
+        { cond: d => d.month == 1, msg: "January: Hot weather. Set up shade sails and check tank ballcocks for steady water supply." },
+        { cond: d => d.month == 2, msg: "February: Storm season. Fuel up the generator and test shed alarms in case of outages." },
         { cond: d => d.month == 3, msg: "March: Autumn is coming. Secure silage covers and patch any holes to protect feed for winter." },
         { cond: d => d.month == 4, msg: "April: Winter feed planning. Book supplementary feed now and check bale covers for holes so feed stays dry." },
         { cond: d => d.month == 5, msg: "May: Winter is close. Service the effluent pump now to avoid breakdowns during the wet season." },
-        { cond: d => d.month == 6, msg: "June: It’s mid-winter. Top up woodchips in stand-off areas and ensure all heaters are working to keep stock warm." },
-        { cond: d => d.month == 7, msg: "July: Calving is near. Clean and disinfect calf trailers and pens to reduce disease risk for newborns." }
+        { cond: d => d.month == 6, msg: "June: Mid-winter. Top up woodchips in stand-off areas and ensure heaters are working to keep stock warm." },
+        { cond: d => d.month == 7, msg: "July: Calving is near. Clean and disinfect calf trailers and pens to reduce disease risk." }
       ];
       const adviceEveryday = [
         "Check and refill paper towels in the staff wash-up area.",
@@ -340,11 +355,31 @@
         "Inspect the chemical dosing system for any leaks.",
         "Disinfect calf feeders and hang them up to dry.",
         "Clear away any loose twine or rope from the yard.",
-        "Spray weeds along fence lines on fine days.",
+        "Spray weeds along fence lines on the next fine day.",
         "Check for empty chemical drums and move them to the recycling area.",
         "Tidy the storage bench and hang up all milking clusters.",
         "Sweep out the feed room and remove empty meal bags.",
-        "Hose down the exit race for a cleaner walk-off."
+        "Hose down the exit race for a cleaner walk-off.",
+        "Grease the backing gate and yard scraper to keep them running smoothly.",
+        "Test the backup generator under load to ensure it's working properly.",
+        "Check the milk cooler and vat refrigeration unit for any alarms or issues.",
+        "Clear debris from the milking shed gutters to ensure proper drainage.",
+        "Sharpen and clean hoof trimmers for the next hoof care session.",
+        "Calibrate the feed dispenser to ensure accurate rations.",
+        "Lubricate milking machine pulleys and inspect rubberware for cracks.",
+        "Replace or clean the milk filters for optimal milk flow.",
+        "Ensure shed fire extinguishers are charged and accessible.",
+        "Walk the perimeter fences and fix any weak spots or damage.",
+        "Organize and inventory veterinary supplies and medicines.",
+        "Replace any burnt-out bulbs in the calving pens or yard lights.",
+        "Rinse down yard scrapers and remove any caked manure.",
+        "Test the water trough backup pump to ensure it kicks in.",
+        "Sweep away leaves and debris from around the milking shed.",
+        "Check and top up fuel in tractors and bikes as needed.",
+        "Monitor the effluent pond level and irrigator operation.",
+        "Trim overgrown bushes or trees around sheds for better access.",
+        "Update herd treatment records and medicine inventory.",
+        "Verify calf feeder valves are working properly and unclogged."
       ];
       const d = {
         month: (opts.dateISO ? new Date(opts.dateISO).getMonth() : new Date().getMonth()) + 1,
@@ -357,16 +392,26 @@
       let picked = new Set();
       for (let adv of adviceWeather) {
         if (adv.cond(d)) {
-          selected.push(adv.msg);
-          picked.add(adv.msg);
-          break;
+          if (!globalAdviceUsed.has(adv.msg)) {
+            selected.push(adv.msg);
+            picked.add(adv.msg);
+            globalAdviceUsed.add(adv.msg);
+            break;
+          } else {
+            continue;
+          }
         }
       }
       for (let adv of adviceSeasonal) {
         if (adv.cond(d) && !picked.has(adv.msg)) {
-          selected.push(adv.msg);
-          picked.add(adv.msg);
-          break;
+          if (!globalAdviceUsed.has(adv.msg)) {
+            selected.push(adv.msg);
+            picked.add(adv.msg);
+            globalAdviceUsed.add(adv.msg);
+            break;
+          } else {
+            continue;
+          }
         }
       }
       if (selected.length < 2) {
@@ -377,12 +422,14 @@
         }
         for (let i = 0; i < idxs.length && selected.length < 2; ++i) {
           let tip = adviceEveryday[idxs[i]];
-          if (!picked.has(tip)) {
+          if (!picked.has(tip) && !globalAdviceUsed.has(tip)) {
             selected.push(tip);
             picked.add(tip);
+            globalAdviceUsed.add(tip);
           }
         }
       }
+      lastSelectedAdvice = selected.slice();
       return selected.map(txt => `<div>${txt}</div>`).join('');
     }
 
@@ -427,16 +474,17 @@
 
         // Rainfall today (observed so far)
         const todayRain = (p.precipMM !== null && p.precipMM !== undefined) ? p.precipMM : 0;
-        document.getElementById('rain-row').innerHTML = `<b>Rainfall:</b> ${todayRain} mm today`;
+        document.getElementById('rain-row').innerHTML = `<b>Rainfall so far:</b> ${todayRain} mm`;
         rainHistory.today = Number(todayRain) || 0;
 
-        document.getElementById('todays-advice').innerHTML = agoraAiAdvice({
+        const adviceHtml = agoraAiAdvice({
           temp: p.tempC,
           humidity: p.humidity,
           gust: p.windGustKPH,
           precip: p.precipMM,
           dateISO: p.dateTimeISO
         });
+        document.getElementById('todays-advice').innerHTML = adviceHtml;
 
         document.getElementById('current-block').onclick = () => openPopup({
           title: "Current Conditions",
@@ -447,19 +495,16 @@
                   <b>Wind:</b> ${Math.round(p.windSpeedKPH || 0)} km/h (${p.windDir || ''})<br>
                   <b>Humidity:</b> ${p.humidity || 'NA'}%<br>
                   <b>Rainfall:</b> ${p.precipMM || 0} mm today`,
-          ai: agoraAiAdvice({
-            temp: p.tempC,
-            humidity: p.humidity,
-            gust: p.windGustKPH,
-            precip: p.precipMM,
-            dateISO: p.dateTimeISO
-          }),
+          ai: adviceHtml,
           hist: `<strong>Rain history:</strong><br>
                  Today: ${p.precipMM || 0} mm<br>
                  This week: ${rainHistory.week} mm<br>
                  This month: ${rainHistory.month} mm<br>
-                 This year: ${rainHistory.year} mm`
+                 This year: ${rainHistory.year} mm<br>
+                 `
         });
+        localStorage.setItem('lastAdviceDate', todayStr);
+        localStorage.setItem('lastAdviceUsed', JSON.stringify(lastSelectedAdvice));
       });
 
     // Forecast: only 5 days, plus update current with today's hi/lo/expected rain
@@ -490,13 +535,12 @@
         if (fc.length > 0) {
           const todayFc = fc[0];
           document.getElementById('today-row').innerHTML =
-            `<b>Today:</b> High ${Math.round(todayFc.maxTempC)}°C, Low ${Math.round(todayFc.minTempC)}°C<br>
-             <b>Expected rain:</b> ${todayFc.precipMM || 0} mm`;
+            `<b>Today:</b> High ${Math.round(todayFc.maxTempC)}°C, Low ${Math.round(todayFc.minTempC)}°C`;
           // Update rain row with expected precipitation
           const observed = rainHistory.today || 0;
           const expected = todayFc.precipMM || 0;
           document.getElementById('rain-row').innerHTML =
-            `<b>Rainfall:</b> ${observed} mm so far today; ${expected} mm expected`;
+            `<b>Rainfall so far:</b> ${observed} mm<br><b>Rainfall expected:</b> ${expected} mm`;
         }
         // Show only next 5 forecast days
         for (let i = 1; i < fc.length && i <= 5; ++i) {
