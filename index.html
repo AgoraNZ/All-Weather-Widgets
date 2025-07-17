@@ -1,45 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Full Weather Dashboard</title>
-  <style>
-    body { background: #000; color: #fff; margin: 0; display: flex; flex-direction: column; align-items: center; font-family: sans-serif; padding: 20px; }
-    #current-widget { width: 360px; margin-bottom: 30px; }
-    #xw-forecast-widget { width: 360px; height: 300px; }
-  </style>
+  <meta charset="UTF-8"/>
+  <title>Forecast Widget</title>
+  <link href="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.css" rel="stylesheet"/>
+  <script src="https://cdn.aerisapi.com/wxblox/latest/aeris-wxblox.min.js"></script>
 </head>
-<body>
+<body style="background:#000; padding:20px; display:flex; justify-content:center;">
+  <div id="wxblox-forecast" class="aeris-wrapper"></div>
 
-  <!-- 1) Your Custom Current Conditions Widget -->
-  <div id="current-widget">
-    <!-- copied from our earlier code -->
-    <div id="widget">
-      <h2 id="station-title">PUKERIMU</h2>
-      <!-- rows for time, temp, wind, etc... -->
-      <!-- (include the full HTML from the custom widget above) -->
-    </div>
-  </div>
-
-  <!-- 2) XWeather Forecast Widget -->
-  <div id="xw-forecast-widget"></div>
-  <script src="https://cdn.xweather.com/widgets/latest.js"></script>
   <script>
-    XWeather.loadForecastWidget({
-      target: "#xw-forecast-widget",
-      station: "pws_pukerimu",
-      units: "metric",
-      theme: "dark",
-      hours: 12,
-      width: 360,
-      height: 300
+    const aeris = new AerisWeather('YOUR_CLIENT_ID', 'YOUR_CLIENT_SECRET');
+    aeris.on('ready', () => {
+      const widget = new aeris.wxblox.views.Forecast('#wxblox-forecast');
+      widget.load({
+        p: 'pws_pukerimu',
+        limit: 12
+      });
     });
-  </script>
-
-  <!-- 3) Include your Custom JS after -->
-  <script>
-    // insert the earlier custom JS here: fetch(), displayData(), refresh()...
   </script>
 </body>
 </html>
