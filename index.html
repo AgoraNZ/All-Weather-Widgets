@@ -2,67 +2,77 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>JBLOCK Weather Widget</title>
+  <title>PUKERIMU Weather Widget</title>
   <style>
-    body {
-      background: #0a2239;
-      color: #fff;
-      font-family: sans-serif;
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-    }
-    #widget {
-      background: #102040;
-      padding: 20px;
-      border-radius: 16px;
-      width: 320px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
-    }
-    h2 {
-      margin: 0 0 10px;
-      text-align: center;
-    }
-    .row {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 8px;
-    }
-    .label { color: #aac; }
-    .value { color: #ffd; }
+    body { background: #0a2239; color: #fff; font-family: sans-serif; display: flex; justify-content: center; padding: 40px; }
+    #widget { background: #18314f; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.25); padding: 28px; width: 360px; }
+    h2 { margin: 0 0 16px 0; text-align: center; letter-spacing: 2px; }
+    .row { display: flex; justify-content: space-between; margin: 10px 0; font-size: 1.12em; }
+    .label { color: #a7bed3; }
+    .value { color: #fff; font-weight: bold; }
+    .icon { width: 38px; height: 38px; vertical-align: middle; margin-right: 12px; }
+    .condition-row { align-items: center; }
   </style>
 </head>
 <body>
   <div id="widget">
-    <h2>JBLOCK Station</h2>
-    <div class="row"><span class="label">Temp:</span><span id="temp" class="value">-- °C</span></div>
-    <div class="row"><span class="label">Humidity:</span><span id="humidity" class="value">-- %</span></div>
-    <div class="row"><span class="label">Wind:</span><span id="wind" class="value">-- km/h</span></div>
-    <div class="row"><span class="label">Condition:</span><span id="weather" class="value">--</span></div>
+    <h2 id="station-title">PUKERIMU</h2>
+    <div class="row"><span class="label">Time:</span> <span class="value" id="time">--</span></div>
+    <div class="row"><span class="label">Temperature:</span> <span class="value" id="temp">-- °C</span></div>
+    <div class="row"><span class="label">Feels Like:</span> <span class="value" id="feels">-- °C</span></div>
+    <div class="row"><span class="label">Humidity:</span> <span class="value" id="humidity">-- %</span></div>
+    <div class="row"><span class="label">Wind:</span> <span class="value" id="wind">-- km/h <span id="winddir"></span></span></div>
+    <div class="row"><span class="label">Pressure:</span> <span class="value" id="pressure">-- hPa</span></div>
+    <div class="row"><span class="label">Precip Rate:</span> <span class="value" id="precip">-- mm/hr</span></div>
+    <div class="row condition-row">
+      <span class="label">Condition:</span>
+      <span class="value">
+        <img id="wxicon" class="icon" src="" alt="" style="display:none;">
+        <span id="condition">--</span>
+      </span>
+    </div>
+    <div style="margin-top:16px; text-align:center; font-size:0.9em; color:#7fa8d3;">
+      <span id="location"></span>
+    </div>
   </div>
-
   <script>
-    const url = 'https://data.api.xweather.com/conditions/pws_jblock?format=json&plimit=1&filter=minutelyprecip,1min&fields=periods.tempC,periods.dewpointC,periods.humidity,periods.windSpeedKPH,periods.windDir,periods.weather&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq';
+    // CHANGE THIS ID TO ANY STATION YOU WANT!
+    const STATION_ID = "pws_pukerimu";
+    const API_URL = `https://data.api.xweather.com/conditions/${STATION_ID}?format=json&plimit=1&filter=1min&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq`;
 
-    async function refresh() {
-      try {
-        const res = await fetch(url);
-        const data = await res.json();
-        const p = data.response?.[0]?.periods?.[0];
-        if (!p) throw new Error('Invalid data');
+    function pad(n){ return n<10 ? '0'+n : n }
 
-        document.getElementById('temp').textContent = p.tempC !== null ? `${p.tempC.toFixed(1)} °C` : '--';
-        document.getElementById('humidity').textContent = p.humidity !== null ? `${p.humidity} %` : '--';
-        document.getElementById('wind').textContent = p.windSpeedKPH !== null ? `${p.windSpeedKPH} km/h` : '--';
-        document.getElementById('weather').textContent = p.weather || '--';
-      } catch (err) {
-        console.error('Weather error:', err);
+    function displayData(data) {
+      const period = data?.response?.[0]?.periods?.[0];
+      const place = data?.response?.[0]?.place;
+      if (!period) return;
+
+      // Time (NZ local)
+      const dt = new Date(period.dateTimeISO);
+      const time = `${pad(dt.getHours())}:${pad(dt.getMinutes())}, ${dt.getDate()}-${pad(dt.getMonth()+1)}-${dt.getFullYear()}`;
+      document.getElementById('time').textContent = time;
+
+      document.getElementById('temp').textContent = (period.tempC != null) ? `${period.tempC.toFixed(1)} °C` : "--";
+      document.getElementById('feels').textContent = (period.feelslikeC != null) ? `${period.feelslikeC.toFixed(1)} °C` : "--";
+      document.getElementById('humidity').textContent = (period.humidity != null) ? `${period.humidity} %` : "--";
+      document.getElementById('wind').textContent = (period.windSpeedKPH != null) ? `${period.windSpeedKPH.toFixed(1)} km/h` : "--";
+      document.getElementById('winddir').textContent = (period.windDir || "") + (period.windDirDEG ? ` (${period.windDirDEG}°)` : "");
+      document.getElementById('pressure').textContent = (period.pressureMB != null) ? `${period.pressureMB} hPa` : "--";
+      document.getElementById('precip').textContent = (period.precipRateMM != null) ? `${period.precipRateMM} mm/hr` : "--";
+      document.getElementById('condition').textContent = period.weatherPrimary || period.weather || "--";
+      // Icon
+      if (period.icon) {
+        document.getElementById('wxicon').src = `https://cdn.aerisapi.com/wxblox/icons/${period.icon}`;
+        document.getElementById('wxicon').alt = period.weatherPrimary || "";
+        document.getElementById('wxicon').style.display = "";
+      } else {
+        document.getElementById('wxicon').style.display = "none";
       }
+      // Location info
+      document.getElementById('location').textContent =
+        `${place?.name || ""}${place?.country ? ", " + place.country.toUpperCase() : ""}`;
+      // Title
+      document.getElementById('station-title').textContent = STATION_ID.toUpperCase();
     }
 
-    refresh();
-    setInterval(refresh, 60 * 1000); // Auto refresh every minute
-  </script>
-</body>
-</html>
+    async function
