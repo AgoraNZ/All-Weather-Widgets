@@ -269,7 +269,7 @@
       return (txt||'').charAt(0).toUpperCase() + (txt||'').slice(1);
     }
 
-    // Agora Ai recommendations (wide variety for NZ, generic, not DairyNZ branded)
+    // Agora Ai recommendations (wide variety for NZ, generic)
     function agoraAiAdvice(opts, day) {
       let adv = [];
       const m = new Date(opts.dateISO || Date.now()).getMonth() + 1;
@@ -342,14 +342,15 @@
       document.getElementById('weather-text').textContent = capitalize(p.weather) || '--';
       document.getElementById('summary').textContent =
         capitalize(p.weatherPrimary || p.weather || '') +
-        (p.sky !== undefined ? ` • Sky: ${p.sky}%` : '');
+        (p.sky !== undefined ? ` • Cloud Coverage: ${p.sky}%` : '');
       document.getElementById('details').innerHTML =
         `<b>Feels like:</b> ${p.feelslikeC !== null && p.feelslikeC !== undefined ? Math.round(p.feelslikeC)+'°C' : 'NA'}<br>
          <b>Humidity:</b> ${p.humidity !== null && p.humidity !== undefined ? p.humidity+'%' : 'NA'}<br>
          <b>Wind:</b> ${p.windSpeedKPH !== null && p.windSpeedKPH !== undefined ? Math.round(p.windSpeedKPH)+' km/h' : 'NA'}<br>
          <b>Gusts:</b> ${p.windGustKPH !== null && p.windGustKPH !== undefined ? Math.round(p.windGustKPH)+' km/h' : 'NA'}<br>
          <b>Pressure:</b> ${p.pressureMB !== null && p.pressureMB !== undefined ? p.pressureMB+' hPa' : 'NA'}<br>
-         <b>Precip:</b> ${p.precipMM !== null && p.precipMM !== undefined ? p.precipMM+' mm' : '0 mm'}`;
+         <b>Rain Today:</b> ${p.precipMM !== null && p.precipMM !== undefined ? p.precipMM+' mm' : '0 mm'}<br>
+         <b>Rain Rate:</b> ${p.precipRateMM !== null && p.precipRateMM !== undefined ? p.precipRateMM+' mm/hr' : '0 mm/hr'}`;
       // Direct display of Agora Ai for current conditions (always visible)
       document.getElementById('ai-advice').textContent = agoraAiAdvice({
         temp: p.tempC,
@@ -368,7 +369,8 @@
           <b>Feels like:</b> ${p.feelslikeC!==null?Math.round(p.feelslikeC)+'°C':'NA'}<br>
           <b>Wind:</b> ${Math.round(p.windSpeedKPH||0)} km/h (${p.windDir||''})<br>
           <b>Humidity:</b> ${p.humidity||'NA'}%<br>
-          <b>Rain:</b> ${p.precipMM||'0'} mm`,
+          <b>Rain Today:</b> ${p.precipMM||'0'} mm<br>
+          <b>Rain Rate:</b> ${p.precipRateMM||'0'} mm/hr`,
         ai: agoraAiAdvice({
           temp: p.tempC,
           humidity: p.humidity,
