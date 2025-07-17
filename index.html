@@ -414,9 +414,9 @@
         }
       }
       lastSelectedAdvice = selected.slice();
-      return selected.map(txt => <div>${txt}</div>).join('');
+      return selected.map(txt => `<div>${txt}</div>`).join('');
     }
-    function iconUrl(icon) { if (!icon) return ''; return https://cdn.aerisapi.com/wxblox/icons/${icon}; }
+    function iconUrl(icon) { if (!icon) return ''; return `https://cdn.aerisapi.com/wxblox/icons/${icon}`; }
     function dayOfWeek(dateISO) { return new Date(dateISO).toLocaleDateString('en-NZ', { weekday: 'short' }); }
     function capitalize(txt) { return (txt || '').charAt(0).toUpperCase() + (txt || '').slice(1); }
     let rainHistory = { today: 0, week: 0, month: 0, year: 0 };
@@ -426,20 +426,20 @@
         if (!json.success) throw new Error('No current conditions');
         const p = json.response[0].periods[0];
         document.getElementById('temp').textContent = 
-          (typeof p.tempC === 'number') ? ${Math.round(p.tempC)}°C : '--°C';
+          (typeof p.tempC === 'number') ? `${Math.round(p.tempC)}°C` : '--°C';
         const icon = p.icon || '';
         const icElem = document.getElementById('cur-icon');
         if (icon) { icElem.src = iconUrl(icon); icElem.style.display = ''; }
         else { icElem.style.display = 'none'; }
         document.getElementById('weather-text').textContent = capitalize(p.weather) || '--';
         document.getElementById('details-col').innerHTML =
-          <div><b>Feels like:</b> ${p.feelslikeC !== null && p.feelslikeC !== undefined ? Math.round(p.feelslikeC) + '°C' : 'NA'}</div>
+          `<div><b>Feels like:</b> ${p.feelslikeC !== null && p.feelslikeC !== undefined ? Math.round(p.feelslikeC) + '°C' : 'NA'}</div>
            <div><b>Humidity:</b> ${p.humidity !== null && p.humidity !== undefined ? p.humidity + '%' : 'NA'}</div>
            <div><b>Wind:</b> ${p.windSpeedKPH !== null && p.windSpeedKPH !== undefined ? Math.round(p.windSpeedKPH) + ' km/h' : 'NA'}</div>
            <div><b>Gusts:</b> ${p.windGustKPH !== null && p.windGustKPH !== undefined ? Math.round(p.windGustKPH) + ' km/h' : 'NA'}</div>
-           <div><b>Pressure:</b> ${p.pressureMB !== null && p.pressureMB !== undefined ? p.pressureMB + ' hPa' : 'NA'}</div>;
+           <div><b>Pressure:</b> ${p.pressureMB !== null && p.pressureMB !== undefined ? p.pressureMB + ' hPa' : 'NA'}</div>`;
         const todayRain = (p.precipMM !== null && p.precipMM !== undefined) ? p.precipMM : 0;
-        document.getElementById('rain-row').innerHTML = <b>Rainfall so far:</b> ${todayRain} mm;
+        document.getElementById('rain-row').innerHTML = `<b>Rainfall so far:</b> ${todayRain} mm`;
         rainHistory.today = Number(todayRain) || 0;
         const adviceHtml = agoraAiAdvice({
           temp: p.tempC, humidity: p.humidity, gust: p.windGustKPH, precip: p.precipMM, dateISO: p.dateTimeISO
@@ -449,18 +449,18 @@
           title: "Current Conditions",
           summary: "",
           lowhigh: "",
-          extra: <b>Temp:</b> ${Math.round(p.tempC)}°C<br>
+          extra: `<b>Temp:</b> ${Math.round(p.tempC)}°C<br>
                   <b>Feels like:</b> ${p.feelslikeC !== null ? Math.round(p.feelslikeC) + '°C' : 'NA'}<br>
                   <b>Wind:</b> ${Math.round(p.windSpeedKPH || 0)} km/h (${p.windDir || ''})<br>
                   <b>Humidity:</b> ${p.humidity || 'NA'}%<br>
-                  <b>Rainfall:</b> ${p.precipMM || 0} mm today,
+                  <b>Rainfall:</b> ${p.precipMM || 0} mm today`,
           ai: adviceHtml,
-          hist: <strong>Rain history:</strong><br>
+          hist: `<strong>Rain history:</strong><br>
                  Today: ${p.precipMM || 0} mm<br>
                  This week: ${rainHistory.week} mm<br>
                  This month: ${rainHistory.month} mm<br>
                  This year: ${rainHistory.year} mm<br>
-                 
+                 `
         });
         localStorage.setItem('lastAdviceDate', todayStr);
         localStorage.setItem('lastAdviceUsed', JSON.stringify(lastSelectedAdvice));
@@ -489,24 +489,24 @@
         if (fc.length > 0) {
           const todayFc = fc[0];
           document.getElementById('today-row').innerHTML =
-            <b>Today:</b> High ${Math.round(todayFc.maxTempC)}°C, Low ${Math.round(todayFc.minTempC)}°C<br>
-             <b>Rainfall expected:</b> ${todayFc.precipMM || 0} mm;
+            `<b>Today:</b> High ${Math.round(todayFc.maxTempC)}°C, Low ${Math.round(todayFc.minTempC)}°C<br>
+             <b>Rainfall expected:</b> ${todayFc.precipMM || 0} mm`;
         }
         for (let i = 1; i < fc.length && i <= 5; ++i) {
           const p = fc[i];
-          fcDom.innerHTML += 
+          fcDom.innerHTML += `
             <div class="forecast-card" tabindex="0" onclick="openPopup({
                 title: '${dayOfWeek(p.dateTimeISO)}',
                 summary: '',
                 lowhigh: 'High: ${Math.round(p.maxTempC)}°C<br>Low: ${Math.round(p.minTempC)}°C',
                 extra: 'Gusts: ${Math.round(p.windGustKPH || 0)} km/h<br>Precip: ${p.precipMM || 0} mm',
-                ai: \${agoraAiAdvice({
+                ai: \`${agoraAiAdvice({
                   temp: p.tempC || p.maxTempC,
                   humidity: p.humidity,
                   gust: p.windGustKPH,
                   precip: p.precipMM,
                   dateISO: p.dateTimeISO
-                })}\
+                })}\`
               })">
               <div class="day">${dayOfWeek(p.dateTimeISO)}</div>
               <img class="icon" src="${iconUrl(p.icon)}" alt="" width="40" height="40">
@@ -515,7 +515,7 @@
               <div class="gust">Gusts: ${Math.round(p.windGustKPH || 0)} km/h</div>
               <div class="precip">Precip: ${p.precipMM || 0} mm</div>
             </div>
-          ;
+          `;
         }
       });
     function openPopup(opts) {
