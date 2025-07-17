@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=2000,initial-scale=1.0">
@@ -14,17 +15,24 @@
       background: #000;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: start;
       height: 100vh;
     }
-    #wxblox-container {
+    #container {
       width: 2000px;
-      height: 450px;
-      overflow: hidden;
-      border-radius: 0;
+      display: flex;
+      gap: 20px;
     }
-    /* Force all text inside widget to white */
-    #wxblox-container, #wxblox-container * {
+    .widget {
+      background: #181e2a;
+      border-radius: 20px;
+      overflow: hidden;
+      color: #fff !important;
+    }
+    #current { width: 360px; height: 450px; }
+    #forecast { width: 1620px; height: 450px; }
+    /* Force text white */
+    #container, #container * {
       color: #fff !important;
       background: transparent !important;
     }
@@ -32,8 +40,9 @@
 </head>
 <body>
 
-  <div id="wxblox-container">
-    <div id="wxblox"></div>
+  <div id="container">
+    <div id="current" class="widget"></div>
+    <div id="forecast" class="widget"></div>
   </div>
 
   <script>
@@ -43,13 +52,24 @@
     );
 
     aeris.on('ready', () => {
-      console.log('✅ WeatherBlox ready — rendering into 2000×450 container');
-      new aeris.wxblox.layouts.local.Main('#wxblox')
-        .on('load:done', () => console.log('✅ Widget loaded'))
-        .on('load:error', e => console.error('❌ Widget error', e))
+      console.log('✅ Aeris ready');
+
+      new aeris.wxblox.views.Current('#current')
+        .on('load:done', () => console.log('✅ Current loaded'))
+        .on('load:error', e => console.error('❌ Current error', e))
         .load({ p: 'pws_pukerimu' });
+
+      new aeris.wxblox.views.Forecast('#forecast')
+        .on('load:done', () => console.log('✅ Forecast loaded'))
+        .on('load:error', e => console.error('❌ Forecast error', e))
+        .load({
+          p: 'pws_pukerimu',
+          limit: 7,     // full week
+          metric: false
+        });
     });
-    aeris.on('error', e => console.error('❗ Init error', e));
+
+    aeris.on('error', e => console.error('❗ Aeris init error', e));
   </script>
 
 </body>
