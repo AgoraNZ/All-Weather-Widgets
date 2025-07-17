@@ -16,82 +16,114 @@
     }
     #main-container {
       width: 2000px;
-      height: 380px;
+      height: 440px;
       margin: 0 auto;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       background: #181e2a;
       box-shadow: 0 2px 24px #0008;
       border-radius: 18px;
       overflow: hidden;
     }
     #current-block {
-      width: 410px;
-      min-width: 350px;
-      max-width: 460px;
+      width: 600px;
+      min-width: 500px;
+      max-width: 660px;
       height: 100%;
       background: #222c40;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
       justify-content: flex-start;
-      padding: 28px 28px 16px 32px;
+      padding: 26px 32px 20px 36px;
       box-sizing: border-box;
       border-right: 3px solid #222c40;
-      gap: 6px;
       position: relative;
       cursor: pointer;
+      gap: 2px;
     }
-    #current-block .temp {
-      font-size: 4.7rem;
+    #current-flexrow {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      width: 100%;
+      gap: 22px;
+    }
+    .current-temp-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 112px;
+      margin-right: 12px;
+    }
+    .temp {
+      font-size: 4.9rem;
       font-weight: 600;
-      margin-bottom: 0.02em;
       color: #fff;
       line-height: 1;
       text-shadow: 0 1px 14px #222;
+      margin-bottom: 0.03em;
+      margin-top: 5px;
     }
-    #current-block .weather-row {
+    .weather-row {
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 2.1rem;
+      font-size: 2.0rem;
       font-weight: 400;
       color: #fff;
-      margin-bottom: 0.13em;
+      margin-top: 3px;
+      margin-bottom: 4px;
     }
-    #current-block .weather-row img {
-      width: 46px; height: 46px; margin-right: 3px;
+    .weather-row img {
+      width: 44px; height: 44px; margin-right: 3px;
     }
-    #current-block .details {
-      font-size: 1.01rem;
+    .current-cols {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      gap: 28px;
+      margin-left: 3px;
+      margin-top: 2px;
+    }
+    .col {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 1.10rem;
       color: #c0d2ed;
-      margin-bottom: 0.07em;
-      margin-top: 0.05em;
-      line-height: 1.4;
-      white-space: pre-line;
+      min-width: 140px;
+      max-width: 180px;
+      line-height: 1.36;
     }
-    #current-block .rain-row {
-      font-size: 1.07rem;
+    .rain-row {
+      font-size: 1.14rem;
       color: #62c9fa;
-      margin-bottom: 0.11em;
-      margin-top: 0.05em;
       font-weight: 600;
+      margin-top: 5px;
+      margin-bottom: 1px;
+    }
+    .today-row {
+      font-size: 1.10rem;
+      color: #ffedbc;
+      font-weight: 500;
+      margin-bottom: 3px;
+      margin-top: 3px;
     }
     #todays-advice {
       background: #253e62;
       color: #ffd25a;
-      border-radius: 9px;
-      font-size: 1.13rem;
-      margin-top: 10px;
+      border-radius: 10px;
+      font-size: 1.22rem;
+      margin-top: 17px;
       margin-bottom: 1px;
-      padding: 12px 15px 12px 16px;
+      padding: 16px 20px 16px 22px;
       font-weight: 600;
-      max-width: 98%;
       box-shadow: 0 2px 11px #0002;
-      line-height: 1.45;
+      line-height: 1.5;
       letter-spacing: 0.01em;
       display: block;
       min-height: 50px;
+      width: 100%;
       overflow-wrap: break-word;
       word-break: break-word;
     }
@@ -231,13 +263,22 @@
 <body>
   <div id="main-container">
     <div id="current-block" tabindex="0">
-      <div class="temp" id="temp">--°C</div>
-      <div class="weather-row" id="weather-row">
-        <img id="cur-icon" src="" style="display:none;" alt="">
-        <span id="weather-text">Loading…</span>
+      <div id="current-flexrow">
+        <div class="current-temp-icon">
+          <div class="temp" id="temp">--°C</div>
+          <div class="weather-row" id="weather-row">
+            <img id="cur-icon" src="" style="display:none;" alt="">
+            <span id="weather-text">Loading…</span>
+          </div>
+        </div>
+        <div class="current-cols">
+          <div class="col" id="details-col"></div>
+          <div class="col">
+            <div class="rain-row" id="rain-row"></div>
+            <div class="today-row" id="today-row"></div>
+          </div>
+        </div>
       </div>
-      <div class="details" id="details"></div>
-      <div class="rain-row" id="rain-row"></div>
       <div id="todays-advice">Loading today’s AI advice…</div>
     </div>
     <div id="forecast-block"></div>
@@ -262,7 +303,6 @@
       // Weather/seasonal advice takes priority, then fall back to practical daily jobs
       // Each entry provides context (why) and benefit
       const adviceWeather = [
-        // Weather-triggered tips (dairy farm context)
         { cond: d => d.precip >= 20, msg: "Heavy rain is expected today. Shift stock off low paddocks and clear drains before milking to prevent pasture damage and flooding." },
         { cond: d => d.precip > 10, msg: "Persistent rain is forecast. Lay woodchips at gateways and stand-off areas to reduce mud." },
         { cond: d => d.precip > 4, msg: "Showers expected. Hose mud off the dairy yard after milking to keep it clean and safe." },
@@ -276,7 +316,6 @@
         { cond: d => d.temp < 10 && d.month == 7, msg: "Cold July weather. Put up windbreaks for calves and ensure their bedding is dry to keep them healthy." }
       ];
       const adviceSeasonal = [
-        // Seasonal calendar tips (monthly tasks)
         { cond: d => d.month == 8, msg: "August: Calving season is starting. Prepare a calving kit with iodine, clean towels, and colostrum feeders so you’re ready for newborn calves." },
         { cond: d => d.month == 9, msg: "September: Check springer paddock fences and add fresh bedding in shelters so expectant cows stay safe and comfortable." },
         { cond: d => d.month == 10, msg: "October: Plan ahead for mating. Ensure bulls are sound and have tail paint ready for heat detection." },
@@ -291,7 +330,6 @@
         { cond: d => d.month == 7, msg: "July: Calving is near. Clean and disinfect calf trailers and pens to reduce disease risk for newborns." }
       ];
       const adviceEveryday = [
-        // Daily/weekly routine tasks (randomized)
         "Check and refill paper towels in the staff wash-up area.",
         "Give a quick scrape and rinse to the pit floor after each milking.",
         "Clear grass and stones from the tanker track entry.",
@@ -308,7 +346,6 @@
         "Sweep out the feed room and remove empty meal bags.",
         "Hose down the exit race for a cleaner walk-off."
       ];
-      // Determine current conditions for advice logic
       const d = {
         month: (opts.dateISO ? new Date(opts.dateISO).getMonth() : new Date().getMonth()) + 1,
         temp: opts.temp,
@@ -316,10 +353,8 @@
         precip: opts.precip,
         gust: opts.gust || 0
       };
-      // Pick advice: one weather (if applicable) and one seasonal, else fallback to everyday
       let selected = [];
       let picked = new Set();
-      // Weather-based advice
       for (let adv of adviceWeather) {
         if (adv.cond(d)) {
           selected.push(adv.msg);
@@ -327,7 +362,6 @@
           break;
         }
       }
-      // Seasonal advice (if not already picked)
       for (let adv of adviceSeasonal) {
         if (adv.cond(d) && !picked.has(adv.msg)) {
           selected.push(adv.msg);
@@ -335,9 +369,7 @@
           break;
         }
       }
-      // If less than 2 advices selected, add one routine task
       if (selected.length < 2) {
-        // Shuffle the everyday tips array to get a random unique tip
         let idxs = Array.from({length: adviceEveryday.length}, (_, i) => i);
         for (let i = idxs.length - 1; i > 0; i--) {
           let j = Math.floor(Math.random() * (i + 1));
@@ -351,7 +383,6 @@
           }
         }
       }
-      // Return HTML string with each advice in its own <div>
       return selected.map(txt => `<div>${txt}</div>`).join('');
     }
 
@@ -366,16 +397,14 @@
       return (txt || '').charAt(0).toUpperCase() + (txt || '').slice(1);
     }
 
-    // --- RAIN HISTORY STORAGE ---
     let rainHistory = { today: 0, week: 0, month: 0, year: 0 };
 
-    // Fetch current conditions and update current box
+    // Current box population (horizontal layout)
     fetch('https://data.api.xweather.com/conditions/pws_pukerimu?format=json&plimit=1&filter=1min&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq')
       .then(r => r.json())
       .then(json => {
         if (!json.success) throw new Error('No current conditions');
         const p = json.response[0].periods[0];
-        // Current temperature and conditions
         document.getElementById('temp').textContent = 
           (typeof p.tempC === 'number') ? `${Math.round(p.tempC)}°C` : '--°C';
         const icon = p.icon || '';
@@ -388,20 +417,19 @@
         }
         document.getElementById('weather-text').textContent = capitalize(p.weather) || '--';
 
-        // Details: feels like, humidity, wind, etc.
-        document.getElementById('details').innerHTML =
-          `<b>Feels like:</b> ${p.feelslikeC !== null && p.feelslikeC !== undefined ? Math.round(p.feelslikeC) + '°C' : 'NA'}<br>
-           <b>Humidity:</b> ${p.humidity !== null && p.humidity !== undefined ? p.humidity + '%' : 'NA'}<br>
-           <b>Wind:</b> ${p.windSpeedKPH !== null && p.windSpeedKPH !== undefined ? Math.round(p.windSpeedKPH) + ' km/h' : 'NA'}<br>
-           <b>Gusts:</b> ${p.windGustKPH !== null && p.windGustKPH !== undefined ? Math.round(p.windGustKPH) + ' km/h' : 'NA'}<br>
-           <b>Pressure:</b> ${p.pressureMB !== null && p.pressureMB !== undefined ? p.pressureMB + ' hPa' : 'NA'}`;
+        // Weather details, shown in a vertical col for left, some for right
+        document.getElementById('details-col').innerHTML =
+          `<div><b>Feels like:</b> ${p.feelslikeC !== null && p.feelslikeC !== undefined ? Math.round(p.feelslikeC) + '°C' : 'NA'}</div>
+           <div><b>Humidity:</b> ${p.humidity !== null && p.humidity !== undefined ? p.humidity + '%' : 'NA'}</div>
+           <div><b>Wind:</b> ${p.windSpeedKPH !== null && p.windSpeedKPH !== undefined ? Math.round(p.windSpeedKPH) + ' km/h' : 'NA'}</div>
+           <div><b>Gusts:</b> ${p.windGustKPH !== null && p.windGustKPH !== undefined ? Math.round(p.windGustKPH) + ' km/h' : 'NA'}</div>
+           <div><b>Pressure:</b> ${p.pressureMB !== null && p.pressureMB !== undefined ? p.pressureMB + ' hPa' : 'NA'}</div>`;
 
         // Rainfall today (observed so far)
         const todayRain = (p.precipMM !== null && p.precipMM !== undefined) ? p.precipMM : 0;
         document.getElementById('rain-row').innerHTML = `<b>Rainfall:</b> ${todayRain} mm today`;
-        rainHistory.today = Number(todayRain) || 0;  // store for later
+        rainHistory.today = Number(todayRain) || 0;
 
-        // Insert AI advice for today
         document.getElementById('todays-advice').innerHTML = agoraAiAdvice({
           temp: p.tempC,
           humidity: p.humidity,
@@ -410,7 +438,6 @@
           dateISO: p.dateTimeISO
         });
 
-        // Clicking current block opens detailed popup
         document.getElementById('current-block').onclick = () => openPopup({
           title: "Current Conditions",
           summary: "",
@@ -435,7 +462,7 @@
         });
       });
 
-    // Fetch forecast and build forecast cards + update today’s forecast info
+    // Forecast: only 5 days, plus update current with today's hi/lo/expected rain
     fetch('https://data.api.xweather.com/forecasts/pws_pukerimu?format=json&plimit=8&fields=periods.timestamp,periods.dateTimeISO,periods.tempC,periods.weather,periods.icon,periods.maxTempC,periods.minTempC,periods.humidity,periods.precipMM,periods.windSpeedKPH,periods.windGustKPH,periods.summary&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq')
       .then(r => r.json())
       .then(json => {
@@ -443,8 +470,7 @@
         const fc = json.response[0].periods || [];
         const fcDom = document.getElementById('forecast-block');
         fcDom.innerHTML = "";
-
-        // Calculate rain history totals from forecast data
+        // Rain history
         const now = new Date();
         const weekAgo = new Date(now); weekAgo.setDate(now.getDate() - 6);
         const monthAgo = new Date(now); monthAgo.setMonth(now.getMonth() - 1);
@@ -460,21 +486,20 @@
         rainHistory.month = Math.round(monthRain);
         rainHistory.year = Math.round(yearRain);
 
-        // Update current box with today's forecast high/low and expected rain
+        // Add today's hi/lo/expected
         if (fc.length > 0) {
           const todayFc = fc[0];
-          // Add high/low info to current details
-          const detailsElem = document.getElementById('details');
-          detailsElem.innerHTML += `<br><b>Today:</b> High ${Math.round(todayFc.maxTempC)}°C, Low ${Math.round(todayFc.minTempC)}°C`;
+          document.getElementById('today-row').innerHTML =
+            `<b>Today:</b> High ${Math.round(todayFc.maxTempC)}°C, Low ${Math.round(todayFc.minTempC)}°C<br>
+             <b>Expected rain:</b> ${todayFc.precipMM || 0} mm`;
           // Update rain row with expected precipitation
           const observed = rainHistory.today || 0;
           const expected = todayFc.precipMM || 0;
-          document.getElementById('rain-row').innerHTML = 
+          document.getElementById('rain-row').innerHTML =
             `<b>Rainfall:</b> ${observed} mm so far today; ${expected} mm expected`;
         }
-
-        // Create forecast cards for the next 7 days (skip index 0 because that's today)
-        for (let i = 1; i < fc.length && i <= 7; ++i) {
+        // Show only next 5 forecast days
+        for (let i = 1; i < fc.length && i <= 5; ++i) {
           const p = fc[i];
           fcDom.innerHTML += `
             <div class="forecast-card" tabindex="0" onclick="openPopup({
@@ -501,7 +526,6 @@
         }
       });
 
-    // Popup helper functions
     function openPopup(opts) {
       document.getElementById('popup-title').textContent = opts.title || "";
       document.getElementById('popup-summary').textContent = opts.summary || "";
@@ -514,7 +538,6 @@
     function closePopup() {
       document.getElementById('popup-bg').style.display = 'none';
     }
-    // Close popup on backdrop click or Escape key
     document.getElementById('popup-bg').onclick = (e) => { if (e.target === e.currentTarget) closePopup(); }
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closePopup(); });
   </script>
