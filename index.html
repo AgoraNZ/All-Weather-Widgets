@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Agora Weather Widget</title>
-  <meta name="viewport" content="width=2000">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     html, body {
       background: #181e2a;
@@ -15,7 +15,7 @@
       font-family: 'Segoe UI', Arial, sans-serif;
     }
     #main-container {
-      width: 2000px;
+      width: 100%;
       height: 480px;
       margin: 0 auto;
       display: flex;
@@ -148,6 +148,7 @@
     }
     .forecast-card {
       width: 250px;
+      flex: 0 0 auto;
       height: 100%;
       background: #232f47;
       border-radius: 26px;
@@ -193,8 +194,7 @@
     }
     .forecast-card .lowhigh,
     .forecast-card .gust,
-    .forecast-card .precip,
-    .forecast-card .extra {
+    .forecast-card .precip {
       width: 100%;
       display: block;
     }
@@ -205,12 +205,7 @@
       margin-bottom: 0.15em;
       margin-top: 0.07em;
     }
-    .forecast-card .wind {
-      font-size: 1.43rem;
-      color: #aad7ff;
-      margin-bottom: 0.10em;
-      font-weight: 400;
-    }
+    .forecast-card .wind,
     .forecast-card .gust {
       font-size: 1.43rem;
       color: #aad7ff;
@@ -229,19 +224,6 @@
       color: #96e8ff;
       margin-bottom: 0.11em;
       font-weight: 400;
-    }
-    .forecast-card .extra {
-      font-size: 1.22rem;
-      color: #6afc94;
-      margin-top: 12px;
-      font-weight: 700;
-      line-height: 1.32;
-    }
-    .forecast-card .hailwarn {
-      font-size: 1.68rem;
-      color: #ff6b6b;
-      font-weight: 700;
-      margin-bottom: 8px;
     }
     #popup-bg {
       position: fixed;
@@ -370,11 +352,7 @@
     function capitalize(txt) {
       return (txt || '').charAt(0).toUpperCase() + (txt || '').slice(1);
     }
-
-    // --- UNIQUE, NON-REPEATING AI ADVICE SYSTEM ---
     function agoraAiAdvice(opts) {
-      // Weather/seasonal advice takes priority, then practical daily jobs
-      // All advice is direct, clear, and non-technology-specific
       const adviceWeather = [
         { cond: d => d.hail, msg: "Hail expected. Shelter livestock and cover equipment to prevent hail damage." },
         { cond: d => d.precip >= 20, msg: "Heavy rain expected. Shift cows off low paddocks and clear drains before milking to protect pasture." },
@@ -439,27 +417,17 @@
         gust: opts.gust || 0,
         hail: opts.hail ? true : false
       };
-      // Non-repeating per-day selection logic (rotates advice across the week)
-      // Build a hash from date so advice is unique across days
       const hashDay = Math.abs((new Date(opts.dateISO || Date.now())).getDate() +
         ((new Date(opts.dateISO || Date.now())).getMonth() + 1) * 37);
-
-      // Collect all matching weather/seasonal, else fallback to everyday unique per day
       let advs = [];
       for (let adv of adviceWeather) if (adv.cond(d)) advs.push(adv.msg);
       for (let adv of adviceSeasonal) if (adv.cond(d)) advs.push(adv.msg);
-
-      // For unique practical: rotate index for each day in week (never repeat in 7-day window)
       let rotIndex = hashDay % adviceEveryday.length;
       advs.push(adviceEveryday[rotIndex]);
-      // Only show first two, always unique, relevant and plain
       advs = advs.filter((v, i, arr) => arr.indexOf(v) === i).slice(0, 2);
       return advs.map(txt => `<div>${txt}</div>`).join('');
     }
-
     let rainHistory = { today: 0, week: 0, month: 0, year: 0 };
-
-    // Current box
     fetch('https://data.api.xweather.com/conditions/pws_pukerimu?format=json&plimit=1&filter=1min&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq')
       .then(r => r.json())
       .then(json => {
@@ -476,34 +444,27 @@
           icElem.style.display = 'none';
         }
         document.getElementById('weather-text').textContent = capitalize(p.weather) || '--';
-
         document.getElementById('details-col').innerHTML =
-          `<div><b>Feels like:</b> ${p.feelslikeC !== null && p.feelslikeC !== undefined ? Math.round(p.feelslikeC) + '°C' : 'NA'}</div>
-           <div><b>Humidity:</b> ${p.humidity !== null && p.humidity !== undefined ? p.humidity + '%' : 'NA'}</div>
-           <div><b>Wind:</b> ${p.windSpeedKPH !== null && p.windSpeedKPH !== undefined ? Math.round(p.windSpeedKPH) + ' km/h' : 'NA'}</div>
-           <div><b>Gusts:</b> ${p.windGustKPH !== null && p.windGustKPH !== undefined ? Math.round(p.windGustKPH) + ' km/h' : 'NA'}</div>
-           <div><b>Pressure:</b> ${p.pressureMB !== null && p.pressureMB !== undefined ? p.pressureMB + ' hPa' : 'NA'}</div>`;
-
-        // Rainfall today (observed so far) - always single-line
+          `<div><b>Feels like:</b> ${p.feelslikeC != null ? Math.round(p.feelslikeC) + '°C' : 'NA'}</div>
+           <div><b>Humidity:</b> ${p.humidity != null ? p.humidity + '%' : 'NA'}</div>
+           <div><b>Wind:</b> ${p.windSpeedKPH != null ? Math.round(p.windSpeedKPH) + ' km/h' : 'NA'}</div>
+           <div><b>Gusts:</b> ${p.windGustKPH != null ? Math.round(p.windGustKPH) + ' km/h' : 'NA'}</div>
+           <div><b>Pressure:</b> ${p.pressureMB != null ? p.pressureMB + ' hPa' : 'NA'}</div>`;
         const todayRain = (p.precipMM !== null && p.precipMM !== undefined) ? p.precipMM : 0;
         document.getElementById('rain-row').innerHTML = `<b>Rainfall so far:</b> ${todayRain} mm`;
         rainHistory.today = Number(todayRain) || 0;
-
         document.getElementById('todays-advice').innerHTML = agoraAiAdvice({
           temp: p.tempC,
           humidity: p.humidity,
           gust: p.windGustKPH,
           precip: p.precipMM,
           dateISO: p.dateTimeISO,
-          hail: false  // current conditions hail nowcast not available, assume false
+          hail: false
         });
-
         document.getElementById('current-block').onclick = () => openPopup({
           title: "Current Conditions",
-          summary: "",
-          lowhigh: "",
           extra: `<b>Temp:</b> ${Math.round(p.tempC)}°C<br>
-                  <b>Feels like:</b> ${p.feelslikeC !== null ? Math.round(p.feelslikeC) + '°C' : 'NA'}<br>
+                  <b>Feels like:</b> ${p.feelslikeC != null ? Math.round(p.feelslikeC) + '°C' : 'NA'}<br>
                   <b>Wind:</b> ${Math.round(p.windSpeedKPH || 0)} km/h (${p.windDir || ''})<br>
                   <b>Humidity:</b> ${p.humidity || 'NA'}%<br>
                   <b>Rainfall:</b> ${p.precipMM || 0} mm today`,
@@ -522,8 +483,6 @@
                  This year: ${rainHistory.year} mm`
         });
       });
-
-    // Forecast: 5 days, cards larger, pasture/dew info added
     fetch('https://data.api.xweather.com/forecasts/pws_pukerimu?format=json&plimit=8&fields=periods.timestamp,periods.dateTimeISO,periods.tempC,periods.weather,periods.icon,periods.maxTempC,periods.minTempC,periods.humidity,periods.precipMM,periods.windSpeedKPH,periods.windGustKPH,periods.dewpointC,periods.summary&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq')
       .then(r => r.json())
       .then(json => {
@@ -531,7 +490,6 @@
         const fc = json.response[0].periods || [];
         const fcDom = document.getElementById('forecast-block');
         fcDom.innerHTML = "";
-        // Rain history
         const now = new Date();
         const weekAgo = new Date(now);
         weekAgo.setDate(now.getDate() - 6);
@@ -551,21 +509,17 @@
         rainHistory.week = Math.round(weekRain);
         rainHistory.month = Math.round(monthRain);
         rainHistory.year = Math.round(yearRain);
-
-        // Add today's hi/lo/expected
         if (fc.length > 0) {
           const todayFc = fc[0];
           document.getElementById('today-row').innerHTML =
             `<b>Today:</b> High ${Math.round(todayFc.maxTempC)}°C, Low ${Math.round(todayFc.minTempC)}°C<br>
              <b>Expected rain:</b> ${todayFc.precipMM || 0} mm`;
         }
-        // Hail warning for today
         if (fc.length > 0 && ((fc[0].weather || '') + ' ' + (fc[0].summary || '')).toLowerCase().includes('hail')) {
           const hailElem = document.getElementById('hail-alert');
           hailElem.textContent = '⚠ Hail Warning for Today';
           hailElem.style.display = 'block';
         }
-        // Show next 5 forecast days (bigger cards, more info)
         for (let i = 1; i < fc.length && i <= 5; ++i) {
           const p = fc[i];
           let outlook = pastureOutlook(p.tempC || p.maxTempC, p.precipMM);
@@ -574,9 +528,8 @@
           fcDom.innerHTML += `
             <div class="forecast-card" tabindex="0" onclick="openPopup({
                 title: '${dayOfWeek(p.dateTimeISO)}',
-                summary: '',
                 lowhigh: 'High: ${Math.round(p.maxTempC)}°C<br>Low: ${Math.round(p.minTempC)}°C',
-                extra: 'Wind: ${Math.round(p.windSpeedKPH || 0)} km/h<br>Gusts: ${Math.round(p.windGustKPH || 0)} km/h<br>Humidity: ${p.humidity !== null && p.humidity !== undefined ? p.humidity + "%" : "NA"}<br>Dew point: ${p.dewpointC !== null && p.dewpointC !== undefined ? Math.round(p.dewpointC) + "°C" : "NA"}<br>Precip: ${p.precipMM || 0} mm',
+                extra: 'Wind: ${Math.round(p.windSpeedKPH || 0)} km/h<br>Gusts: ${Math.round(p.windGustKPH || 0)} km/h<br>Humidity: ${p.humidity != null ? p.humidity + '%' : 'NA'}<br>Dew point: ${p.dewpointC != null ? Math.round(p.dewpointC) + '°C' : 'NA'}<br>Precip: ${p.precipMM || 0} mm${outlook ? `<br>${outlook}` : ''}${dew ? `<br>${dew}` : ''}',
                 ai: \`${agoraAiAdvice({
                   temp: p.tempC || p.maxTempC,
                   humidity: p.humidity,
@@ -589,20 +542,16 @@
               <div class="day">${dayOfWeek(p.dateTimeISO)}</div>
               <img class="icon" src="${iconUrl(p.icon)}" alt="" width="120" height="120">
               <div class="desc">${capitalize(p.weather || '')}</div>
-              ${hail ? `<div class="hailwarn">⚠ Hail Warning</div>` : ''}
               <div class="lowhigh">High: ${Math.round(p.maxTempC)}°C<br>Low: ${Math.round(p.minTempC)}°C</div>
               <div class="wind">Wind: ${Math.round(p.windSpeedKPH || 0)} km/h</div>
               <div class="gust">Gusts: ${Math.round(p.windGustKPH || 0)} km/h</div>
               <div class="precip">Precip: ${p.precipMM || 0} mm</div>
-              <div class="humidity">Humidity: ${p.humidity !== null && p.humidity !== undefined ? p.humidity + '%' : 'NA'}</div>
-              <div class="dewpoint">Dew point: ${p.dewpointC !== null && p.dewpointC !== undefined ? Math.round(p.dewpointC) + '°C' : 'NA'}</div>
-              ${outlook ? `<div class="extra">${outlook}</div>` : ''}
-              ${dew ? `<div class="extra">${dew}</div>` : ''}
+              <div class="humidity">Humidity: ${p.humidity != null ? p.humidity + '%' : 'NA'}</div>
+              <div class="dewpoint">Dew point: ${p.dewpointC != null ? Math.round(p.dewpointC) + '°C' : 'NA'}</div>
             </div>
           `;
         }
       });
-
     function openPopup(opts) {
       document.getElementById('popup-title').textContent = opts.title || "";
       document.getElementById('popup-summary').textContent = opts.summary || "";
