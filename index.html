@@ -19,7 +19,7 @@
       width: 100vw;
       max-width: 4000px;
       min-width: 1200px;
-      height: 460px;
+      height: 394px;
       margin: 0 auto;
       display: flex;
       align-items: stretch;
@@ -30,105 +30,108 @@
     }
     #current-block {
       width: 520px;
-      min-width: 420px;
-      max-width: 700px;
+      min-width: 410px;
+      max-width: 690px;
       background: #222c40;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       align-items: stretch;
       border-right: 2px solid #232f47;
       box-sizing: border-box;
-      padding: 0 28px;
+      padding: 0 20px;
       cursor: pointer;
+      justify-content: flex-start;
     }
     .current-main {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      width: 190px;
-      padding-right: 16px;
-      border-right: 1px solid #253e62;
-      margin: 28px 0;
+      padding-top: 22px;
+      padding-bottom: 6px;
+      position: relative;
     }
     .temp {
-      font-size: 4.6rem;
+      font-size: 3.7rem;
       font-weight: 700;
       color: #fff;
       text-shadow: 0 1px 10px #222;
-      margin-bottom: 0.2em;
-      margin-top: 0;
+      margin: 0;
       line-height: 1;
     }
     .weather-row {
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 1.6rem;
+      font-size: 1.18rem;
       font-weight: 400;
       color: #fff;
-      margin: 0 0 14px 0;
+      margin: 4px 0 0 0;
+      line-height: 1.1;
     }
     .weather-row img {
-      width: 68px;
-      height: 68px;
-      margin-right: 4px;
-    }
-    .current-details-wrap {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      padding-left: 24px;
-      min-width: 250px;
-      margin: 20px 0;
-    }
-    .current-details-columns {
-      display: flex;
-      flex-direction: row;
-      gap: 40px;
-      margin-bottom: 8px;
-    }
-    .col {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      font-size: 1.15rem;
-      color: #c0d2ed;
-      min-width: 110px;
-      max-width: 170px;
-      line-height: 1.35;
-    }
-    .rain-row, .today-row {
-      font-size: 1.12rem;
-      color: #62c9fa;
-      font-weight: 600;
-      margin-top: 2px;
-      margin-bottom: 2px;
-    }
-    .today-row {
-      color: #ffedbc;
-      margin-top: 0;
-      margin-bottom: 6px;
+      width: 58px;
+      height: 58px;
+      margin-right: 3px;
     }
     #todays-advice {
       background: #253e62;
       color: #ffd25a;
       border-radius: 8px;
-      font-size: 1.1rem;
-      margin-top: 10px;
-      margin-bottom: 3px;
-      padding: 9px 15px 9px 15px;
+      font-size: 1.08rem;
+      margin: 14px 0 0 0;
+      padding: 7px 14px;
       font-weight: 600;
       box-shadow: 0 1px 7px #0002;
-      line-height: 1.35;
+      line-height: 1.27;
       letter-spacing: 0.01em;
       display: block;
-      min-height: 36px;
+      min-height: 28px;
       width: 100%;
       overflow-wrap: break-word;
       word-break: break-word;
+      text-align: center;
+    }
+    .current-details-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      padding-top: 9px;
+      padding-left: 0;
+      min-width: 0;
+      margin: 0;
+    }
+    .current-details-columns {
+      display: flex;
+      flex-direction: row;
+      gap: 24px;
+      margin-bottom: 2px;
+      width: 100%;
+      justify-content: center;
+    }
+    .col {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 1.01rem;
+      color: #c0d2ed;
+      min-width: 100px;
+      max-width: 160px;
+      line-height: 1.18;
+    }
+    .rain-row, .today-row {
+      font-size: 1.01rem;
+      color: #62c9fa;
+      font-weight: 600;
+      margin-top: 4px;
+      margin-bottom: 1px;
+      text-align: left;
+    }
+    .today-row {
+      color: #ffedbc;
+      margin-top: 0;
+      margin-bottom: 5px;
     }
     #forecast-block {
       flex: 1;
@@ -136,8 +139,8 @@
       align-items: stretch;
       height: 100%;
       background: #181e2a;
-      gap: 19px;
-      padding: 26px 28px 24px 28px;
+      gap: 16px;
+      padding: 26px 22px 24px 22px;
       min-width: 0;
       overflow-x: hidden;
       box-sizing: border-box;
@@ -148,7 +151,7 @@
       max-width: 14vw;
       background: #232f47;
       border-radius: 18px;
-      padding: 24px 13px 12px 13px;
+      padding: 17px 9px 9px 10px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -169,25 +172,25 @@
     }
     .forecast-card .day {
       font-weight: bold;
-      font-size: 1.27rem;
-      margin-bottom: 10px;
+      font-size: 1.17rem;
+      margin-bottom: 7px;
       color: #fff;
       letter-spacing: 0.02em;
     }
     .forecast-card .icon {
-      font-size: 2.6rem;
-      margin-bottom: 6px;
-      width: 58px;
-      height: 58px;
+      font-size: 2.1rem;
+      margin-bottom: 5px;
+      width: 44px;
+      height: 44px;
       display: block;
       align-self: center;
     }
     .forecast-card .desc {
-      font-size: 1.09rem;
+      font-size: 0.96rem;
       color: #c0d2ed;
-      margin-bottom: 6px;
-      min-height: 20px;
-      line-height: 1.1;
+      margin-bottom: 5px;
+      min-height: 19px;
+      line-height: 1.06;
       font-weight: 400;
     }
     .forecast-card .lowhigh,
@@ -197,38 +200,38 @@
       display: block;
     }
     .forecast-card .lowhigh {
-      font-size: 1.09rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #fff;
-      margin-bottom: 0.13em;
+      margin-bottom: 0.10em;
       margin-top: 0.03em;
     }
     .forecast-card .wind,
     .forecast-card .gust {
-      font-size: 0.99rem;
+      font-size: 0.87rem;
       color: #aad7ff;
       margin-bottom: 0.06em;
       font-weight: 400;
     }
     .forecast-card .precip {
-      font-size: 0.97rem;
+      font-size: 0.84rem;
       color: #96e8ff;
       margin-bottom: 0.06em;
       font-weight: 400;
     }
     .forecast-card .humidity,
     .forecast-card .dewpoint {
-      font-size: 0.97rem;
+      font-size: 0.84rem;
       color: #96e8ff;
       margin-bottom: 0.06em;
       font-weight: 400;
     }
-    @media (max-width: 1600px) {
-      #main-container { height: 350px; }
-      #current-block { min-width: 290px; max-width: 380px; padding: 0 10px; }
-      #forecast-block { padding: 5px 4px 4px 4px; gap: 6px;}
-      .forecast-card { border-radius: 11px; padding: 7px 2px 2px 3px;}
-      .current-main .temp { font-size: 2.3rem; }
+    @media (max-width: 1700px) {
+      #main-container { height: 320px; }
+      #current-block { min-width: 230px; max-width: 350px; padding: 0 8px; }
+      #forecast-block { padding: 4px 2px 4px 2px; gap: 3px;}
+      .forecast-card { border-radius: 11px; padding: 6px 2px 2px 3px;}
+      .current-main .temp { font-size: 1.9rem; }
     }
     #popup-bg {
       position: fixed;
@@ -244,12 +247,12 @@
       border-radius: 18px;
       padding: 26px 34px;
       color: #fff;
-      font-size: 1.14rem;
+      font-size: 1.08rem;
       font-weight: 500;
       max-width: 480px;
       width: 96vw;
       box-shadow: 0 8px 30px #000c;
-      line-height: 1.28;
+      line-height: 1.18;
       position: relative;
       text-align: center;
     }
@@ -264,21 +267,21 @@
       border: none;
     }
     #popup-title {
-      font-size: 1.12em;
+      font-size: 1.07em;
       font-weight: bold;
-      margin-bottom: 7px;
+      margin-bottom: 6px;
     }
-    #popup-summary, #popup-lowhigh, #popup-extra { margin-bottom: 6px; }
+    #popup-summary, #popup-lowhigh, #popup-extra { margin-bottom: 5px; }
     #popup-ai {
-      margin-top: 7px;
-      font-size: 1.03rem;
+      margin-top: 5px;
+      font-size: 0.97rem;
       color: #fee680;
     }
     #popup-hist {
-      margin-top: 8px;
+      margin-top: 7px;
       color: #aad7ff;
-      font-size: 0.93rem;
-      line-height: 1.13;
+      font-size: 0.86rem;
+      line-height: 1.07;
     }
   </style>
 </head>
@@ -291,6 +294,7 @@
           <img id="cur-icon" src="" style="display:none;" alt="">
           <span id="weather-text">Loading…</span>
         </div>
+        <div id="todays-advice">Loading today’s AI advice…</div>
       </div>
       <div class="current-details-wrap">
         <div class="current-details-columns">
@@ -299,7 +303,6 @@
         </div>
         <div class="rain-row" id="rain-row"></div>
         <div class="today-row" id="today-row"></div>
-        <div id="todays-advice">Loading today’s AI advice…</div>
       </div>
     </div>
     <div id="forecast-block"></div>
@@ -412,7 +415,7 @@
     }
     let rainHistory = { today: 0, week: 0, month: 0, year: 0 };
 
-    // Populate current block in 2 columns
+    // Current block
     fetch('https://data.api.xweather.com/conditions/pws_pukerimu?format=json&plimit=1&filter=1min&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq')
       .then(r => r.json())
       .then(json => {
@@ -430,7 +433,7 @@
         }
         document.getElementById('weather-text').textContent = capitalize(p.weather) || '--';
 
-        // Split details into 2 columns, wide layout
+        // Two columns
         document.getElementById('details-col-left').innerHTML = `
           <div><b>Feels like:</b> ${p.feelslikeC != null ? Math.round(p.feelslikeC) + '°C' : 'NA'}</div>
           <div><b>Humidity:</b> ${p.humidity != null ? p.humidity + '%' : 'NA'}</div>
@@ -454,7 +457,6 @@
           hail: false
         });
 
-        // Popup on click for current block
         document.getElementById('current-block').onclick = () => openPopup({
           title: "Current Conditions",
           extra: `<b>Temp:</b> ${Math.round(p.tempC)}°C<br>
@@ -541,6 +543,7 @@
           `;
         }
       });
+
     function openPopup(opts) {
       document.getElementById('popup-title').textContent = opts.title || "";
       document.getElementById('popup-summary').textContent = opts.summary || "";
