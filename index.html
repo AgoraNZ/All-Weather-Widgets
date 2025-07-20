@@ -28,111 +28,116 @@
       overflow: hidden;
     }
     #current-block {
-      width: 22.5%;
-      min-width: 230px;
-      max-width: 380px;
+      width: 21.5%;
+      min-width: 220px;
+      max-width: 340px;
       height: 100%;
       background: #222c40;
       display: flex;
       flex-direction: column;
+      align-items: center;
       justify-content: flex-start;
-      padding: 22px 18px 14px 20px;
+      padding: 12px 10px 10px 10px;
       box-sizing: border-box;
       border-right: 2px solid #232f47;
       position: relative;
       cursor: pointer;
       gap: 1px;
     }
-    #current-flexrow {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
+    .current-main-row {
       width: 100%;
-      gap: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4em;
+      margin-bottom: 0.2em;
     }
     .current-temp-icon {
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-width: 64px;
-      margin-right: 4px;
+      justify-content: flex-start;
+      margin-bottom: 0.2em;
     }
     .temp {
-      font-size: 3.1rem;
+      font-size: 3.3rem;
       font-weight: 600;
       color: #fff;
       line-height: 1;
       text-shadow: 0 1px 8px #222;
-      margin-bottom: 0.03em;
+      margin-bottom: 0.04em;
       margin-top: 2px;
     }
     .weather-row {
       display: flex;
       align-items: center;
-      gap: 7px;
-      font-size: 1.35rem;
-      font-weight: 400;
+      gap: 8px;
+      font-size: 1.43rem;
+      font-weight: 500;
       color: #fff;
-      margin-top: 3px;
-      margin-bottom: 5px;
+      margin-bottom: 0.4em;
     }
     .weather-row img {
-      width: 32px;
-      height: 32px;
-      margin-right: 2px;
+      width: 50px;
+      height: 50px;
+      margin-right: 0px;
+      margin-bottom: -4px;
     }
-    .current-cols {
-      flex: 1;
+    .current-cols-2col {
+      width: 96%;
       display: flex;
       flex-direction: row;
-      gap: 12px;
-      margin-left: 1px;
-      margin-top: 1px;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 0.25em;
     }
-    .col {
+    .col2 {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      font-size: 0.99rem;
+      gap: 5px;
+      font-size: 1.08rem;
       color: #c0d2ed;
-      min-width: 82px;
-      max-width: 140px;
-      line-height: 1.18;
+      min-width: 90px;
+      max-width: 145px;
+      line-height: 1.2;
     }
-    .rain-row {
-      font-size: 1.03rem;
-      color: #62c9fa;
-      font-weight: 700;
+    .info-below {
+      width: 96%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
       margin-top: 4px;
-      margin-bottom: 2px;
     }
     .hail-row {
-      font-size: 1.03rem;
+      font-size: 1.05rem;
       color: #ff6b6b;
       font-weight: 700;
-      margin-top: 4px;
+      margin-bottom: 2px;
+    }
+    .rain-row {
+      font-size: 1.06rem;
+      color: #62c9fa;
+      font-weight: 700;
       margin-bottom: 2px;
     }
     .today-row {
-      font-size: 1.03rem;
+      font-size: 1.06rem;
       color: #ffedbc;
       font-weight: 600;
       margin-bottom: 4px;
-      margin-top: 4px;
     }
     #todays-advice {
       background: #253e62;
       color: #ffd25a;
       border-radius: 7px;
-      font-size: 1.03rem;
-      margin-top: 11px;
-      margin-bottom: 2px;
+      font-size: 1.06rem;
+      margin-top: 6px;
+      margin-bottom: 1px;
       padding: 8px 8px 8px 10px;
       font-weight: 600;
       box-shadow: 0 1px 7px #0002;
       line-height: 1.28;
       letter-spacing: 0.01em;
-      display: block;
       min-height: 24px;
       width: 100%;
       overflow-wrap: break-word;
@@ -231,10 +236,10 @@
     }
     @media (max-width: 1350px) {
       #main-container { height: 380px; }
-      #current-block { min-width: 130px; padding: 9px 6px 6px 6px; }
+      #current-block { min-width: 130px; padding: 8px 4px 6px 4px; }
       #forecast-block { padding: 5px 3px 4px 3px; gap: 2px;}
       .forecast-card { border-radius: 11px; padding: 4px 2px 2px 3px;}
-      .current-temp-icon .temp { font-size: 1.4rem; }
+      .current-temp-icon .temp { font-size: 1.2rem; }
     }
     #popup-bg {
       position: fixed;
@@ -291,7 +296,7 @@
 <body>
   <div id="main-container">
     <div id="current-block" tabindex="0">
-      <div id="current-flexrow">
+      <div class="current-main-row">
         <div class="current-temp-icon">
           <div class="temp" id="temp">--°C</div>
           <div class="weather-row" id="weather-row">
@@ -299,14 +304,15 @@
             <span id="weather-text">Loading…</span>
           </div>
         </div>
-        <div class="current-cols">
-          <div class="col" id="details-col"></div>
-          <div class="col">
-            <div class="hail-row" id="hail-alert" style="display:none;"></div>
-            <div class="rain-row" id="rain-row"></div>
-            <div class="today-row" id="today-row"></div>
-          </div>
+        <div class="current-cols-2col">
+          <div class="col2" id="details-col-left"></div>
+          <div class="col2" id="details-col-right"></div>
         </div>
+      </div>
+      <div class="info-below">
+        <div class="hail-row" id="hail-alert" style="display:none;"></div>
+        <div class="rain-row" id="rain-row"></div>
+        <div class="today-row" id="today-row"></div>
       </div>
       <div id="todays-advice">Loading today’s AI advice…</div>
     </div>
@@ -344,6 +350,8 @@
       return (txt || '').charAt(0).toUpperCase() + (txt || '').slice(1);
     }
     function agoraAiAdvice(opts) {
+      // (same as before, omitted here for brevity)
+      // ...full function unchanged...
       const adviceWeather = [
         { cond: d => d.hail, msg: "Hail expected. Shelter livestock and cover equipment to prevent hail damage." },
         { cond: d => d.precip >= 20, msg: "Heavy rain expected. Shift cows off low paddocks and clear drains before milking to protect pasture." },
@@ -418,7 +426,10 @@
       advs = advs.filter((v, i, arr) => arr.indexOf(v) === i).slice(0, 2);
       return advs.map(txt => `<div>${txt}</div>`).join('');
     }
+
     let rainHistory = { today: 0, week: 0, month: 0, year: 0 };
+
+    // FETCH CURRENT DATA AND RENDER 2-COL
     fetch('https://data.api.xweather.com/conditions/pws_pukerimu?format=json&plimit=1&filter=1min&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq')
       .then(r => r.json())
       .then(json => {
@@ -435,12 +446,20 @@
           icElem.style.display = 'none';
         }
         document.getElementById('weather-text').textContent = capitalize(p.weather) || '--';
-        document.getElementById('details-col').innerHTML =
-          `<div><b>Feels like:</b> ${p.feelslikeC != null ? Math.round(p.feelslikeC) + '°C' : 'NA'}</div>
-           <div><b>Humidity:</b> ${p.humidity != null ? p.humidity + '%' : 'NA'}</div>
-           <div><b>Wind:</b> ${p.windSpeedKPH != null ? Math.round(p.windSpeedKPH) + ' km/h' : 'NA'}</div>
-           <div><b>Gusts:</b> ${p.windGustKPH != null ? Math.round(p.windGustKPH) + ' km/h' : 'NA'}</div>
-           <div><b>Pressure:</b> ${p.pressureMB != null ? p.pressureMB + ' hPa' : 'NA'}</div>`;
+        // 2-col layout
+        const left = [
+          `<b>Feels like:</b> ${p.feelslikeC != null ? Math.round(p.feelslikeC) + '°C' : 'NA'}`,
+          `<b>Humidity:</b> ${p.humidity != null ? p.humidity + '%' : 'NA'}`,
+          `<b>Wind:</b> ${p.windSpeedKPH != null ? Math.round(p.windSpeedKPH) + ' km/h' : 'NA'}`
+        ];
+        const right = [
+          `<b>Gusts:</b> ${p.windGustKPH != null ? Math.round(p.windGustKPH) + ' km/h' : 'NA'}`,
+          `<b>Pressure:</b> ${p.pressureMB != null ? p.pressureMB + ' hPa' : 'NA'}`,
+          `<b>Dir:</b> ${p.windDir || 'NA'}`
+        ];
+        document.getElementById('details-col-left').innerHTML = left.join('<div></div>');
+        document.getElementById('details-col-right').innerHTML = right.join('<div></div>');
+        // Below
         const todayRain = (p.precipMM !== null && p.precipMM !== undefined) ? p.precipMM : 0;
         document.getElementById('rain-row').innerHTML = `<b>Rainfall so far:</b> ${todayRain} mm`;
         rainHistory.today = Number(todayRain) || 0;
@@ -474,6 +493,8 @@
                  This year: ${rainHistory.year} mm`
         });
       });
+
+    // FORECAST (unchanged from your working version)
     fetch('https://data.api.xweather.com/forecasts/pws_pukerimu?format=json&plimit=8&fields=periods.timestamp,periods.dateTimeISO,periods.tempC,periods.weather,periods.icon,periods.maxTempC,periods.minTempC,periods.humidity,periods.precipMM,periods.windSpeedKPH,periods.windGustKPH,periods.dewpointC,periods.summary&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq')
       .then(r => r.json())
       .then(json => {
@@ -482,12 +503,9 @@
         const fcDom = document.getElementById('forecast-block');
         fcDom.innerHTML = "";
         const now = new Date();
-        const weekAgo = new Date(now);
-        weekAgo.setDate(now.getDate() - 6);
-        const monthAgo = new Date(now);
-        monthAgo.setMonth(now.getMonth() - 1);
-        const yearAgo = new Date(now);
-        yearAgo.setFullYear(now.getFullYear() - 1);
+        const weekAgo = new Date(now); weekAgo.setDate(now.getDate() - 6);
+        const monthAgo = new Date(now); monthAgo.setMonth(now.getMonth() - 1);
+        const yearAgo = new Date(now); yearAgo.setFullYear(now.getFullYear() - 1);
         let weekRain = 0, monthRain = 0, yearRain = 0;
         for (let period of fc) {
           let d = new Date(period.dateTimeISO);
@@ -541,6 +559,7 @@
           `;
         }
       });
+
     function openPopup(opts) {
       document.getElementById('popup-title').textContent = opts.title || "";
       document.getElementById('popup-summary').textContent = opts.summary || "";
