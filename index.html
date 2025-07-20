@@ -16,6 +16,8 @@
     }
     #main-container {
       width: 100%;
+      max-width: 2000px;
+      min-width: 900px;
       height: 480px;
       margin: 0 auto;
       display: flex;
@@ -26,112 +28,112 @@
       overflow: hidden;
     }
     #current-block {
-      width: 660px;
-      min-width: 580px;
-      max-width: 820px;
+      width: 22.5%;
+      min-width: 230px;
+      max-width: 380px;
       height: 100%;
       background: #222c40;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
-      padding: 32px 40px 24px 42px;
+      padding: 22px 18px 14px 20px;
       box-sizing: border-box;
-      border-right: 3px solid #222c40;
+      border-right: 2px solid #232f47;
       position: relative;
       cursor: pointer;
-      gap: 2px;
+      gap: 1px;
     }
     #current-flexrow {
       display: flex;
       flex-direction: row;
       align-items: flex-start;
       width: 100%;
-      gap: 32px;
+      gap: 14px;
     }
     .current-temp-icon {
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-width: 144px;
-      margin-right: 14px;
+      min-width: 64px;
+      margin-right: 4px;
     }
     .temp {
-      font-size: 6.3rem;
+      font-size: 3.1rem;
       font-weight: 600;
       color: #fff;
       line-height: 1;
-      text-shadow: 0 1px 14px #222;
+      text-shadow: 0 1px 8px #222;
       margin-bottom: 0.03em;
-      margin-top: 5px;
+      margin-top: 2px;
     }
     .weather-row {
       display: flex;
       align-items: center;
-      gap: 13px;
-      font-size: 2.6rem;
+      gap: 7px;
+      font-size: 1.35rem;
       font-weight: 400;
       color: #fff;
-      margin-top: 5px;
-      margin-bottom: 7px;
+      margin-top: 3px;
+      margin-bottom: 5px;
     }
     .weather-row img {
-      width: 58px;
-      height: 58px;
-      margin-right: 4px;
+      width: 32px;
+      height: 32px;
+      margin-right: 2px;
     }
     .current-cols {
       flex: 1;
       display: flex;
       flex-direction: row;
-      gap: 36px;
-      margin-left: 5px;
-      margin-top: 2px;
+      gap: 12px;
+      margin-left: 1px;
+      margin-top: 1px;
     }
     .col {
       display: flex;
       flex-direction: column;
-      gap: 11px;
-      font-size: 1.35rem;
+      gap: 4px;
+      font-size: 0.99rem;
       color: #c0d2ed;
-      min-width: 180px;
-      max-width: 230px;
-      line-height: 1.38;
+      min-width: 82px;
+      max-width: 140px;
+      line-height: 1.18;
     }
     .rain-row {
-      font-size: 1.38rem;
+      font-size: 1.03rem;
       color: #62c9fa;
       font-weight: 700;
-      margin-top: 9px;
-      margin-bottom: 4px;
+      margin-top: 4px;
+      margin-bottom: 2px;
     }
     .hail-row {
-      font-size: 1.38rem;
+      font-size: 1.03rem;
       color: #ff6b6b;
       font-weight: 700;
-      margin-top: 9px;
-      margin-bottom: 4px;
+      margin-top: 4px;
+      margin-bottom: 2px;
     }
     .today-row {
-      font-size: 1.33rem;
+      font-size: 1.03rem;
       color: #ffedbc;
       font-weight: 600;
-      margin-bottom: 7px;
-      margin-top: 7px;
+      margin-bottom: 4px;
+      margin-top: 4px;
     }
     #todays-advice {
       background: #253e62;
       color: #ffd25a;
-      border-radius: 10px;
-      font-size: 1.42rem;
-      margin-top: 20px;
-      margin-bottom: 3px;
-      padding: 22px 24px 22px 26px;
+      border-radius: 7px;
+      font-size: 1.03rem;
+      margin-top: 11px;
+      margin-bottom: 2px;
+      padding: 8px 8px 8px 10px;
       font-weight: 600;
-      box-shadow: 0 2px 11px #0002;
-      line-height: 1.48;
+      box-shadow: 0 1px 7px #0002;
+      line-height: 1.28;
       letter-spacing: 0.01em;
       display: block;
-      min-height: 54px;
+      min-height: 24px;
       width: 100%;
       overflow-wrap: break-word;
       word-break: break-word;
@@ -141,55 +143,57 @@
       display: flex;
       align-items: flex-start;
       height: 100%;
-      padding: 0 32px;
-      overflow-x: auto;
       background: #181e2a;
-      gap: 5px;
+      gap: 7px;
+      padding: 16px 18px 12px 14px;
+      min-width: 0;
+      overflow-x: hidden;
     }
     .forecast-card {
-      width: 250px;
-      flex: 0 0 auto;
-      height: 100%;
+      flex: 1 1 0;
+      min-width: 0;
+      max-width: 18vw;
       background: #232f47;
-      border-radius: 26px;
-      padding: 42px 24px 30px 36px;
+      border-radius: 18px;
+      padding: 12px 8px 8px 10px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      box-shadow: 0 1px 12px #0004;
+      box-shadow: 0 1px 7px #0003;
       color: #fff;
       margin: 0;
       justify-content: flex-start;
       cursor: pointer;
       transition: box-shadow 0.13s;
       position: relative;
+      min-height: 0;
+      max-height: 98%;
     }
     .forecast-card:hover {
-      box-shadow: 0 14px 42px #0008;
+      box-shadow: 0 8px 26px #0006;
       background: #27334f;
     }
     .forecast-card .day {
       font-weight: bold;
-      font-size: 2.4rem;
-      margin-bottom: 16px;
+      font-size: 1.18rem;
+      margin-bottom: 6px;
       color: #fff;
       letter-spacing: 0.02em;
     }
     .forecast-card .icon {
-      font-size: 6rem;
-      margin-bottom: 10px;
-      width: 120px;
-      height: 120px;
+      font-size: 2.3rem;
+      margin-bottom: 4px;
+      width: 52px;
+      height: 52px;
       display: block;
       align-self: center;
     }
     .forecast-card .desc {
-      font-size: 1.74rem;
+      font-size: 1.02rem;
       color: #c0d2ed;
-      margin-bottom: 8px;
-      min-height: 42px;
-      line-height: 1.2;
-      white-space: pre-line;
+      margin-bottom: 4px;
+      min-height: 20px;
+      line-height: 1.1;
       font-weight: 400;
     }
     .forecast-card .lowhigh,
@@ -199,39 +203,43 @@
       display: block;
     }
     .forecast-card .lowhigh {
-      font-size: 1.68rem;
+      font-size: 1.09rem;
       font-weight: 700;
       color: #fff;
-      margin-bottom: 0.15em;
-      margin-top: 0.07em;
+      margin-bottom: 0.08em;
+      margin-top: 0.03em;
     }
     .forecast-card .wind,
     .forecast-card .gust {
-      font-size: 1.43rem;
+      font-size: 0.93rem;
       color: #aad7ff;
-      margin-bottom: 0.10em;
+      margin-bottom: 0.06em;
       font-weight: 400;
     }
     .forecast-card .precip {
-      font-size: 1.41rem;
+      font-size: 0.89rem;
       color: #96e8ff;
-      margin-bottom: 0.11em;
+      margin-bottom: 0.06em;
       font-weight: 400;
     }
     .forecast-card .humidity,
     .forecast-card .dewpoint {
-      font-size: 1.41rem;
+      font-size: 0.89rem;
       color: #96e8ff;
-      margin-bottom: 0.11em;
+      margin-bottom: 0.06em;
       font-weight: 400;
+    }
+    @media (max-width: 1350px) {
+      #main-container { height: 380px; }
+      #current-block { min-width: 130px; padding: 9px 6px 6px 6px; }
+      #forecast-block { padding: 5px 3px 4px 3px; gap: 2px;}
+      .forecast-card { border-radius: 11px; padding: 4px 2px 2px 3px;}
+      .current-temp-icon .temp { font-size: 1.4rem; }
     }
     #popup-bg {
       position: fixed;
       z-index: 99999;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(20, 30, 50, 0.86);
       display: none;
       align-items: center;
@@ -240,60 +248,43 @@
     #popup-content {
       background: #232f47;
       border-radius: 18px;
-      padding: 36px 54px;
+      padding: 26px 34px;
       color: #fff;
-      font-size: 1.7rem;
+      font-size: 1.14rem;
       font-weight: 500;
-      max-width: 580px;
-      width: 95vw;
-      box-shadow: 0 12px 40px #000c;
-      line-height: 1.36;
+      max-width: 480px;
+      width: 96vw;
+      box-shadow: 0 8px 30px #000c;
+      line-height: 1.28;
       position: relative;
       text-align: center;
     }
     #popup-close {
       position: absolute;
-      top: 10px;
-      right: 22px;
-      font-size: 2.3rem;
+      top: 5px;
+      right: 14px;
+      font-size: 2rem;
       color: #aad7ff;
       cursor: pointer;
       background: none;
       border: none;
     }
     #popup-title {
-      font-size: 1.25em;
+      font-size: 1.12em;
       font-weight: bold;
-      margin-bottom: 12px;
+      margin-bottom: 7px;
     }
-    #popup-summary,
-    #popup-lowhigh,
-    #popup-extra {
-      margin-bottom: 10px;
-    }
+    #popup-summary, #popup-lowhigh, #popup-extra { margin-bottom: 6px; }
     #popup-ai {
-      margin-top: 14px;
-      font-size: 1.33rem;
+      margin-top: 7px;
+      font-size: 1.03rem;
       color: #fee680;
     }
     #popup-hist {
-      margin-top: 18px;
+      margin-top: 8px;
       color: #aad7ff;
-      font-size: 1.13rem;
-      line-height: 1.22;
-    }
-    @media (max-width: 1300px) {
-      #main-container {
-        width: 99vw !important;
-      }
-      #forecast-block {
-        gap: 17px;
-      }
-      .forecast-card {
-        width: 190px;
-        height: 250px;
-        padding: 14px 6px 6px 15px;
-      }
+      font-size: 0.93rem;
+      line-height: 1.13;
     }
   </style>
 </head>
@@ -497,9 +488,7 @@
         monthAgo.setMonth(now.getMonth() - 1);
         const yearAgo = new Date(now);
         yearAgo.setFullYear(now.getFullYear() - 1);
-        let weekRain = 0,
-            monthRain = 0,
-            yearRain = 0;
+        let weekRain = 0, monthRain = 0, yearRain = 0;
         for (let period of fc) {
           let d = new Date(period.dateTimeISO);
           if (d >= weekAgo) weekRain += Number(period.precipMM) || 0;
@@ -529,7 +518,7 @@
             <div class="forecast-card" tabindex="0" onclick="openPopup({
                 title: '${dayOfWeek(p.dateTimeISO)}',
                 lowhigh: 'High: ${Math.round(p.maxTempC)}°C<br>Low: ${Math.round(p.minTempC)}°C',
-                extra: 'Wind: ${Math.round(p.windSpeedKPH || 0)} km/h<br>Gusts: ${Math.round(p.windGustKPH || 0)} km/h<br>Humidity: ${p.humidity != null ? p.humidity + '%' : 'NA'}<br>Dew point: ${p.dewpointC != null ? Math.round(p.dewpointC) + '°C' : 'NA'}<br>Precip: ${p.precipMM || 0} mm${outlook ? `<br>${outlook}` : ''}${dew ? `<br>${dew}` : ''}',
+                extra: 'Wind: ${Math.round(p.windSpeedKPH || 0)} km/h<br>Gusts: ${Math.round(p.windGustKPH || 0)} km/h<br>Humidity: ${p.humidity != null ? p.humidity + '%' : 'NA'}<br>Dew point: ${p.dewpointC != null ? Math.round(p.dewpointC) + '°C' : 'NA'}<br>Precip: ${p.precipMM || 0} mm${outlook ? `<br>${outlook}` : ''}${dew ? `<br>${dew}` : ''}${hail ? `<br>⚠ Hail warning` : ''}',
                 ai: \`${agoraAiAdvice({
                   temp: p.tempC || p.maxTempC,
                   humidity: p.humidity,
@@ -540,7 +529,7 @@
                 })}\`
               })">
               <div class="day">${dayOfWeek(p.dateTimeISO)}</div>
-              <img class="icon" src="${iconUrl(p.icon)}" alt="" width="120" height="120">
+              <img class="icon" src="${iconUrl(p.icon)}" alt="" width="42" height="42">
               <div class="desc">${capitalize(p.weather || '')}</div>
               <div class="lowhigh">High: ${Math.round(p.maxTempC)}°C<br>Low: ${Math.round(p.minTempC)}°C</div>
               <div class="wind">Wind: ${Math.round(p.windSpeedKPH || 0)} km/h</div>
