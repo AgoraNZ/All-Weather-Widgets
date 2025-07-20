@@ -46,9 +46,11 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: flex-start;
       padding-top: 22px;
-      padding-bottom: 6px;
+      padding-bottom: 4px;
       position: relative;
+      width: 100%;
     }
     .temp {
       font-size: 3.7rem;
@@ -78,7 +80,7 @@
       color: #ffd25a;
       border-radius: 8px;
       font-size: 1.08rem;
-      margin: 14px 0 0 0;
+      margin: 12px 0 0 0;
       padding: 7px 14px;
       font-weight: 600;
       box-shadow: 0 1px 7px #0002;
@@ -97,7 +99,7 @@
       flex-direction: column;
       justify-content: flex-start;
       align-items: flex-start;
-      padding-top: 9px;
+      padding-top: 5px;
       padding-left: 0;
       min-width: 0;
       margin: 0;
@@ -415,7 +417,7 @@
     }
     let rainHistory = { today: 0, week: 0, month: 0, year: 0 };
 
-    // Current block
+    // Populate current block in 2 columns
     fetch('https://data.api.xweather.com/conditions/pws_pukerimu?format=json&plimit=1&filter=1min&client_id=U8feQfLlcEfcXDfsWZs4C&client_secret=HvIaM6HOkFmlJ8ywHPNSudj9txzpyuP7gJh2eDvq')
       .then(r => r.json())
       .then(json => {
@@ -433,7 +435,7 @@
         }
         document.getElementById('weather-text').textContent = capitalize(p.weather) || '--';
 
-        // Two columns
+        // Split details into 2 columns, wide layout
         document.getElementById('details-col-left').innerHTML = `
           <div><b>Feels like:</b> ${p.feelslikeC != null ? Math.round(p.feelslikeC) + '°C' : 'NA'}</div>
           <div><b>Humidity:</b> ${p.humidity != null ? p.humidity + '%' : 'NA'}</div>
@@ -457,6 +459,7 @@
           hail: false
         });
 
+        // Popup on click for current block
         document.getElementById('current-block').onclick = () => openPopup({
           title: "Current Conditions",
           extra: `<b>Temp:</b> ${Math.round(p.tempC)}°C<br>
