@@ -79,15 +79,15 @@
       background: #253e62;
       color: #ffd25a;
       border-radius: 8px;
-      font-size: 1.08rem;
+      font-size: 1.13rem;
       margin: 12px 0 0 0;
-      padding: 7px 14px;
+      padding: 10px 20px 10px 20px;
       font-weight: 600;
       box-shadow: 0 1px 7px #0002;
-      line-height: 1.27;
+      line-height: 1.35;
       letter-spacing: 0.01em;
       display: block;
-      min-height: 28px;
+      min-height: 30px;
       width: 100%;
       overflow-wrap: break-word;
       word-break: break-word;
@@ -153,7 +153,7 @@
       max-width: 14vw;
       background: #232f47;
       border-radius: 18px;
-      padding: 17px 9px 9px 10px;
+      padding: 20px 13px 12px 13px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -174,26 +174,26 @@
     }
     .forecast-card .day {
       font-weight: bold;
-      font-size: 1.17rem;
-      margin-bottom: 7px;
+      font-size: 1.55rem;
+      margin-bottom: 11px;
       color: #fff;
       letter-spacing: 0.02em;
     }
     .forecast-card .icon {
-      font-size: 2.1rem;
-      margin-bottom: 5px;
-      width: 44px;
-      height: 44px;
+      font-size: 3.2rem;
+      margin-bottom: 10px;
+      width: 74px;
+      height: 74px;
       display: block;
       align-self: center;
     }
     .forecast-card .desc {
-      font-size: 0.96rem;
+      font-size: 1.25rem;
       color: #c0d2ed;
-      margin-bottom: 5px;
-      min-height: 19px;
-      line-height: 1.06;
-      font-weight: 400;
+      margin-bottom: 10px;
+      min-height: 26px;
+      line-height: 1.13;
+      font-weight: 500;
     }
     .forecast-card .lowhigh,
     .forecast-card .gust,
@@ -202,31 +202,31 @@
       display: block;
     }
     .forecast-card .lowhigh {
-      font-size: 0.98rem;
+      font-size: 1.2rem;
       font-weight: 700;
       color: #fff;
-      margin-bottom: 0.10em;
-      margin-top: 0.03em;
+      margin-bottom: 0.17em;
+      margin-top: 0.10em;
     }
     .forecast-card .wind,
     .forecast-card .gust {
-      font-size: 0.87rem;
+      font-size: 1.08rem;
       color: #aad7ff;
-      margin-bottom: 0.06em;
-      font-weight: 400;
+      margin-bottom: 0.13em;
+      font-weight: 500;
     }
     .forecast-card .precip {
-      font-size: 0.84rem;
+      font-size: 1.06rem;
       color: #96e8ff;
-      margin-bottom: 0.06em;
-      font-weight: 400;
+      margin-bottom: 0.13em;
+      font-weight: 500;
     }
     .forecast-card .humidity,
     .forecast-card .dewpoint {
-      font-size: 0.84rem;
+      font-size: 1.06rem;
       color: #96e8ff;
-      margin-bottom: 0.06em;
-      font-weight: 400;
+      margin-bottom: 0.13em;
+      font-weight: 500;
     }
     @media (max-width: 1700px) {
       #main-container { height: 320px; }
@@ -534,7 +534,7 @@
                 })}\`
               })">
               <div class="day">${dayOfWeek(p.dateTimeISO)}</div>
-              <img class="icon" src="${iconUrl(p.icon)}" alt="" width="42" height="42">
+              <img class="icon" src="${iconUrl(p.icon)}" alt="" width="74" height="74">
               <div class="desc">${capitalize(p.weather || '')}</div>
               <div class="lowhigh">High: ${Math.round(p.maxTempC)}°C<br>Low: ${Math.round(p.minTempC)}°C</div>
               <div class="wind">Wind: ${Math.round(p.windSpeedKPH || 0)} km/h</div>
